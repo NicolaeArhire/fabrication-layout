@@ -1,0 +1,65 @@
+.sidebar_left {
+  color: wheat;
+  width: 310px;
+  height: 100%;
+  margin-top: 60px;
+  margin-left: 10px;
+  padding: 0px;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 50px;
+  font-size: 20px;
+  color: white;
+  background: #023f50;
+}
+
+.title span {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.sidebar_profileContent {
+  text-decoration: none;
+  color: white;
+}
+
+.sidebar_profileContent:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.accordion-button {
+  font-size: 16px;
+}
+
+.accordion-item:first-of-type .accordion-button {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.accordion-item:last-of-type .accordion-button.collapsed {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.accordion-button:hover {
+  background-color: rgb(110, 102, 102);
+  color: white;
+}
+
+.accordion {
+  --bs-accordion-btn-icon: url(data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3e%3cpath fill=%27black%27 fill-rule=%27evenodd%27 d=%27M8 1.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-1 0v-12a.5.5 0 0 1 .5-.5zM1.5 8a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 0 1h-12a.5.5 0 0 1-.5-.5z%27/%3e%3c/svg%3e);
+  --bs-accordion-btn-active-icon: url(data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3e%3cpath fill=%27black%27 fill-rule=%27evenodd%27 d=%27M14 8a.5.5 0 0 1-.5.5H2a.5.5 0 0 1 0-1h11.5A.5.5 0 0 1 14 8z%27/%3e%3c/svg%3e);
+  --bs-accordion-active-bg: #ffffff;
+  --bs-accordion-active-color: red;
+}
+
+.accordion-body {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background: #023f50;
+}

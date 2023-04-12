@@ -1,0 +1,158 @@
+.home_root {
+  display: flex;
+  justify-content: center;
+}
+
+.home_container {
+  margin: 0px 10px 10px 10px;
+  border: 1px solid black;
+  width: fit-content;
+  height: fit-content;
+  padding: 5px;
+  background-color: rgb(4, 114, 114);
+  border-radius: 10px;
+}
+
+.home_container:hover {
+  border: 2px solid rgb(4, 176, 255);
+}
+
+.img_container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.img_PipeByPipe {
+  border-radius: 5px;
+  transition: all 0.5s ease-in-out;
+}
+
+.img_PipeByPipe:hover {
+  cursor: pointer;
+}
+
+.img_PipeByPipe.scaleImg {
+  transform: scale(2.5) translate(0, 85px);
+}
+
+.params {
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid white;
+}
+
+.params span {
+  border-radius: 2px;
+  color: rgb(228, 239, 240);
+  font-size: 18px;
+  padding-right: 5px;
+  padding-left: 5px;
+  font-family: serif;
+  font-weight: bold;
+}
+
+.input_output {
+  display: flex;
+  justify-content: space-around;
+  color: rgb(255, 255, 255);
+  margin-bottom: 5px;
+}
+
+.input_output span {
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 2px;
+  font-family: serif;
+  font-weight: bold;
+  border-bottom: 1px solid white;
+}
+
+.input_output span:nth-of-type(1) {
+  margin-right: 80px;
+  margin-left: 45px;
+}
+
+.input_output span:nth-of-type(2) {
+  margin-right: 15px;
+}
+
+.home_container input {
+  font-size: 14px;
+  width: 97px;
+}
+
+.data_pipeByPipe {
+  display: flex;
+  flex-direction: row;
+}
+
+.data_pipeByPipe .input_data {
+  width: 220px;
+  height: 100px;
+  border-right: 2px solid white;
+}
+
+.data_pipeByPipe .output_data {
+  width: 130px;
+  height: 89px;
+  margin-left: 10px;
+}
+
+.data_pipeByPipe .output_data input {
+  width: 120px;
+  pointer-events: none;
+}
+
+.canvas_container {
+  width: 360px;
+  height: 260px;
+  border: 1px solid black;
+  margin-top: 10px;
+  background-color: rgb(73, 182, 201);
+  border-radius: 5px;
+  image-rendering: pixelated;
+  transition: all 0.5s ease-in-out;
+}
+
+.canvas_container.scale {
+  transform: scale(2.5) translate(0, -75px);
+}
+
+.canvas_container:hover {
+  cursor: pointer;
+}
+
+.menu_button {
+  display: flex;
+  justify-content: space-around;
+  font-weight: bold;
+}
+
+.menu_button button {
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #0366e7;
+}
+
+.download_file {
+  font-size: 15px;
+}
+
+.geometryToCart {
+  font-size: 15px;
+}
+
+@media screen and (max-width: 500px) {
+  .img_PipeByPipe:hover {
+    padding-top: 0.05px;
+    transform: scale(1);
+  }
+  .canvas_container.scale {
+    transform: scale(1);
+    margin-bottom: 0.05px;
+  }
+}

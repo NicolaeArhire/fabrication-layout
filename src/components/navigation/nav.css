@@ -1,0 +1,129 @@
+.nav_container {
+  height: 50px;
+  margin-bottom: 5px;
+  background-color: "#1173cf";
+}
+
+.navbar_menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  background: #1173cf;
+}
+
+.navbar_menu_left {
+  margin-top: 0.05px;
+}
+
+.nav_link {
+  text-decoration: none;
+  color: white;
+}
+
+.nav_link span {
+  display: inline-block;
+  animation-name: letter-stagger;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+}
+
+.nav_link:nth-of-type(1),
+.nav_link:nth-of-type(2),
+.nav_link:nth-of-type(3),
+.nav_link:nth-of-type(4) {
+  margin-left: 20px;
+  padding: 5px;
+}
+
+.nav_link:nth-of-type(4) {
+  margin-right: 30px;
+}
+
+.nav_link:nth-of-type(1),
+.nav_link:nth-of-type(2),
+.nav_link:nth-of-type(3),
+.nav_link:nth-of-type(4) {
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.nav_link:nth-of-type(1).clicked,
+.nav_link:nth-of-type(2).clicked,
+.nav_link:nth-of-type(3).clicked,
+.nav_link:nth-of-type(4).clicked {
+  border: 1px solid black;
+  border-radius: 5px;
+  background: rgb(10, 59, 218);
+  color: white;
+  text-decoration: none;
+}
+
+.nav_link:nth-of-type(1):hover,
+.nav_link:nth-of-type(2):hover,
+.nav_link:nth-of-type(3):hover,
+.nav_link:nth-of-type(4):hover {
+  color: white;
+}
+
+/* .img_navbar {
+  height: 254px;
+  cursor: auto;
+} */
+
+@keyframes queShowing {
+  from {
+    transform: translateX(-100%);
+    border-bottom: 1px solid transparent;
+  }
+  to {
+    transform: translateX(0);
+    border-bottom: 1px solid rgb(4, 49, 80);
+  }
+}
+
+@keyframes letter-stagger {
+  from {
+    transform: translateX(-100%);
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .nav_container {
+    margin-top: 0.05px;
+  }
+
+  .navbar_menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    background: #1173cf;
+  }
+
+  .img_navbar {
+    display: none;
+  }
+
+  .nav_link:nth-of-type(2),
+  .nav_link:nth-of-type(3) {
+    margin-left: 16px;
+  }
+
+  .nav_link:nth-of-type(1) {
+    margin-left: 0.5px;
+  }
+
+  .nav_link:nth-of-type(4) {
+    margin-right: 0.5px;
+  }
+}

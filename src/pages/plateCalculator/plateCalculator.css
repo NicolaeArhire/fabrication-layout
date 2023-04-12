@@ -1,0 +1,61 @@
+.card_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
+.flatten_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 60px;
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.prev_button,
+.next_button {
+  background: rgb(11, 41, 175);
+  color: white;
+  padding: 5px;
+  width: 150px;
+  border-radius: 10px;
+  border: 1px solid rgb(5, 77, 99);
+  font-size: 1rem;
+}
+
+.prev_button:disabled,
+.next_button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.prev_button:hover:not(:disabled),
+.next_button:hover:not(:disabled) {
+  background: rgb(3, 71, 39);
+  cursor: pointer;
+}
+
+.page_no {
+  color: white;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+@media screen and (max-width: 500px) {
+  body {
+    height: 100%;
+  }
+
+  .flatten_container {
+    flex-direction: column;
+    margin-top: 50px;
+  }
+}

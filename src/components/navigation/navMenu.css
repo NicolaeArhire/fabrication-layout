@@ -1,0 +1,133 @@
+.menu_tab {
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  margin-left: 90px;
+  margin-top: 10px;
+  border-radius: 10px;
+  z-index: 0;
+  color: white;
+}
+
+.chosen_tab {
+  font-size: 24px;
+  text-decoration: underline cyan;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.bm-menu-wrap.my-custom-menu {
+  width: 250px !important;
+}
+
+#react-burger-menu-btn {
+  width: 50px !important;
+  height: 45px !important;
+}
+
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 10px;
+}
+
+.bm-burger-bars {
+  border-radius: 4px;
+  margin: 4px 0;
+  background: white;
+}
+
+.bm-burger-bars:nth-child(1) {
+  width: 25px;
+}
+
+.bm-burger-bars:nth-child(2) {
+  width: 50px;
+  background-color: cyan;
+}
+
+.bm-burger-bars:nth-child(3) {
+  width: 25px;
+  margin-left: 25px;
+}
+
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+.bm-cross {
+  background: #bdc3c7;
+}
+
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+}
+
+.bm-menu {
+  overflow: hidden !important;
+  background: #02222b;
+  padding-left: 0;
+  padding-top: 20px;
+  font-size: 1.15em;
+  width: 250px;
+}
+
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 20px 0px 0px 0px;
+}
+
+.menu_img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none !important;
+  margin-bottom: 120px;
+  margin-top: 100px;
+  width: 100%;
+  padding-left: 0 !important;
+}
+
+.img_navbar {
+  width: 100%;
+  cursor: auto;
+  background-color: #02222b;
+}
+
+.bm-item {
+  display: flex !important;
+  justify-content: flex-start;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  border-bottom: 1px solid white;
+  height: 40px;
+  padding-left: 10px;
+}
+
+.bm-item:hover {
+  background: #04576e;
+  color: white;
+}
+
+@media screen and (max-width: 500px) {
+  .menu_tab {
+    margin-top: 15px;
+  }
+
+  .chosen_tab {
+    font-size: 18px;
+  }
+}
