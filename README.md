@@ -1,6 +1,6 @@
 # Fabrication Layout
 
-This project was designed as a bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was designed as an e-store for structural materials.
 
 ## Available Scripts
 
