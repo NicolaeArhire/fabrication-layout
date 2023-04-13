@@ -31,7 +31,8 @@
 .product_size input:nth-of-type(3),
 .product_size input:nth-of-type(4),
 .product_size input:nth-of-type(5),
-.product_size input:nth-of-type(6) {
+.product_size input:nth-of-type(6),
+.product_size input:nth-of-type(7) {
   width: 130px;
   margin-right: 10px;
   margin-bottom: 15px;

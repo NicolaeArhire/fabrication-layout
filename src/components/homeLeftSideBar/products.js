@@ -37,14 +37,17 @@ const ProductDetails = ({ renderItem }) => {
   const [steelAngleLeg1, setSteelAngleLeg1] = useState("");
   const [steelAngleLeg2, setSteelAngleLeg2] = useState("");
   const [steelAngleThickness, setSteelAngleThickness] = useState("");
+  const [steelAngleLength, setSteelAngleLength] = useState("");
   const [steelAngleQty, setSteelAngleQty] = useState(1);
   const [stainlessSteelAngleLeg1, setStainlessSteelAngleLeg1] = useState("");
   const [stainlessSteelAngleLeg2, setStainlessSteelAngleLeg2] = useState("");
   const [stainlessSteelAngleThickness, setStainlessSteelAngleThickness] = useState("");
+  const [stainlessSteelAngleLength, setStainlessSteelAngleLength] = useState("");
   const [stainlessSteelAngleQty, setStainlessSteelAngleQty] = useState(1);
   const [aluminiumAngleLeg1, setAluminiumAngleLeg1] = useState("");
   const [aluminiumAngleLeg2, setAluminiumAngleLeg2] = useState("");
   const [aluminiumAngleThickness, setAluminiumAngleThickness] = useState("");
+  const [aluminiumAngleLength, setAluminiumAngleLength] = useState("");
   const [aluminiumAngleQty, setAluminiumAngleQty] = useState(1);
   const [steelHexSize1, setSteelHexSize1] = useState("");
   const [steelHexLength, setsteelHexLength] = useState("");
@@ -79,6 +82,33 @@ const ProductDetails = ({ renderItem }) => {
   const [aluminiumRoundBarLength, setAluminiumRoundBarLength] = useState("");
   const [aluminiumRoundBarX, setAluminiumRoundBarX] = useState("");
   const [aluminiumRoundBarQty, setAluminiumRoundBarQty] = useState(1);
+  const [steelRectTubeSide1, setSteelRectTubeSide1] = useState("");
+  const [steelRectTubeSide2, setSteelRectTubeSide2] = useState("");
+  const [steelRectTubeThickness, setSteelRectTubeThickness] = useState("");
+  const [steelRectTubeLength, setSteelRectTubeLength] = useState("");
+  const [steelRectTubeQty, setSteelRectTubeQty] = useState(1);
+  const [stainlessSteelRectTubeSide1, setStainlessSteelRectTubeSide1] = useState("");
+  const [stainlessSteelRectTubeSide2, setStainlessSteelRectTubeSide2] = useState("");
+  const [stainlessSteelRectTubeThickness, setStainlessSteelRectTubeThickness] = useState("");
+  const [stainlessSteelRectTubeLength, setStainlessSteelRectTubeLength] = useState("");
+  const [stainlessSteelRectTubeQty, setStainlessSteelRectTubeQty] = useState(1);
+  const [aluminiumRectTubeSide1, setAluminiumRectTubeSide1] = useState("");
+  const [aluminiumRectTubeSide2, setAluminiumRectTubeSide2] = useState("");
+  const [aluminiumRectTubeThickness, setAluminiumRectTubeThickness] = useState("");
+  const [aluminiumRectTubeLength, setAluminiumRectTubeLength] = useState("");
+  const [aluminiumRectTubeQty, setAluminiumRectTubeQty] = useState(1);
+  const [steelRoundTubeDiam, setSteelRoundTubeDiam] = useState("");
+  const [steelRoundTubeThickness, setSteelRoundTubeThickness] = useState("");
+  const [steelRoundTubeLength, setSteelRoundTubeLength] = useState("");
+  const [steelRoundTubeQty, setSteelRoundTubeQty] = useState(1);
+  const [stainlessSteelRoundTubeDiam, setStainlessSteelRoundTubeDiam] = useState("");
+  const [stainlessSteelRoundTubeThickness, setStainlessSteelRoundTubeThickness] = useState("");
+  const [stainlessSteelRoundTubeLength, setStainlessSteelRoundTubeLength] = useState("");
+  const [stainlessSteelRoundTubeQty, setStainlessSteelRoundTubeQty] = useState(1);
+  const [aluminiumRoundTubeDiam, setAluminiumRoundTubeDiam] = useState("");
+  const [aluminiumRoundTubeThickness, setAluminiumRoundTubeThickness] = useState("");
+  const [aluminiumRoundTubeLength, setAluminiumRoundTubeLength] = useState("");
+  const [aluminiumRoundTubeQty, setAluminiumRoundTubeQty] = useState(1);
 
   useEffect(() => {
     function handleClickOutsideImg(event) {
@@ -136,14 +166,17 @@ const ProductDetails = ({ renderItem }) => {
     setSteelAngleLeg1("");
     setSteelAngleLeg2("");
     setSteelAngleThickness("");
+    setSteelAngleLength("");
     setSteelAngleQty(1);
     setStainlessSteelAngleLeg1("");
     setStainlessSteelAngleLeg2("");
     setStainlessSteelAngleThickness("");
+    setStainlessSteelAngleLength("");
     setStainlessSteelAngleQty(1);
     setAluminiumAngleLeg1("");
     setAluminiumAngleLeg2("");
     setAluminiumAngleThickness("");
+    setAluminiumAngleLength("");
     setAluminiumAngleQty(1);
     setSteelHexSize1("");
     setsteelHexLength("");
@@ -178,6 +211,33 @@ const ProductDetails = ({ renderItem }) => {
     setAluminiumRoundBarLength("");
     setAluminiumRoundBarX("");
     setAluminiumRoundBarQty(1);
+    setSteelRectTubeSide1("");
+    setSteelRectTubeSide2("");
+    setSteelRectTubeThickness("");
+    setSteelRectTubeLength("");
+    setSteelRectTubeQty(1);
+    setStainlessSteelRectTubeSide1("");
+    setStainlessSteelRectTubeSide2("");
+    setStainlessSteelRectTubeThickness("");
+    setStainlessSteelRectTubeLength("");
+    setStainlessSteelRectTubeQty(1);
+    setAluminiumRectTubeSide1("");
+    setAluminiumRectTubeSide2("");
+    setAluminiumRectTubeThickness("");
+    setAluminiumRectTubeLength("");
+    setAluminiumRectTubeQty(1);
+    setSteelRoundTubeDiam("");
+    setSteelRoundTubeThickness("");
+    setSteelRoundTubeLength("");
+    setSteelRoundTubeQty(1);
+    setStainlessSteelRoundTubeDiam("");
+    setStainlessSteelRoundTubeThickness("");
+    setStainlessSteelRoundTubeLength("");
+    setStainlessSteelRoundTubeQty(1);
+    setAluminiumRoundTubeDiam("");
+    setAluminiumRoundTubeThickness("");
+    setAluminiumRoundTubeLength("");
+    setAluminiumRoundTubeQty(1);
   }, [renderItem]);
 
   const handleClickImg = (event) => {
@@ -455,12 +515,15 @@ const ProductDetails = ({ renderItem }) => {
       dimsText1: "Leg 1 (mm):",
       dimsText2: "Leg 2 (mm):",
       dimsText3: "Thickness (mm):",
-      dimsText4: "Length (m):",
+      dimsText4: "Quantity (pcs):",
+      dimsText5: "Length (m):",
       dimsText1Margin: 39,
       dimsText2Margin: 39,
       dimsText3Margin: 10,
-      dimsText4Margin: 42,
-      dims: [steelAngleLeg1, steelAngleLeg2, steelAngleThickness, steelAngleQty],
+      dimsText4Margin: 21,
+      dimsText5Margin: 42,
+      angleBar: " ",
+      dims: [steelAngleLeg1, steelAngleLeg2, steelAngleThickness, steelAngleQty, steelAngleLength],
       dimsFuncs: [
         (e) => {
           setSteelAngleLeg1(e.target.value);
@@ -474,12 +537,16 @@ const ProductDetails = ({ renderItem }) => {
         (e) => {
           setSteelAngleQty(e.target.value);
         },
+        (e) => {
+          setSteelAngleLength(e.target.value);
+        },
       ],
       weight: (
         0.000001 *
         (parseInt(steelAngleLeg1) + parseInt(steelAngleLeg2) - parseInt(steelAngleThickness)) *
         parseInt(steelAngleThickness) *
         7850 *
+        steelAngleLength *
         steelAngleQty
       ).toFixed(2),
     },
@@ -494,12 +561,21 @@ const ProductDetails = ({ renderItem }) => {
       dimsText1: "Leg 1 (mm):",
       dimsText2: "Leg 2 (mm):",
       dimsText3: "Thickness (mm):",
-      dimsText4: "Length (m):",
+      dimsText4: "Quantity (pcs):",
+      dimsText5: "Length (m):",
       dimsText1Margin: 39,
       dimsText2Margin: 39,
       dimsText3Margin: 10,
-      dimsText4Margin: 42,
-      dims: [stainlessSteelAngleLeg1, stainlessSteelAngleLeg2, stainlessSteelAngleThickness, stainlessSteelAngleQty],
+      dimsText4Margin: 21,
+      dimsText5Margin: 42,
+      angleBar: " ",
+      dims: [
+        stainlessSteelAngleLeg1,
+        stainlessSteelAngleLeg2,
+        stainlessSteelAngleThickness,
+        stainlessSteelAngleQty,
+        stainlessSteelAngleLength,
+      ],
       dimsFuncs: [
         (e) => {
           setStainlessSteelAngleLeg1(e.target.value);
@@ -513,12 +589,16 @@ const ProductDetails = ({ renderItem }) => {
         (e) => {
           setStainlessSteelAngleQty(e.target.value);
         },
+        (e) => {
+          setStainlessSteelAngleLength(e.target.value);
+        },
       ],
       weight: (
         0.000001 *
         (parseInt(stainlessSteelAngleLeg1) + parseInt(stainlessSteelAngleLeg2) - parseInt(stainlessSteelAngleThickness)) *
         parseInt(stainlessSteelAngleThickness) *
         7850 *
+        stainlessSteelAngleLength *
         stainlessSteelAngleQty
       ).toFixed(2),
     },
@@ -533,12 +613,15 @@ const ProductDetails = ({ renderItem }) => {
       dimsText1: "Leg 1 (mm):",
       dimsText2: "Leg 2 (mm):",
       dimsText3: "Thickness (mm):",
-      dimsText4: "Length (m):",
+      dimsText4: "Quantity (pcs):",
+      dimsText5: "Length (m):",
       dimsText1Margin: 39,
       dimsText2Margin: 39,
       dimsText3Margin: 10,
-      dimsText4Margin: 42,
-      dims: [aluminiumAngleLeg1, aluminiumAngleLeg2, aluminiumAngleThickness, aluminiumAngleQty],
+      dimsText4Margin: 21,
+      dimsText5Margin: 42,
+      angleBar: " ",
+      dims: [aluminiumAngleLeg1, aluminiumAngleLeg2, aluminiumAngleThickness, aluminiumAngleQty, aluminiumAngleLength],
       dimsFuncs: [
         (e) => {
           setAluminiumAngleLeg1(e.target.value);
@@ -552,12 +635,16 @@ const ProductDetails = ({ renderItem }) => {
         (e) => {
           setAluminiumAngleQty(e.target.value);
         },
+        (e) => {
+          setAluminiumAngleLength(e.target.value);
+        },
       ],
       weight: (
         0.000001 *
         (parseInt(aluminiumAngleLeg1) + parseInt(aluminiumAngleLeg2) - parseInt(aluminiumAngleThickness)) *
         parseInt(aluminiumAngleThickness) *
         2710 *
+        aluminiumAngleLength *
         aluminiumAngleQty
       ).toFixed(2),
     },
@@ -792,7 +879,7 @@ const ProductDetails = ({ renderItem }) => {
       title: "Steel Round Bars",
       description:
         "are made of hot rolled, mild steel solid bar that is ideal for all general fabrication, manufacturing and repairs. These bars are widely used in industrial maintenance, agricultural implements, transportation equipment, ornamental iron work, fencing, artwork, etc. This steel shape is easy to weld, cut, form and drill with the proper equipment and knowledge.",
-      properties: ["Yield = 24.2 N/mm²", "Tensile = 399.89 N/mm²", "Brinell Hardness = 133", "Melting Point = 1426° C", "Magnetic = YES"],
+      properties: ["Yield = 248.2 N/mm²", "Tensile = 399.89 N/mm²", "Brinell Hardness = 133", "Melting Point = 1426° C", "Magnetic = YES"],
       img1: "profiles/round_bar.png",
       img2: "profiles/round_bar_dims.png",
       density: 7850,
@@ -906,6 +993,285 @@ const ProductDetails = ({ renderItem }) => {
         aluminiumRoundBarQty
       ).toFixed(2),
     },
+    {
+      title: "Steel Rectangular Tubes",
+      description:
+        "are welded tubings ideal for all structural applications, general fabrication, manufacturing and repairs. These tubes are widely used in industrial maintenance, agricultural implements, transportation equipment, truck beds, trailers, frames, etc. It's box-shape configuration allows for much greater strength and rigidity compared to angles or channels.",
+      properties: ["Yield = 427.47 N/mm²", "Tensile = 399.89 N/mm²", "Brinell Hardness = 133", "Melting Point = 1426° C", "Magnetic = YES"],
+      img1: "profiles/rectangular_tube.png",
+      img2: "profiles/rectangular_tube_dims.png",
+      density: 7850,
+      dimsText1: "Side A (mm):",
+      dimsText2: "Side B (mm):",
+      dimsText3: "Thickness (mm):",
+      dimsText4: "Quantity (pcs):",
+      dimsText5: "Length (m):",
+      dimsText1Margin: 38,
+      dimsText2Margin: 38,
+      dimsText3Margin: 15,
+      dimsText4Margin: 26,
+      dimsText5Margin: 47,
+      rectTube: " ",
+      dims: [steelRectTubeSide1, steelRectTubeSide2, steelRectTubeThickness, steelRectTubeQty, steelRectTubeLength],
+      dimsFuncs: [
+        (e) => {
+          setSteelRectTubeSide1(e.target.value);
+        },
+        (e) => {
+          setSteelRectTubeSide2(e.target.value);
+        },
+        (e) => {
+          setSteelRectTubeThickness(e.target.value);
+        },
+        (e) => {
+          setSteelRectTubeQty(e.target.value);
+        },
+        (e) => {
+          setSteelRectTubeLength(e.target.value);
+        },
+      ],
+      weight: (
+        0.000001 *
+        (parseInt(steelRectTubeSide1) + parseInt(steelRectTubeSide2) - 2 * steelRectTubeThickness) *
+        2 *
+        steelRectTubeThickness *
+        steelRectTubeLength *
+        7850 *
+        steelRectTubeQty
+      ).toFixed(2),
+    },
+    {
+      title: "Stainless Steel Rectangular Tubes",
+      description:
+        "are welded tubings with inside and outside radius corners and a protruding interior weld seam. These tubes are ideal for all structural applications where greater strength and superior corrosion resistance is required, in all types of fabrication projects that are exposed to chemical, acidic, fresh water, and salt water environments.",
+      properties: ["Yield = 241.31 N/mm²", "Tensile = 551.58 N/mm²", "Brinell Hardness = 170", "Melting Point = 1426° C", "Magnetic = NO"],
+      img1: "profiles/st_rectangular_tube.png",
+      img2: "profiles/rectangular_tube_dims.png",
+      density: 7850,
+      dimsText1: "Side A (mm):",
+      dimsText2: "Side B (mm):",
+      dimsText3: "Thickness (mm):",
+      dimsText4: "Quantity (pcs):",
+      dimsText5: "Length (m):",
+      dimsText1Margin: 38,
+      dimsText2Margin: 38,
+      dimsText3Margin: 15,
+      dimsText4Margin: 26,
+      dimsText5Margin: 47,
+      rectTube: " ",
+      dims: [
+        stainlessSteelRectTubeSide1,
+        stainlessSteelRectTubeSide2,
+        stainlessSteelRectTubeThickness,
+        stainlessSteelRectTubeQty,
+        stainlessSteelRectTubeLength,
+      ],
+      dimsFuncs: [
+        (e) => {
+          setStainlessSteelRectTubeSide1(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelRectTubeSide2(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelRectTubeThickness(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelRectTubeQty(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelRectTubeLength(e.target.value);
+        },
+      ],
+      weight: (
+        0.000001 *
+        (parseInt(stainlessSteelRectTubeSide1) + parseInt(stainlessSteelRectTubeSide2) - 2 * stainlessSteelRectTubeThickness) *
+        2 *
+        stainlessSteelRectTubeThickness *
+        stainlessSteelRectTubeLength *
+        7850 *
+        stainlessSteelRectTubeQty
+      ).toFixed(2),
+    },
+    {
+      title: "Aluminium Rectangular Tubes",
+      description:
+        "are an extruded aluminum tube that is widely used for all types of fabrication projects where lightweight and corrosion resistance is a primary concern - frame work, support columns, gates, fencing, handrails, etc. These tubes have right corners inside/outside, with no weld seam. We have in stock hundreds of sizes that you can buy online in ready to ship, precut or mill lengths.",
+      properties: [
+        "Yield = 275.79 N/mm²",
+        "Tensile = 310.26 N/mm²",
+        "Brinell Hardness = 95",
+        "Melting Point = 660° C",
+        "Elasticity = 68.94 N/mm²",
+      ],
+      img1: "profiles/al_rectangular_tube.png",
+      img2: "profiles/rectangular_tube_dims.png",
+      density: 2710,
+      dimsText1: "Side A (mm):",
+      dimsText2: "Side B (mm):",
+      dimsText3: "Thickness (mm):",
+      dimsText4: "Quantity (pcs):",
+      dimsText5: "Length (m):",
+      dimsText1Margin: 38,
+      dimsText2Margin: 38,
+      dimsText3Margin: 15,
+      dimsText4Margin: 26,
+      dimsText5Margin: 47,
+      rectTube: " ",
+      dims: [aluminiumRectTubeSide1, aluminiumRectTubeSide2, aluminiumRectTubeThickness, aluminiumRectTubeQty, aluminiumRectTubeLength],
+      dimsFuncs: [
+        (e) => {
+          setAluminiumRectTubeSide1(e.target.value);
+        },
+        (e) => {
+          setAluminiumRectTubeSide2(e.target.value);
+        },
+        (e) => {
+          setAluminiumRectTubeThickness(e.target.value);
+        },
+        (e) => {
+          setAluminiumRectTubeQty(e.target.value);
+        },
+        (e) => {
+          setAluminiumRectTubeLength(e.target.value);
+        },
+      ],
+      weight: (
+        0.000001 *
+        (parseInt(aluminiumRectTubeSide1) + parseInt(aluminiumRectTubeSide2) - 2 * aluminiumRectTubeThickness) *
+        2 *
+        aluminiumRectTubeThickness *
+        aluminiumRectTubeLength *
+        2710 *
+        aluminiumRectTubeQty
+      ).toFixed(2),
+    },
+    {
+      title: "Steel Round Tubes",
+      description:
+        "are mechanical welded tubes with the internal weld seam removed creating a smooth internal surface. These tubes have been drawn over a mandrel to produce a tube with more precise dimensional accuracy and tolerances, with a very smooth inside and outside finish. These tubes are ideal for more stressful applications requiring uniformity, strength, and soundness.",
+      properties: ["Yield = 482.63 N/mm²", "Tensile = 551.58 N/mm²", "Brinell Hardness = 80", "Melting Point = 1426° C", "Magnetic = YES"],
+      img1: "profiles/round_tube.png",
+      img2: "profiles/round_tube_dims.png",
+      density: 7850,
+      dimsText1: "Diameter (mm):",
+      dimsText2: "Thickness (mm):",
+      dimsText3: "Length (m):",
+      dimsText4: "Quantity (pcs):",
+      dimsText1Margin: 19,
+      dimsText2Margin: 15,
+      dimsText3Margin: 47,
+      dimsText4Margin: 26,
+      dims: [steelRoundTubeDiam, steelRoundTubeThickness, steelRoundTubeLength, steelRoundTubeQty],
+      dimsFuncs: [
+        (e) => {
+          setSteelRoundTubeDiam(e.target.value);
+        },
+        (e) => {
+          setSteelRoundTubeThickness(e.target.value);
+        },
+        (e) => {
+          setSteelRoundTubeLength(e.target.value);
+        },
+        (e) => {
+          setSteelRoundTubeQty(e.target.value);
+        },
+      ],
+      weight: (
+        0.00000314 *
+        7850 *
+        (parseInt(steelRoundTubeDiam) - parseInt(steelRoundTubeThickness)) *
+        steelRoundTubeThickness *
+        steelRoundTubeLength *
+        steelRoundTubeQty
+      ).toFixed(2),
+    },
+    {
+      title: "Stainless Steel Round Tubes",
+      description:
+        "are welded tubings with inside and outside radius corners and a protruding interior weld seam. These tubes are ideal for all structural applications where greater strength and superior corrosion resistance is required, in all types of fabrication projects that are exposed to chemical, acidic, fresh water, and salt water environments.",
+      properties: ["Yield = 234.42 N/mm²", "Tensile = 592.94 N/mm²", "Brinell Hardness = 170", "Melting Point = 1426° C", "Magnetic = NO"],
+      img1: "profiles/st_round_tube.png",
+      img2: "profiles/round_tube_dims.png",
+      density: 7850,
+      dimsText1: "Diameter (mm):",
+      dimsText2: "Thickness (mm):",
+      dimsText3: "Length (m):",
+      dimsText4: "Quantity (pcs):",
+      dimsText1Margin: 19,
+      dimsText2Margin: 15,
+      dimsText3Margin: 47,
+      dimsText4Margin: 26,
+      dims: [stainlessSteelRoundTubeDiam, stainlessSteelRoundTubeThickness, stainlessSteelRoundTubeLength, stainlessSteelRoundTubeQty],
+      dimsFuncs: [
+        (e) => {
+          setStainlessSteelRoundTubeDiam(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelRoundTubeThickness(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelRoundTubeLength(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelRoundTubeQty(e.target.value);
+        },
+      ],
+      weight: (
+        0.00000314 *
+        7850 *
+        (parseInt(stainlessSteelRoundTubeDiam) - parseInt(stainlessSteelRoundTubeThickness)) *
+        stainlessSteelRoundTubeThickness *
+        stainlessSteelRoundTubeLength *
+        stainlessSteelRoundTubeQty
+      ).toFixed(2),
+    },
+    {
+      title: "Aluminium Round Tubes",
+      description:
+        "is a round hollow extruded tube that is widely used for all types of fabrication projects where strength along with lightweight and corrosion resistance is a primary concern. The interior is smooth with no seam and is available in a less expensive, extruded structural aluminum round tube or a more pricey drawn seamless aluminium round tube for higher precision applications.",
+      properties: [
+        "Yield = 275.79 N/mm²",
+        "Tensile = 310.26 N/mm²",
+        "Brinell Hardness = 95",
+        "Melting Point = 660° C",
+        "Elasticity = 68.94 N/mm²",
+      ],
+      img1: "profiles/al_round_tube.png",
+      img2: "profiles/round_tube_dims.png",
+      density: 2710,
+      dimsText1: "Diameter (mm):",
+      dimsText2: "Thickness (mm):",
+      dimsText3: "Length (m):",
+      dimsText4: "Quantity (pcs):",
+      dimsText1Margin: 19,
+      dimsText2Margin: 15,
+      dimsText3Margin: 47,
+      dimsText4Margin: 26,
+      dims: [aluminiumRoundTubeDiam, aluminiumRoundTubeThickness, aluminiumRoundTubeLength, aluminiumRoundTubeQty],
+      dimsFuncs: [
+        (e) => {
+          setAluminiumRoundTubeDiam(e.target.value);
+        },
+        (e) => {
+          setAluminiumRoundTubeThickness(e.target.value);
+        },
+        (e) => {
+          setAluminiumRoundTubeLength(e.target.value);
+        },
+        (e) => {
+          setAluminiumRoundTubeQty(e.target.value);
+        },
+      ],
+      weight: (
+        0.00000314 *
+        2710 *
+        (parseInt(aluminiumRoundTubeDiam) - parseInt(aluminiumRoundTubeThickness)) *
+        aluminiumRoundTubeThickness *
+        aluminiumRoundTubeLength *
+        aluminiumRoundTubeQty
+      ).toFixed(2),
+    },
   ];
 
   const products = prodInfo.map((item, index) => {
@@ -979,6 +1345,10 @@ const ProductDetails = ({ renderItem }) => {
                     ? item.dims[0] === "" || item.dims[1] === ""
                       ? ""
                       : item.weight
+                    : item.rectTube || item.angleBar
+                    ? item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === "" || item.dims[4] === ""
+                      ? ""
+                      : item.weight
                     : item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === ""
                     ? ""
                     : item.weight
@@ -998,9 +1368,16 @@ const ProductDetails = ({ renderItem }) => {
                   <input type="text" required onChange={item.dimsFuncs[2]} /> <br />
                 </>
               )}
+              {item.rectTube || item.angleBar ? (
+                <>
+                  <span style={{ marginRight: item.dimsText5Margin }}>{item.dimsText5}</span>
+                  <input type="text" required onChange={item.dimsFuncs[4]} /> <br />
+                </>
+              ) : (
+                ""
+              )}
               <span style={{ marginRight: item.dimsText4Margin }}>{item.dimsText4}</span>
               <input type="number" min={1} defaultValue={1} className="product_qty" onChange={item.dimsFuncs[3]} /> <br />
-              <br />
             </div>
             <div className="product_cart">
               <button className="product_cart_button">Add to Cart</button>
