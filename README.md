@@ -12,4 +12,4 @@ Furthermore, i've added a DXF download feature for those geometries, so the user
 ![2023-04-14_02h43_59](https://user-images.githubusercontent.com/115340892/231909000-844c905f-ae9d-40f9-a1ed-071cd81b7918.png)
 ![2023-04-14_02h50_13](https://user-images.githubusercontent.com/115340892/231909105-7de6df39-5ba8-4978-a445-4bdef41a43a9.png)
 
-Every algorithm developed in this project is created by me, no API used, only pure trigonometric interpolation methods.
+Every algorithm developed in this project is created by me, no API used, only trigonometric interpolation methods.
