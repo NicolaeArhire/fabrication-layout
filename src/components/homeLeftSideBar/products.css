@@ -72,6 +72,13 @@
   transform: scale(3) translate(-70px, 50px);
 }
 
+#with-value {
+  width: 130px;
+  height: 29px;
+  border-radius: 7px;
+  margin-right: 10px;
+}
+
 .product_cart_button {
   width: 200px;
   background: #0366e7;

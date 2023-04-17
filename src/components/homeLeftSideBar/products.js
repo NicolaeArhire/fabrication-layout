@@ -109,6 +109,48 @@ const ProductDetails = ({ renderItem }) => {
   const [aluminiumRoundTubeThickness, setAluminiumRoundTubeThickness] = useState("");
   const [aluminiumRoundTubeLength, setAluminiumRoundTubeLength] = useState("");
   const [aluminiumRoundTubeQty, setAluminiumRoundTubeQty] = useState(1);
+  const [steelChannelSide1, setSteelChannelSide1] = useState("");
+  const [steelChannelSide2, setSteelChannelSide2] = useState("");
+  const [steelChannelSide3, setSteelChannelSide3] = useState("");
+  const [steelChannelLength, setSteelChannelLength] = useState("");
+  const [steelChannelQty, setSteelChannelQty] = useState(1);
+  const [stainlessSteelChannelSide1, setStainlessSteelChannelSide1] = useState("");
+  const [stainlessSteelChannelSide2, setStainlessSteelChannelSide2] = useState("");
+  const [stainlessSteelChannelSide3, setStainlessSteelChannelSide3] = useState("");
+  const [stainlessSteelChannelLength, setStainlessSteelChannelLength] = useState("");
+  const [stainlessSteelChannelQty, setStainlessSteelChannelQty] = useState(1);
+  const [aluminiumChannelSide1, setAluminiumChannelSide1] = useState("");
+  const [aluminiumChannelSide2, setAluminiumChannelSide2] = useState("");
+  const [aluminiumChannelSide3, setAluminiumChannelSide3] = useState("");
+  const [aluminiumChannelLength, setAluminiumChannelLength] = useState("");
+  const [aluminiumChannelQty, setAluminiumChannelQty] = useState(1);
+  const [steelBeamSide1, setSteelBeamSide1] = useState("");
+  const [steelBeamSide2, setSteelBeamSide2] = useState("");
+  const [steelBeamSide3, setSteelBeamSide3] = useState("");
+  const [steelBeamLength, setSteelBeamLength] = useState("");
+  const [steelBeamQty, setSteelBeamQty] = useState(1);
+  const [stainlessSteelBeamSide1, setStainlessSteelBeamSide1] = useState("");
+  const [stainlessSteelBeamSide2, setStainlessSteelBeamSide2] = useState("");
+  const [stainlessSteelBeamSide3, setStainlessSteelBeamSide3] = useState("");
+  const [stainlessSteelBeamLength, setStainlessSteelBeamLength] = useState("");
+  const [stainlessSteelBeamQty, setStainlessSteelBeamQty] = useState(1);
+  const [aluminiumBeamSide1, setAluminiumBeamSide1] = useState("");
+  const [aluminiumBeamSide2, setAluminiumBeamSide2] = useState("");
+  const [aluminiumBeamSide3, setAluminiumBeamSide3] = useState("");
+  const [aluminiumBeamLength, setAluminiumBeamLength] = useState("");
+  const [aluminiumBeamQty, setAluminiumBeamQty] = useState(1);
+  const [steelBulbSize, setSteelBulbSize] = useState("");
+  const [steelBulbLength, setSteelBulbLength] = useState("");
+  const [steelBulbX, setSteelBulbX] = useState("");
+  const [steelBulbQty, setSteelBulbQty] = useState(1);
+  const [stainlessSteelBulbSize, setStainlessSteelBulbSize] = useState("");
+  const [stainlessSteelBulbLength, setStainlessSteelBulbLength] = useState("");
+  const [stainlessSteelBulbX, setStainlessSteelBulbX] = useState("");
+  const [stainlessSteelBulbQty, setStainlessSteelBulbQty] = useState(1);
+  const [aluminiumBulbSize, setAluminiumBulbSize] = useState("");
+  const [aluminiumBulbLength, setAluminiumBulbLength] = useState("");
+  const [aluminiumBulbX, setAluminiumBulbX] = useState("");
+  const [aluminiumBulbQty, setAluminiumBulbQty] = useState(1);
 
   useEffect(() => {
     function handleClickOutsideImg(event) {
@@ -238,6 +280,48 @@ const ProductDetails = ({ renderItem }) => {
     setAluminiumRoundTubeThickness("");
     setAluminiumRoundTubeLength("");
     setAluminiumRoundTubeQty(1);
+    setSteelChannelSide1("");
+    setSteelChannelSide2("");
+    setSteelChannelSide3("");
+    setSteelChannelLength("");
+    setSteelChannelQty(1);
+    setStainlessSteelChannelSide1("");
+    setStainlessSteelChannelSide2("");
+    setStainlessSteelChannelSide3("");
+    setStainlessSteelChannelLength("");
+    setStainlessSteelChannelQty(1);
+    setAluminiumChannelSide1("");
+    setAluminiumChannelSide2("");
+    setAluminiumChannelSide3("");
+    setAluminiumChannelLength("");
+    setAluminiumChannelQty(1);
+    setSteelBeamSide1("");
+    setSteelBeamSide2("");
+    setSteelBeamSide3("");
+    setSteelBeamLength("");
+    setSteelBeamQty(1);
+    setStainlessSteelBeamSide1("");
+    setStainlessSteelBeamSide2("");
+    setStainlessSteelBeamSide3("");
+    setStainlessSteelBeamLength("");
+    setStainlessSteelBeamQty(1);
+    setAluminiumBeamSide1("");
+    setAluminiumBeamSide2("");
+    setAluminiumBeamSide3("");
+    setAluminiumBeamLength("");
+    setAluminiumBeamQty(1);
+    setSteelBulbSize("");
+    setSteelBulbLength("");
+    setSteelBulbX("");
+    setSteelBulbQty(1);
+    setStainlessSteelBulbSize("");
+    setStainlessSteelBulbLength("");
+    setStainlessSteelBulbX("");
+    setStainlessSteelBulbQty(1);
+    setAluminiumBulbSize("");
+    setAluminiumBulbLength("");
+    setAluminiumBulbX("");
+    setAluminiumBulbQty(1);
   }, [renderItem]);
 
   const handleClickImg = (event) => {
@@ -250,6 +334,90 @@ const ProductDetails = ({ renderItem }) => {
     if (event.target === imgRef2.current) {
       setIsImg2Scaled(!isImg2Scaled);
     }
+  };
+
+  const bulbTypes = {
+    "60x4": 2.81,
+    "60x5": 3.28,
+    "60x6": 3.75,
+    "80x5": 4.25,
+    "80x6": 4.88,
+    "100x6": 6.06,
+    "100x7": 6.86,
+    "100x8": 7.65,
+    "120x6": 7.32,
+    "120x7": 8.26,
+    "120x8": 9.2,
+    "140x7": 9.75,
+    "140x8": 10.85,
+    "140x9": 11.93,
+    "140x10": 13.05,
+    "160x7": 11.46,
+    "160x8": 12.72,
+    "160x9": 13.97,
+    "160x10": 15.3,
+    "160x11": 16.49,
+    "160x11.5": 17.3,
+    "180x8": 14.8,
+    "180x9": 16.22,
+    "180x10": 17.63,
+    "180x11": 19.04,
+    "180x11.5": 19.7,
+    "200x8.5": 17.8,
+    "200x9": 18.57,
+    "200x10": 20.14,
+    "200x11": 21.71,
+    "200x11.5": 22.5,
+    "200x12": 23.28,
+    "220x9": 21,
+    "220x10": 22.77,
+    "220x11": 24.5,
+    "220x11.5": 25.3,
+    "220x12": 26.22,
+    "230x11": 25.06,
+    "240x9.5": 24.4,
+    "240x10": 25.5,
+    "240x10.5": 26.4,
+    "240x11": 27.39,
+    "240x11.5": 28.3,
+    "240x12": 29.27,
+    "260x10": 28.35,
+    "260x11": 30.39,
+    "260x12": 32.43,
+    "260x13": 34.4,
+    "280x10.5": 32.4,
+    "280x11": 33.5,
+    "280x12": 35.7,
+    "280x13": 37.9,
+    "300x11": 36.7,
+    "300x12": 39.09,
+    "300x13": 41.44,
+    "320x11.5": 41.2,
+    "320x12": 42.6,
+    "320x12.5": 43.8,
+    "320x13": 45.09,
+    "320x13.5": 46.3,
+    "320x14": 47.6,
+    "340x12": 46.2,
+    "340x12.5": 47.5,
+    "340x13": 48.86,
+    "340x14": 51.5,
+    "340x15": 54.2,
+    "370x12.5": 53.1,
+    "370x13": 54.7,
+    "370x14": 57.6,
+    "370x15": 60.5,
+    "370x16": 63.5,
+    "400x13": 60.8,
+    "400x14": 63.96,
+    "400x15": 67.1,
+    "400x16": 70.2,
+    "430x14": 70.6,
+    "430x15": 73.9,
+    "430x17": 80.7,
+    "430x18": 83.9,
+    "430x19": 87.4,
+    "430x20": 90.8,
   };
 
   const prodInfo = [
@@ -1272,6 +1440,404 @@ const ProductDetails = ({ renderItem }) => {
         aluminiumRoundTubeQty
       ).toFixed(2),
     },
+    {
+      title: "Steel Channels",
+      description:
+        "are a hot rolled, mild steel structural C shape with inside radius corners that are ideal for all structural applications, general fabrication, manufacturing and repairs, widely used in industrial maintenance, transportation equipment, truck beds, trailers, etc. It's C-shape or U-shape configuration is ideal for added strength and rigidity over steel angle when your project's load is vertical or horizontal.",
+      properties: ["Yield = 248.63 N/mm²", "Tensile = 399.89 N/mm²", "Brinell Hardness = 133", "Melting Point = 1426° C", "Magnetic = YES"],
+      img1: "profiles/channel.png",
+      img2: "profiles/channel_dims.png",
+      density: 7850,
+      dimsText1: "Side A (mm):",
+      dimsText2: "Side B (mm):",
+      dimsText3: "Side C (mm):",
+      dimsText4: "Quantity (pcs):",
+      dimsText5: "Length (m):",
+      dimsText1Margin: 26,
+      dimsText2Margin: 26,
+      dimsText3Margin: 26,
+      dimsText4Margin: 15,
+      dimsText5Margin: 36,
+      channel: " ",
+      dims: [steelChannelSide1, steelChannelSide2, steelChannelSide3, steelChannelQty, steelChannelLength],
+      dimsFuncs: [
+        (e) => {
+          setSteelChannelSide1(e.target.value);
+        },
+        (e) => {
+          setSteelChannelSide2(e.target.value);
+        },
+        (e) => {
+          setSteelChannelSide3(e.target.value);
+        },
+        (e) => {
+          setSteelChannelQty(e.target.value);
+        },
+        (e) => {
+          setSteelChannelLength(e.target.value);
+        },
+      ],
+      weight: (
+        ((steelChannelSide1 - 2 * steelChannelSide3) * steelChannelSide3 + steelChannelSide2 * steelChannelSide3 * 2) *
+        0.000001 *
+        steelChannelLength *
+        7850 *
+        steelChannelQty
+      ).toFixed(2),
+    },
+    {
+      title: "Stainless Steel Channels",
+      description:
+        "are a hot rolled stainless channel shape with inside radius corners that are ideal for all structural applications where greater strength and superior corrosion resistance is required. These profiles have a durable dull, grainy mill finish that is widely used for all types of fabrication projects that are exposed to chemical, acidic, fresh water, and salt water environments.",
+      properties: ["Yield = 234.42 N/mm²", "Tensile = 586.06 N/mm²", "Brinell Hardness = 170", "Melting Point = 1426° C", "Magnetic = NO"],
+      img1: "profiles/st_channel.png",
+      img2: "profiles/channel_dims.png",
+      density: 7850,
+      dimsText1: "Side A (mm):",
+      dimsText2: "Side B (mm):",
+      dimsText3: "Side C (mm):",
+      dimsText4: "Quantity (pcs):",
+      dimsText5: "Length (m):",
+      dimsText1Margin: 26,
+      dimsText2Margin: 26,
+      dimsText3Margin: 26,
+      dimsText4Margin: 15,
+      dimsText5Margin: 36,
+      channel: " ",
+      dims: [
+        stainlessSteelChannelSide1,
+        stainlessSteelChannelSide2,
+        stainlessSteelChannelSide3,
+        stainlessSteelChannelQty,
+        stainlessSteelChannelLength,
+      ],
+      dimsFuncs: [
+        (e) => {
+          setStainlessSteelChannelSide1(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelChannelSide2(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelChannelSide3(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelChannelQty(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelChannelLength(e.target.value);
+        },
+      ],
+      weight: (
+        ((stainlessSteelChannelSide1 - 2 * stainlessSteelChannelSide3) * stainlessSteelChannelSide3 +
+          stainlessSteelChannelSide2 * stainlessSteelChannelSide3 * 2) *
+        0.000001 *
+        stainlessSteelChannelLength *
+        7850 *
+        stainlessSteelChannelQty
+      ).toFixed(2),
+    },
+    {
+      title: "Aluminium Channels",
+      description:
+        "are an extruded aluminium product with inside radius corners that is intended for all structural applications where greater strength is required. These profiles are widely used for all types of fabrication projects where lightweight and corrosion resistance is a concern. We have in stock hundreds of sizes that you can buy online in ready to ship, precut or mill lengths.",
+      properties: [
+        "Yield = 275.79 N/mm²",
+        "Tensile = 310.26 N/mm²",
+        "Brinell Hardness = 95",
+        "Melting Point = 660° C",
+        "Elasticity = 68.94 N/mm²",
+      ],
+      img1: "profiles/al_channel.png",
+      img2: "profiles/channel_dims.png",
+      density: 2710,
+      dimsText1: "Side A (mm):",
+      dimsText2: "Side B (mm):",
+      dimsText3: "Side C (mm):",
+      dimsText4: "Quantity (pcs):",
+      dimsText5: "Length (m):",
+      dimsText1Margin: 26,
+      dimsText2Margin: 26,
+      dimsText3Margin: 26,
+      dimsText4Margin: 15,
+      dimsText5Margin: 36,
+      channel: " ",
+      dims: [aluminiumChannelSide1, aluminiumChannelSide2, aluminiumChannelSide3, aluminiumChannelQty, aluminiumChannelLength],
+      dimsFuncs: [
+        (e) => {
+          setAluminiumChannelSide1(e.target.value);
+        },
+        (e) => {
+          setAluminiumChannelSide2(e.target.value);
+        },
+        (e) => {
+          setAluminiumChannelSide3(e.target.value);
+        },
+        (e) => {
+          setAluminiumChannelQty(e.target.value);
+        },
+        (e) => {
+          setAluminiumChannelLength(e.target.value);
+        },
+      ],
+      weight: (
+        ((aluminiumChannelSide1 - 2 * aluminiumChannelSide3) * aluminiumChannelSide3 + aluminiumChannelSide2 * aluminiumChannelSide3 * 2) *
+        0.000001 *
+        aluminiumChannelLength *
+        2710 *
+        aluminiumChannelQty
+      ).toFixed(2),
+    },
+    {
+      title: "Steel Beams",
+      description:
+        "are widely used throughout the construction industry when supporting heavy loads is required providing great load bearing support when used horizontally or standing as columns. This beam shape has a wider profile for added horizontal strength, making it ideal for sky scrapers or as a house beam, along with bridge beams, trailers, platforms, etc.",
+      properties: ["Yield = 448.16 N/mm²", "Tensile = 448.16 N/mm²", "Brinell Hardness = 135", "Melting Point = 1426° C", "Magnetic = YES"],
+      img1: "profiles/beam.png",
+      img2: "profiles/beam_dims.png",
+      density: 7850,
+      dimsText1: "Side A (mm):",
+      dimsText2: "Side B (mm):",
+      dimsText3: "Side C (mm):",
+      dimsText4: "Quantity (pcs):",
+      dimsText5: "Length (m):",
+      dimsText1Margin: 26,
+      dimsText2Margin: 26,
+      dimsText3Margin: 26,
+      dimsText4Margin: 15,
+      dimsText5Margin: 36,
+      beam: " ",
+      dims: [steelBeamSide1, steelBeamSide2, steelBeamSide3, steelBeamQty, steelBeamLength],
+      dimsFuncs: [
+        (e) => {
+          setSteelBeamSide1(e.target.value);
+        },
+        (e) => {
+          setSteelBeamSide2(e.target.value);
+        },
+        (e) => {
+          setSteelBeamSide3(e.target.value);
+        },
+        (e) => {
+          setSteelBeamQty(e.target.value);
+        },
+        (e) => {
+          setSteelBeamLength(e.target.value);
+        },
+      ],
+      weight: (
+        ((steelBeamSide1 - 2 * steelBeamSide2) * steelBeamSide2 + steelBeamSide2 * steelBeamSide3 * 2) *
+        0.000001 *
+        steelBeamLength *
+        7850 *
+        steelBeamQty
+      ).toFixed(2),
+    },
+    {
+      title: "Stainless Steel Beams",
+      description:
+        "are widely used throughout the construction industry when supporting heavy loads is required providing great load bearing support when used horizontally or standing as columns. This beam shape has a wider profile for added horizontal strength, making it ideal for sky scrapers or as a house beam, along with bridge beams, trailers, platforms, etc.",
+      properties: ["Yield = 344.73 N/mm²", "Tensile = 551.58 N/mm²", "Brinell Hardness = 170", "Melting Point = 1426° C", "Magnetic = NO"],
+      img1: "profiles/st_beam.png",
+      img2: "profiles/beam_dims.png",
+      density: 7850,
+      dimsText1: "Side A (mm):",
+      dimsText2: "Side B (mm):",
+      dimsText3: "Side C (mm):",
+      dimsText4: "Quantity (pcs):",
+      dimsText5: "Length (m):",
+      dimsText1Margin: 26,
+      dimsText2Margin: 26,
+      dimsText3Margin: 26,
+      dimsText4Margin: 15,
+      dimsText5Margin: 36,
+      beam: " ",
+      dims: [stainlessSteelBeamSide1, stainlessSteelBeamSide2, stainlessSteelBeamSide3, stainlessSteelBeamQty, stainlessSteelBeamLength],
+      dimsFuncs: [
+        (e) => {
+          setStainlessSteelBeamSide1(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelBeamSide2(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelBeamSide3(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelBeamQty(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelBeamLength(e.target.value);
+        },
+      ],
+      weight: (
+        ((stainlessSteelBeamSide1 - 2 * stainlessSteelBeamSide2) * stainlessSteelBeamSide2 +
+          stainlessSteelBeamSide2 * stainlessSteelBeamSide3 * 2) *
+        0.000001 *
+        stainlessSteelBeamLength *
+        7850 *
+        stainlessSteelBeamQty
+      ).toFixed(2),
+    },
+    {
+      title: "Aluminium Beams",
+      description:
+        "are an extruded aluminium product with inside radius corners that is intended for all structural applications where greater strength is required. These profiles are widely used for all types of fabrication projects where lightweight and corrosion resistance is a concern. We have in stock hundreds of sizes that you can buy online in ready to ship, precut or mill lengths.",
+      properties: [
+        "Yield = 275.79 N/mm²",
+        "Tensile = 310.26 N/mm²",
+        "Brinell Hardness = 95",
+        "Melting Point = 660° C",
+        "Elasticity = 68.94 N/mm²",
+      ],
+      img1: "profiles/al_beam.png",
+      img2: "profiles/beam_dims.png",
+      density: 2710,
+      dimsText1: "Side A (mm):",
+      dimsText2: "Side B (mm):",
+      dimsText3: "Side C (mm):",
+      dimsText4: "Quantity (pcs):",
+      dimsText5: "Length (m):",
+      dimsText1Margin: 26,
+      dimsText2Margin: 26,
+      dimsText3Margin: 26,
+      dimsText4Margin: 15,
+      dimsText5Margin: 36,
+      beam: " ",
+      dims: [aluminiumBeamSide1, aluminiumBeamSide2, aluminiumBeamSide3, aluminiumBeamQty, aluminiumBeamLength],
+      dimsFuncs: [
+        (e) => {
+          setAluminiumBeamSide1(e.target.value);
+        },
+        (e) => {
+          setAluminiumBeamSide2(e.target.value);
+        },
+        (e) => {
+          setAluminiumBeamSide3(e.target.value);
+        },
+        (e) => {
+          setAluminiumBeamQty(e.target.value);
+        },
+        (e) => {
+          setAluminiumBeamLength(e.target.value);
+        },
+      ],
+      weight: (
+        ((aluminiumBeamSide1 - 2 * aluminiumBeamSide2) * aluminiumBeamSide2 + aluminiumBeamSide2 * aluminiumBeamSide3 * 2) *
+        0.000001 *
+        aluminiumBeamLength *
+        2710 *
+        aluminiumBeamQty
+      ).toFixed(2),
+    },
+    {
+      title: "Steel Bulbs",
+      description:
+        "are the most cost-effective, efficient and corrosion-resistant solution for plate stiffening requirements. Key advantages include an excellent strength to weight ratio, delivering buckling resistance at a lower weight than with flat bars or angle bars. The rounded edges of the bulb profile mean there is no need for edge grinding prior to painting, saving time and money during fabrication.",
+      properties: ["Yield = 448.16 N/mm²", "Tensile = 448.16 N/mm²", "Brinell Hardness = 135", "Melting Point = 1426° C", "Magnetic = YES"],
+      img1: "profiles/bulb.png",
+      img2: "profiles/bulb_dims.png",
+      density: 7850,
+      dimsText1: "A x B (mm):",
+      dimsText2: "Length (m):",
+      dimsText3: "X (mm):",
+      dimsText4: "Quantity (pcs):",
+      dimsText1Margin: 37,
+      dimsText2Margin: 37,
+      dimsText3Margin: 41,
+      dimsText4Margin: 15,
+      bulb: " ",
+      dims: [steelBulbSize, steelBulbLength, steelBulbX, steelBulbQty],
+      dimsFuncs: [
+        (e) => {
+          setSteelBulbSize(e.target.value);
+        },
+        (e) => {
+          setSteelBulbLength(e.target.value);
+        },
+        (e) => {
+          setSteelBulbX(e.target.value);
+        },
+        (e) => {
+          setSteelBulbQty(e.target.value);
+        },
+      ],
+      weight: (bulbTypes[steelBulbSize] * steelBulbLength * steelBulbQty).toFixed(2),
+    },
+    {
+      title: "Stainless Steel Bulbs",
+      description:
+        "are widely used throughout the construction industry when supporting heavy loads is required providing great load bearing support when used horizontally or standing as columns. This beam shape has a wider profile for added horizontal strength, making it ideal for sky scrapers or as a house beam, along with bridge beams, trailers, platforms, etc.",
+      properties: ["Yield = 344.73 N/mm²", "Tensile = 551.58 N/mm²", "Brinell Hardness = 170", "Melting Point = 1426° C", "Magnetic = NO"],
+      img1: "profiles/bulb.png",
+      img2: "profiles/bulb_dims.png",
+      density: 7850,
+      dimsText1: "A x B (mm):",
+      dimsText2: "Length (m):",
+      dimsText3: "X (mm):",
+      dimsText4: "Quantity (pcs):",
+      dimsText1Margin: 37,
+      dimsText2Margin: 37,
+      dimsText3Margin: 41,
+      dimsText4Margin: 15,
+      bulb: " ",
+      dims: [stainlessSteelBulbSize, stainlessSteelBulbLength, stainlessSteelBulbX, stainlessSteelBulbQty],
+      dimsFuncs: [
+        (e) => {
+          setStainlessSteelBulbSize(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelBulbLength(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelBulbX(e.target.value);
+        },
+        (e) => {
+          setStainlessSteelBulbQty(e.target.value);
+        },
+      ],
+      weight: (bulbTypes[stainlessSteelBulbSize] * stainlessSteelBulbLength * stainlessSteelBulbQty).toFixed(2),
+    },
+    {
+      title: "Aluminium Bulbs",
+      description:
+        "are an extruded aluminium product with inside radius corners that is intended for all structural applications where greater strength is required. These profiles are widely used for all types of fabrication projects where lightweight and corrosion resistance is a concern. We have in stock hundreds of sizes that you can buy online in ready to ship, precut or mill lengths.",
+      properties: [
+        "Yield = 275.79 N/mm²",
+        "Tensile = 310.26 N/mm²",
+        "Brinell Hardness = 95",
+        "Melting Point = 660° C",
+        "Elasticity = 68.94 N/mm²",
+      ],
+      img1: "profiles/bulb.png",
+      img2: "profiles/bulb_dims.png",
+      density: 2710,
+      dimsText1: "A x B (mm):",
+      dimsText2: "Length (m):",
+      dimsText3: "X (mm):",
+      dimsText4: "Quantity (pcs):",
+      dimsText1Margin: 37,
+      dimsText2Margin: 37,
+      dimsText3Margin: 41,
+      dimsText4Margin: 15,
+      bulb: " ",
+      dims: [aluminiumBulbSize, aluminiumBulbLength, aluminiumBulbX, aluminiumBulbQty],
+      dimsFuncs: [
+        (e) => {
+          setAluminiumBulbSize(e.target.value);
+        },
+        (e) => {
+          setAluminiumBulbLength(e.target.value);
+        },
+        (e) => {
+          setAluminiumBulbX(e.target.value);
+        },
+        (e) => {
+          setAluminiumBulbQty(e.target.value);
+        },
+      ],
+      weight: (bulbTypes[aluminiumBulbSize] * aluminiumBulbLength * aluminiumBulbQty).toFixed(2),
+    },
   ];
 
   const products = prodInfo.map((item, index) => {
@@ -1317,8 +1883,22 @@ const ProductDetails = ({ renderItem }) => {
             </div>
             <div className="product_size">
               <span style={{ textDecoration: "underline", color: "yellow" }}>Set dimensions:</span> <br />
-              <span style={{ marginRight: item.dimsText1Margin }}>{item.dimsText1}</span>
-              <input id="with-value" type="text" required onChange={item.dimsFuncs[0]} />
+              {item.bulb ? (
+                <>
+                  <span style={{ marginRight: item.dimsText1Margin }}>{item.dimsText1}</span>
+                  <select id="with-value" type="text" required onChange={item.dimsFuncs[0]}>
+                    <option value="">Your profile...</option>
+                    {Object.keys(bulbTypes).map((item, index) => (
+                      <option key={index}>{item}</option>
+                    ))}
+                  </select>
+                </>
+              ) : (
+                <>
+                  <span style={{ marginRight: item.dimsText1Margin }}>{item.dimsText1}</span>
+                  <input id="with-value" type="text" required onChange={item.dimsFuncs[0]} />
+                </>
+              )}
               <span style={{ marginLeft: 30, marginRight: 10 }}>Density (kg/m³):</span>
               <input
                 type="text"
@@ -1341,11 +1921,11 @@ const ProductDetails = ({ renderItem }) => {
                 type="text"
                 readOnly
                 value={
-                  item.roundBar
+                  item.roundBar || item.bulb
                     ? item.dims[0] === "" || item.dims[1] === ""
                       ? ""
                       : item.weight
-                    : item.rectTube || item.angleBar
+                    : item.rectTube || item.angleBar || item.channel || item.beam
                     ? item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === "" || item.dims[4] === ""
                       ? ""
                       : item.weight
@@ -1360,7 +1940,7 @@ const ProductDetails = ({ renderItem }) => {
                 key={index}
               />
               <br />
-              {item.roundBar ? (
+              {item.roundBar || item.bulb ? (
                 ""
               ) : (
                 <>
@@ -1368,7 +1948,7 @@ const ProductDetails = ({ renderItem }) => {
                   <input type="text" required onChange={item.dimsFuncs[2]} /> <br />
                 </>
               )}
-              {item.rectTube || item.angleBar ? (
+              {item.rectTube || item.angleBar || item.channel || item.beam ? (
                 <>
                   <span style={{ marginRight: item.dimsText5Margin }}>{item.dimsText5}</span>
                   <input type="text" required onChange={item.dimsFuncs[4]} /> <br />
