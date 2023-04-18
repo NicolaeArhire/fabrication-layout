@@ -8,7 +8,7 @@ const EccentricFrustum = () => {
   const [diam2, setDiam2] = useState("");
   const [height, setHeight] = useState("");
   const [thickness, setThickness] = useState("");
-  const [material, setMaterial] = useState("Material...");
+  const [material, setMaterial] = useState("---");
   const [density, setDensity] = useState("");
   const [price, setPrice] = useState("");
   const [closed, setClosed] = useState(true);
@@ -537,8 +537,8 @@ const EccentricFrustum = () => {
             src={photo}
             alt="EccentricFrustum"
             style={{
-              width: 300,
-              height: 300,
+              width: 270,
+              height: 235,
             }}
             className={`img_EccentricFrustum ${isScaledImg ? "scaleImg" : ""}`}
             ref={imgRef}
@@ -551,131 +551,149 @@ const EccentricFrustum = () => {
         </div>
         <div className="data_EccentricFrustum">
           <div className="input_data">
-            <input type="text" placeholder="Diameter1..." required onChange={handleDiam1Change} />
-            <select onChange={handleMaterialChange}>
-              <option value="Material..." default>
-                Material...
-              </option>
-              <option value="Steel">Steel</option>
-              <option value="Inox">Inox</option>
-              <option value="Aluminium">Aluminium</option>
-              <option value="Wood">Wood</option>
-            </select>
-            <input type="text" placeholder="Diameter2..." required onChange={handleDiam2Change} />
-            <br />
-            <input type="text" placeholder="Height..." required onChange={handleHeightChange} />
-            <br />
-            <input type="text" placeholder="Thickness..." required onChange={handleThicknessChange} />
+            <div style={{ display: "flex" }}>
+              <div className="floating_content" style={{ marginTop: 3 }}>
+                <input type="text" className="floating_input" placeholder=" " required onChange={handleDiam1Change} />
+                <label className="floating_label">Diameter 1</label>
+              </div>
+              <div className="floating_content" style={{ marginTop: 3 }}>
+                <select
+                  className="floating_select"
+                  defaultValue="---"
+                  onChange={(e) => {
+                    e.target.setAttribute("value", e.target.value);
+                    handleMaterialChange(e);
+                  }}
+                  onClick={(e) => {
+                    e.target.setAttribute("value", e.target.value);
+                  }}
+                  style={{ width: 115 }}
+                >
+                  <option value="---">---</option>
+                  <option value="Steel">Steel</option>
+                  <option value="Inox">Inox</option>
+                  <option value="Aluminium">Aluminium</option>
+                  <option value="Wood">Wood</option>
+                </select>
+                <label className="floating_label">Material</label>
+              </div>
+            </div>
+            <div className="floating_content">
+              <input type="text" className="floating_input" placeholder=" " required onChange={handleDiam2Change} />
+              <label className="floating_label">Diameter 2</label>
+            </div>
+            <div className="floating_content">
+              <input type="text" className="floating_input" placeholder=" " required onChange={handleHeightChange} />
+              <label className="floating_label">Height</label>
+            </div>
+            <div className="floating_content">
+              <input type="text" className="floating_input" placeholder=" " required onChange={handleThicknessChange} />
+              <label className="floating_label">Thickness</label>
+            </div>
           </div>
           <div className="output_data">
-            <input
-              type="text"
-              placeholder="Raw Plate (LxW)"
-              readOnly
-              value={
-                diam1 === "" || diam2 === "" || height === ""
-                  ? "Raw Plate (LxW)"
-                  : points
-                      .reduce((highest, current) => {
-                        return current[0] > highest ? current[0] : highest;
-                      }, 0)
-                      .toFixed(0) -
-                    points
-                      .filter((num) => num[0] !== 0)
-                      .reduce((smallest, current) => {
-                        return current[0] < smallest ? current[0] : smallest;
-                      }, Infinity)
-                      .toFixed(0) +
-                    " x " +
-                    points
-                      .reduce((highest, current) => {
-                        return current[1] > highest ? current[1] : highest;
-                      }, 0)
-                      .toFixed(0) +
-                    " mm"
-              }
-              style={{
-                background: diam1 === "" || diam2 === "" || height === "" ? "white" : "black",
-                color: diam1 === "" || diam2 === "" || height === "" ? "black" : "white",
-              }}
-            />
-            <br />
-            <input
-              type="text"
-              placeholder="Mass"
-              readOnly
-              value={
-                diam1 === "" || diam2 === "" || height === "" || thickness === "" || material === "Material..."
-                  ? "Mass (kg)"
-                  : (
-                      ((0.000001 *
-                        density *
-                        thickness *
-                        (points
-                          .reduce((highest, current) => {
-                            return current[0] > highest ? current[0] : highest;
-                          }, 0)
-                          .toFixed(0) -
-                          points
-                            .filter((num) => num[0] !== 0)
-                            .reduce((smallest, current) => {
-                              return current[0] < smallest ? current[0] : smallest;
-                            }, Infinity)
-                            .toFixed(0))) /
-                        1000) *
+            <div className="floating_content" style={{ marginTop: 3, width: 115 }}>
+              <input
+                type="text"
+                className="floating_input"
+                placeholder=" "
+                readOnly
+                value={
+                  diam1 === "" || diam2 === "" || height === ""
+                    ? ""
+                    : points
+                        .reduce((highest, current) => {
+                          return current[0] > highest ? current[0] : highest;
+                        }, 0)
+                        .toFixed(0) -
+                      points
+                        .filter((num) => num[0] !== 0)
+                        .reduce((smallest, current) => {
+                          return current[0] < smallest ? current[0] : smallest;
+                        }, Infinity)
+                        .toFixed(0) +
+                      " x " +
                       points
                         .reduce((highest, current) => {
                           return current[1] > highest ? current[1] : highest;
                         }, 0)
                         .toFixed(0)
-                    ).toFixed(2) + " kg"
-              }
-              style={{
-                background:
-                  diam1 === "" || diam2 === "" || height === "" || thickness === "" || material === "Material..." ? "white" : "black",
-                color: diam1 === "" || diam2 === "" || height === "" || thickness === "" || material === "Material..." ? "black" : "white",
-              }}
-            />
-            <br />
-            <input
-              type="text"
-              placeholder="Price"
-              readOnly
-              value={
-                diam1 === "" || diam2 === "" || height === "" || thickness === "" || material === "Material..."
-                  ? "Price ($)"
-                  : (
-                      ((0.000001 *
-                        density *
-                        thickness *
-                        ((points
-                          .reduce((highest, current) => {
-                            return current[0] > highest ? current[0] : highest;
-                          }, 0)
-                          .toFixed(0) -
-                          points
-                            .filter((num) => num[0] !== 0)
-                            .reduce((smallest, current) => {
-                              return current[0] < smallest ? current[0] : smallest;
-                            }, Infinity)
-                            .toFixed(0)) /
+                }
+              />
+              <label className="floating_label">Raw Plate</label>
+            </div>
+            <div className="floating_content" style={{ width: 115 }}>
+              <input
+                type="text"
+                className="floating_input"
+                placeholder=" "
+                readOnly
+                value={
+                  diam1 === "" || diam2 === "" || height === "" || thickness === "" || material === "---"
+                    ? ""
+                    : (
+                        ((0.000001 *
+                          density *
+                          thickness *
+                          (points
+                            .reduce((highest, current) => {
+                              return current[0] > highest ? current[0] : highest;
+                            }, 0)
+                            .toFixed(0) -
+                            points
+                              .filter((num) => num[0] !== 0)
+                              .reduce((smallest, current) => {
+                                return current[0] < smallest ? current[0] : smallest;
+                              }, Infinity)
+                              .toFixed(0))) /
                           1000) *
                         points
                           .reduce((highest, current) => {
                             return current[1] > highest ? current[1] : highest;
                           }, 0)
-                          .toFixed(0)) /
-                        1000) *
-                      price
-                    ).toFixed(2) + " $"
-              }
-              style={{
-                background:
-                  diam1 === "" || diam2 === "" || height === "" || thickness === "" || material === "Material..." ? "white" : "black",
-                color: diam1 === "" || diam2 === "" || height === "" || thickness === "" || material === "Material..." ? "black" : "white",
-              }}
-            />
-            <br />
+                          .toFixed(0)
+                      ).toFixed(2) + " kg"
+                }
+              />
+              <label className="floating_label">Mass (kg)</label>
+            </div>
+            <div className="floating_content" style={{ width: 115 }}>
+              <input
+                type="text"
+                className="floating_input"
+                placeholder=" "
+                readOnly
+                value={
+                  diam1 === "" || diam2 === "" || height === "" || thickness === "" || material === "---"
+                    ? ""
+                    : (
+                        ((0.000001 *
+                          density *
+                          thickness *
+                          ((points
+                            .reduce((highest, current) => {
+                              return current[0] > highest ? current[0] : highest;
+                            }, 0)
+                            .toFixed(0) -
+                            points
+                              .filter((num) => num[0] !== 0)
+                              .reduce((smallest, current) => {
+                                return current[0] < smallest ? current[0] : smallest;
+                              }, Infinity)
+                              .toFixed(0)) /
+                            1000) *
+                          points
+                            .reduce((highest, current) => {
+                              return current[1] > highest ? current[1] : highest;
+                            }, 0)
+                            .toFixed(0)) /
+                          1000) *
+                        price
+                      ).toFixed(2) + " $"
+                }
+              />
+              <label className="floating_label">Price ($)</label>
+            </div>
           </div>
         </div>
         <canvas className={`canvas_container ${isScaled ? "scale" : ""}`} ref={canvasRef} onClick={handleClick} />

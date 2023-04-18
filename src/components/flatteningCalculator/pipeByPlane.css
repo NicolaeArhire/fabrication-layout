@@ -4,7 +4,7 @@
 }
 
 .home_container {
-  margin: 0px 10px 10px 10px;
+  margin: 0px 10px 5px 10px;
   border: 1px solid black;
   width: fit-content;
   height: fit-content;
@@ -97,24 +97,25 @@
 }
 
 .data_pipeByPlane .input_data {
-  width: 220px;
+  width: 232px;
   height: 180px;
   border-right: 2px solid white;
 }
 
 .data_pipeByPlane .output_data {
-  width: 130px;
+  width: 120px;
   height: 89px;
-  margin-left: 10px;
+  margin-left: 4px;
 }
 
 .data_pipeByPlane .output_data input {
   width: 120px;
+  pointer-events: none;
 }
 
 .canvas_container {
   width: 360px;
-  height: 200px;
+  height: 260px;
   border: 1px solid black;
   margin-top: 0;
   background-color: rgb(73, 182, 201);
@@ -163,13 +164,14 @@
 
 .floating_input {
   background: rgb(4, 114, 114);
-  font-size: 12px;
+  font-size: 14px;
   height: 36px;
   padding: 0 22px;
   box-sizing: border-box;
   border: 1px solid white;
   border-radius: 4px;
   margin-right: 5px;
+  color: white;
 }
 
 .floating_input:focus {
@@ -223,11 +225,13 @@ select.floating_select {
 .floating_input:not(:placeholder-shown) ~ .floating_label {
   top: -8px;
   font-size: 13px;
+  color: yellow;
 }
 
 .floating_select:not([value="---"]):valid ~ .floating_label {
   top: -8px;
   font-size: 13px;
+  color: yellow;
 }
 
 .floating_select[value="---"]:focus ~ .floating_label {

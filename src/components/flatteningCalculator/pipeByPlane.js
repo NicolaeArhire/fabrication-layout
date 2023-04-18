@@ -196,8 +196,6 @@ const PipeByPlane = () => {
     }
   }
 
-  console.log(material);
-
   return (
     <div className="home_root">
       <div className="home_container">
@@ -228,7 +226,7 @@ const PipeByPlane = () => {
                 <input type="text" className="floating_input" placeholder=" " required onChange={handleDiamChange} />
                 <label className="floating_label">Diameter</label>
               </div>
-              <div className="floating_content" style={{ marginTop: 3 }}>
+              <div className="floating_content" style={{ marginTop: 3, width: 115 }}>
                 <select
                   className="floating_select"
                   defaultValue="---"
@@ -263,60 +261,37 @@ const PipeByPlane = () => {
             </div>
           </div>
           <div className="output_data">
-            <input
-              type="text"
-              placeholder="Raw Plate (LxW)"
-              readOnly
-              value={
-                diam === "" || length === ""
-                  ? "Raw Plate (LxW)"
-                  : (diam * Math.PI).toFixed(0) +
-                    " x " +
-                    points
-                      .reduce((highest, current) => {
-                        return current[1] > highest ? current[1] : highest;
-                      }, 0)
-                      .toFixed(0) +
-                    " mm"
-              }
-              style={{
-                background: diam === "" || length === "" ? "white" : "black",
-                color: diam === "" || length === "" ? "black" : "white",
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Mass"
-              readOnly
-              value={
-                diam === "" || length === "" || thickness === "" || material === "---"
-                  ? "Mass (kg)"
-                  : (
-                      0.000001 *
-                      density *
-                      thickness *
-                      ((diam * Math.PI) / 1000) *
+            <div className="floating_content" style={{ marginTop: 3, width: 115 }}>
+              <input
+                type="text"
+                className="floating_input"
+                placeholder=" "
+                readOnly
+                value={
+                  diam === "" || length === ""
+                    ? ""
+                    : (diam * Math.PI).toFixed(0) +
+                      " x " +
                       points
                         .reduce((highest, current) => {
                           return current[1] > highest ? current[1] : highest;
                         }, 0)
                         .toFixed(0)
-                    ).toFixed(2) + " kg"
-              }
-              style={{
-                background: diam === "" || length === "" || thickness === "" || material === "---" ? "white" : "black",
-                color: diam === "" || length === "" || thickness === "" || material === "---" ? "black" : "white",
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Price"
-              readOnly
-              value={
-                diam === "" || length === "" || thickness === "" || material === "---"
-                  ? "Price ($)"
-                  : (
-                      ((0.000001 *
+                }
+              />
+              <label className="floating_label">Raw Plate</label>
+            </div>
+            <div className="floating_content" style={{ width: 115 }}>
+              <input
+                type="text"
+                className="floating_input"
+                placeholder=" "
+                readOnly
+                value={
+                  diam === "" || length === "" || thickness === "" || material === "---"
+                    ? ""
+                    : (
+                        0.000001 *
                         density *
                         thickness *
                         ((diam * Math.PI) / 1000) *
@@ -324,16 +299,38 @@ const PipeByPlane = () => {
                           .reduce((highest, current) => {
                             return current[1] > highest ? current[1] : highest;
                           }, 0)
-                          .toFixed(0)) /
-                        1000) *
-                      price
-                    ).toFixed(2) + " $"
-              }
-              style={{
-                background: diam === "" || length === "" || thickness === "" || material === "---" ? "white" : "black",
-                color: diam === "" || length === "" || thickness === "" || material === "---" ? "black" : "white",
-              }}
-            />
+                          .toFixed(0)
+                      ).toFixed(2) + " kg"
+                }
+              />
+              <label className="floating_label">Mass (kg)</label>
+            </div>
+            <div className="floating_content" style={{ width: 115 }}>
+              <input
+                type="text"
+                className="floating_input"
+                placeholder=" "
+                readOnly
+                value={
+                  diam === "" || length === "" || thickness === "" || material === "---"
+                    ? ""
+                    : (
+                        ((0.000001 *
+                          density *
+                          thickness *
+                          ((diam * Math.PI) / 1000) *
+                          points
+                            .reduce((highest, current) => {
+                              return current[1] > highest ? current[1] : highest;
+                            }, 0)
+                            .toFixed(0)) /
+                          1000) *
+                        price
+                      ).toFixed(2) + " $"
+                }
+              />
+              <label className="floating_label">Price ($)</label>
+            </div>
           </div>
         </div>
         <canvas className={`canvas_container ${isScaled ? "scale" : ""}`} onClick={handleClick} ref={canvasRef} />
