@@ -246,7 +246,7 @@ const RectToRound = () => {
             <input type="text" placeholder="Diameter..." required onChange={handleDiamChange} />
             <input type="text" placeholder="Thickness..." required onChange={handleThicknessChange} />
             <input type="text" placeholder="Height..." required onChange={handleHeightChange} />
-            <select style={{ width: 97, color: "black", fontSize: 14 }} onChange={handleMaterialChange}>
+            <select onChange={handleMaterialChange}>
               <option value="Material..." default>
                 Material...
               </option>

@@ -9,7 +9,7 @@ const PipeByPlane = () => {
   const [angle, setAngle] = useState("");
   const [length, setLength] = useState("");
   const [thickness, setThickness] = useState("");
-  const [material, setMaterial] = useState("Material...");
+  const [material, setMaterial] = useState("---");
   const [density, setDensity] = useState("");
   const [price, setPrice] = useState("");
   const [closed, setClosed] = useState(true);
@@ -196,6 +196,8 @@ const PipeByPlane = () => {
     }
   }
 
+  console.log(material);
+
   return (
     <div className="home_root">
       <div className="home_container">
@@ -207,8 +209,8 @@ const PipeByPlane = () => {
             src={photo}
             alt="pipeByPlane"
             style={{
-              width: 300,
-              height: 300,
+              width: 270,
+              height: 235,
             }}
             className={`img_PipeByPlane ${isScaledImg ? "scaleImg" : ""}`}
             ref={imgRef}
@@ -221,33 +223,44 @@ const PipeByPlane = () => {
         </div>
         <div className="data_pipeByPlane">
           <div className="input_data">
-            <input type="text" placeholder="Diameter..." required onChange={handleDiamChange} />
-
-            <select
-              style={{
-                width: 97,
-                color: "black",
-                fontSize: 14,
-              }}
-              onChange={handleMaterialChange}
-            >
-              <option value="Material..." default>
-                Material...
-              </option>
-              <option value="Steel">Steel</option>
-              <option value="Inox">Inox</option>
-              <option value="Aluminium">Aluminium</option>
-              <option value="Wood">Wood</option>
-            </select>
-            <br />
-            <input type="text" placeholder="Length..." required onChange={handleLengthChange} />
-
-            <br />
-            <input type="text" placeholder="Angle..." required onChange={handleAngleChange} />
-
-            <br />
-            <input type="text" placeholder="Thickness..." required onChange={handleThicknessChange} />
-            <br />
+            <div style={{ display: "flex" }}>
+              <div className="floating_content" style={{ marginTop: 3 }}>
+                <input type="text" className="floating_input" placeholder=" " required onChange={handleDiamChange} />
+                <label className="floating_label">Diameter</label>
+              </div>
+              <div className="floating_content" style={{ marginTop: 3 }}>
+                <select
+                  className="floating_select"
+                  defaultValue="---"
+                  onChange={(e) => {
+                    e.target.setAttribute("value", e.target.value);
+                    handleMaterialChange(e);
+                  }}
+                  onClick={(e) => {
+                    e.target.setAttribute("value", e.target.value);
+                  }}
+                >
+                  <option value="---">---</option>
+                  <option value="Steel">Steel</option>
+                  <option value="Inox">Inox</option>
+                  <option value="Aluminium">Aluminium</option>
+                  <option value="Wood">Wood</option>
+                </select>
+                <label className="floating_label">Material</label>
+              </div>
+            </div>
+            <div className="floating_content">
+              <input type="text" className="floating_input" placeholder=" " required onChange={handleLengthChange} />
+              <label className="floating_label">Length</label>
+            </div>
+            <div className="floating_content">
+              <input type="text" className="floating_input" placeholder=" " required onChange={handleAngleChange} />
+              <label className="floating_label">Angle</label>
+            </div>
+            <div className="floating_content">
+              <input type="text" className="floating_input" placeholder=" " required onChange={handleThicknessChange} />
+              <label className="floating_label">Thickness</label>
+            </div>
           </div>
           <div className="output_data">
             <input
@@ -276,7 +289,7 @@ const PipeByPlane = () => {
               placeholder="Mass"
               readOnly
               value={
-                diam === "" || length === "" || thickness === "" || material === "Material..."
+                diam === "" || length === "" || thickness === "" || material === "---"
                   ? "Mass (kg)"
                   : (
                       0.000001 *
@@ -291,8 +304,8 @@ const PipeByPlane = () => {
                     ).toFixed(2) + " kg"
               }
               style={{
-                background: diam === "" || length === "" || thickness === "" || material === "Material..." ? "white" : "black",
-                color: diam === "" || length === "" || thickness === "" || material === "Material..." ? "black" : "white",
+                background: diam === "" || length === "" || thickness === "" || material === "---" ? "white" : "black",
+                color: diam === "" || length === "" || thickness === "" || material === "---" ? "black" : "white",
               }}
             />
             <input
@@ -300,7 +313,7 @@ const PipeByPlane = () => {
               placeholder="Price"
               readOnly
               value={
-                diam === "" || length === "" || thickness === "" || material === "Material..."
+                diam === "" || length === "" || thickness === "" || material === "---"
                   ? "Price ($)"
                   : (
                       ((0.000001 *
@@ -317,8 +330,8 @@ const PipeByPlane = () => {
                     ).toFixed(2) + " $"
               }
               style={{
-                background: diam === "" || length === "" || thickness === "" || material === "Material..." ? "white" : "black",
-                color: diam === "" || length === "" || thickness === "" || material === "Material..." ? "black" : "white",
+                background: diam === "" || length === "" || thickness === "" || material === "---" ? "white" : "black",
+                color: diam === "" || length === "" || thickness === "" || material === "---" ? "black" : "white",
               }}
             />
           </div>

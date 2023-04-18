@@ -110,7 +110,7 @@
   width: 360px;
   height: 260px;
   border: 1px solid black;
-  margin-top: 10px;
+  margin-top: 0;
   background-color: rgb(73, 182, 201);
   border-radius: 5px;
   image-rendering: pixelated;
@@ -118,7 +118,7 @@
 }
 
 .canvas_container.scale {
-  transform: scale(2.5) translate(0, -75px);
+  transform: scale(1.8) translate(0, -50px);
 }
 
 .menu_button {

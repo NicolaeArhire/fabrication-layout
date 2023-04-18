@@ -552,7 +552,7 @@ const EccentricFrustum = () => {
         <div className="data_EccentricFrustum">
           <div className="input_data">
             <input type="text" placeholder="Diameter1..." required onChange={handleDiam1Change} />
-            <select style={{ width: 97, color: "black", fontSize: 14 }} onChange={handleMaterialChange}>
+            <select onChange={handleMaterialChange}>
               <option value="Material..." default>
                 Material...
               </option>

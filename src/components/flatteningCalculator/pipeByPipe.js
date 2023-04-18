@@ -232,7 +232,7 @@ const PipeByPipe = () => {
             <input type="text" placeholder="Diameter 1..." required onChange={handleDiam1Change} />
             <input type="text" placeholder="Thickness..." required onChange={handleThicknessChange} />
             <input type="text" placeholder="Diameter 2..." required onChange={handleDiam2Change} />
-            <select style={{ width: 97, color: "black", fontSize: 14 }} onChange={handleMaterialChange}>
+            <select onChange={handleMaterialChange}>
               <option value="Material..." default>
                 Material...
               </option>
