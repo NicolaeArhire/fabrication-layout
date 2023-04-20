@@ -71,12 +71,6 @@ const LeftSideBar = ({ onSelect }) => {
       img: "leftSideBar_icons/bulbFlat.png",
       imgAlt: "bulbFlat",
     },
-    {
-      product: "Custom Plate Shape",
-      productMaterials: ["Steel Shape", "Stainless Steel Shape", "Aluminium Shape"],
-      img: "leftSideBar_icons/customShape.png",
-      imgAlt: "customShape",
-    },
   ];
 
   return (

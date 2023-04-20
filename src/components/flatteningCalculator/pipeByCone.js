@@ -454,7 +454,7 @@ const PipeByCone = () => {
                       ).toFixed(2) + " kg"
                 }
               />
-              <label className="floating_label">Mass (kg)</label>
+              <label className="floating_label">Mass</label>
             </div>
             <div className="floating_content" style={{ width: 115 }}>
               <input
@@ -480,7 +480,7 @@ const PipeByCone = () => {
                       ).toFixed(2) + " $"
                 }
               />
-              <label className="floating_label">Price ($)</label>
+              <label className="floating_label">Price</label>
             </div>
           </div>
         </div>
