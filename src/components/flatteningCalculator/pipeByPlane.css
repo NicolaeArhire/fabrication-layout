@@ -26,7 +26,6 @@
 .img_PipeByPlane {
   border-radius: 5px;
   transition: all 0.5s ease-in-out;
-  z-index: 1;
 }
 
 .img_PipeByPlane:hover {

@@ -8,6 +8,7 @@ const CustomShape = () => {
   const [diam2, setDiam2] = useState("");
   const [length1, setLength1] = useState("");
   const [length2, setLength2] = useState("");
+  const [sideNo, setSideNo] = useState("");
   const [thickness, setThickness] = useState("");
   const [shape, setShape] = useState("Disc");
   const [material, setMaterial] = useState("---");
@@ -131,8 +132,27 @@ const CustomShape = () => {
         ctx.drawImage(img, centerX - modelWidth / 2, centerY - modelHeight / 2);
       };
       img.src = "data:image/svg+xml;base64," + btoa(svg);
+    } else if (shape === "Star") {
+      const ctx = canvasRef.current.getContext("2d");
+      const model = new makerjs.models.Star(sideNo === "" ? 3 : sideNo, diam1 / 2, diam2 / 2);
+      const svg = makerjs.exporter.toSVG(model);
+      const img = new Image();
+      img.onload = function () {
+        const modelExtents = makerjs.measure.modelExtents(model);
+        const modelWidth = modelExtents.high[0] - modelExtents.low[0];
+        const modelHeight = modelExtents.high[1] - modelExtents.low[1];
+        const canvasWidth = modelWidth + 40;
+        const canvasHeight = modelHeight + 40;
+        canvasRef.current.width = canvasWidth;
+        canvasRef.current.height = canvasHeight;
+        const centerX = canvasWidth / 2;
+        const centerY = canvasHeight / 2;
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        ctx.drawImage(img, centerX - modelWidth / 2, centerY - modelHeight / 2);
+      };
+      img.src = "data:image/svg+xml;base64," + btoa(svg);
     }
-  }, [shape, diam1, diam2, length1, length2]);
+  }, [shape, diam1, diam2, length1, length2, sideNo]);
 
   function handleDownload() {
     if (shape === "Disc") {
@@ -184,6 +204,18 @@ const CustomShape = () => {
       link.href = url;
       link.click();
       URL.revokeObjectURL(url);
+    } else if (shape === "Star") {
+      const model = new makerjs.models.Star(sideNo, diam1 / 2, diam2 / 2);
+      const exporter = makerjs.exporter.toDXF(model);
+      const blob = new Blob([exporter], {
+        type: "application/dxf",
+      });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.download = "customShape_Star.dxf";
+      link.href = url;
+      link.click();
+      URL.revokeObjectURL(url);
     }
   }
 
@@ -205,6 +237,10 @@ const CustomShape = () => {
 
   function handleLength2Change(e) {
     setLength2(e.target.value);
+  }
+
+  function handleSideNoChange(e) {
+    setSideNo(e.target.value);
   }
 
   function handleThicknessChange(e) {
@@ -262,7 +298,7 @@ const CustomShape = () => {
               <option value="Disc">Disc</option>
               <option value="Ring">Ring</option>
               <option value="Gusset">Gusset</option>
-              <option value="Base plate">Base plate</option>
+              <option value="Star">Star</option>
             </select>
             <label className="floating_label">Your shape</label>
           </div>
@@ -284,7 +320,7 @@ const CustomShape = () => {
           <span>OUTPUT</span>
         </div>
         <div className="data_pipeByPlane">
-          <div className="input_data" style={{ height: 88 }}>
+          <div className="input_data" style={{ height: 138 }}>
             <div style={{ display: "flex" }}>
               <div className="floating_content" style={{ marginTop: 3 }}>
                 <input
@@ -302,6 +338,8 @@ const CustomShape = () => {
                       return "Diameter A";
                     } else if (shape === "Gusset") {
                       return "Length A";
+                    } else if (shape === "Star") {
+                      return "Diameter A";
                     }
                   })()}
                 </label>
@@ -348,7 +386,7 @@ const CustomShape = () => {
                   <input type="text" className="floating_input" placeholder=" " required onChange={handleThicknessChange} />
                   <label className="floating_label">Thickness</label>
                 </div>
-              ) : shape === "Ring" ? (
+              ) : shape === "Ring" || shape === "Star" ? (
                 <>
                   <div className="floating_content">
                     <input type="text" className="floating_input" placeholder=" " required onChange={handleDiam2Change} />
@@ -408,6 +446,16 @@ const CustomShape = () => {
                 ""
               )}
             </div>
+            <div style={{ display: "flex" }}>
+              {shape === "Star" ? (
+                <div className="floating_content">
+                  <input type="text" className="floating_input" placeholder=" " required onChange={handleSideNoChange} />
+                  <label className="floating_label">Sides</label>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
           <div className="output_data">
             <div className="floating_content" style={{ marginTop: 3, width: 115 }}>
@@ -432,6 +480,14 @@ const CustomShape = () => {
                     ? length1 === "" || length2 === "" || thickness === "" || material === "---"
                       ? ""
                       : (((((density / 1000) * thickness * length1) / 1000) * length2) / 1000 / 2).toFixed(2) + " kg"
+                    : shape === "Star"
+                    ? diam1 === "" || diam2 === "" || sideNo === "" || thickness === "" || material === "---"
+                      ? ""
+                      : (
+                          (Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
+                            Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) /
+                          2
+                        ).toFixed(2) + " kg"
                     : ""
                 }
               />
@@ -461,6 +517,16 @@ const CustomShape = () => {
                     ? length1 === "" || length2 === "" || thickness === "" || material === "---"
                       ? ""
                       : (((((((density / 1000) * thickness * length1) / 1000) * length2) / 1000 / 2) * price) / 1000).toFixed(2) + " $"
+                    : shape === "Star"
+                    ? diam1 === "" || diam2 === "" || sideNo === "" || thickness === "" || material === "---"
+                      ? ""
+                      : (
+                          (((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
+                            Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) /
+                            2) *
+                            price) /
+                          1000
+                        ).toFixed(2) + " $"
                     : ""
                 }
               />
@@ -470,7 +536,7 @@ const CustomShape = () => {
         </div>
         <canvas
           className={`canvas_container ${isScaled ? "scaleCanvasShape" : ""}`}
-          style={{ height: 350 }}
+          style={{ height: 302 }}
           onClick={handleClick}
           ref={canvasRef}
         />

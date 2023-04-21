@@ -4,7 +4,7 @@ import photo from "../../assets/pipeByPlane.png";
 import { useEffect, useRef, useState } from "react";
 import makerjs from "makerjs";
 
-const PipeByPlane = () => {
+const PipeByPlane = ({ modalStatus }) => {
   const [diam, setDiam] = useState("");
   const [angle, setAngle] = useState("");
   const [length, setLength] = useState("");
@@ -209,6 +209,7 @@ const PipeByPlane = () => {
             style={{
               width: 270,
               height: 235,
+              zIndex: modalStatus === true ? 0 : 1,
             }}
             className={`img_PipeByPlane ${isScaledImg ? "scaleImg" : ""}`}
             ref={imgRef}

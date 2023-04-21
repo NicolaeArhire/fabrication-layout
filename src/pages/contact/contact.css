@@ -1,11 +1,106 @@
 .contact_container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
 }
 
-.contact_content {
-  color: white;
-  font-size: 30px;
-  margin-top: 30px;
+.contact_left {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+.contact_left::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: green;
+  position: relative;
+}
+
+body::after {
+  content: "";
+  opacity: 0.07;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: fixed;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.photo {
+  cursor: pointer;
+  width: 100%;
+  height: 1000px;
+  margin-bottom: -400px;
+  padding: 0;
+  background-size: cover, auto;
+  background-attachment: fixed;
+  background-position: center center;
+  clip-path: polygon(50% 25%, 100% 0%, 100% 50%, 50% 75%, 0% 100%, 0% 50%);
+  transition: all 0.7s ease-in-out;
+  background-blend-mode: lighten;
+}
+
+.photo.first {
+  clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 50% 75%, 0% 100%, 0% 0%);
+}
+
+.photo.last {
+  clip-path: polygon(50% 25%, 100% 0%, 100% 100%, 50% 100%, 0% 100%, 0% 50%);
+}
+
+.arrow {
+  clip-path: polygon(50% 25%, 100% 50%, 100% 100%, 50% 75%, 0% 100%, 0% 50%);
+}
+
+.arrow.first {
+  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 75%, 0% 100%, 0% 0%);
+}
+
+.arrow.last {
+  clip-path: polygon(50% 25%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%);
+}
+
+.one {
+  background-image: url(../../../public/contactPage/1.jpg);
+}
+
+.two {
+  background-image: url(../../../public/contactPage/2.jpg);
+}
+
+.three {
+  background-image: url(../../../public/contactPage/3.jpg);
+}
+
+.four {
+  background-image: url(../../../public/contactPage/4.jpg);
+}
+
+.five {
+  background-image: url(../../../public/contactPage/5.jpg);
+}
+
+.six {
+  background-image: url(../../../public/contactPage/6.jpg);
+  margin-bottom: 0px;
+}
+
+.contact_right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact_address {
+  width: 600px;
 }
