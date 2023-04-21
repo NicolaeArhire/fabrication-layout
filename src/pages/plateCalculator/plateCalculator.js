@@ -58,7 +58,13 @@ const PlateCalculator = () => {
             <button onClick={handleCloseModal}>Continue</button>
             <span>Don't have a token yet?</span>
             <span>
-              Ask for one at <u>nicolae.arhire10@gmail.com</u>
+              Ask for one at{" "}
+              <a
+                href="mailto:nicolae.arhire10@gmail.com?subject=Access%20Token%20-%20Surface%20Calculator&body=Hi,%0D%0A%0D%0AI'm%20sending%20you%20this%20e-mail%20to%20request%20an%20access%20token%20for%20the%20plate%20surface%20calculator.%0D%0A%0D%0AFurthermore,%20I%20want%20to%20congratulate%20you%20for%20your%20amazing%20app%20and%20keep%20up%20the%20good%20work.%0D%0A%0D%0AHave%20a%20great%20day!"
+                style={{ color: "cyan" }}
+              >
+                nicolae.arhire10@gmail.com
+              </a>
             </span>
           </div>
         </ReactModal>

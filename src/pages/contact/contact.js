@@ -1,30 +1,73 @@
 import "./contact.css";
-import { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle, faTwitter, faYoutube, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 const Cart = () => {
+  const [isclicked, setIsClicked] = useState(false);
+
+  const leftTextRef = useRef(null);
+  const iconsRef = useRef(null);
+
+  const photoNo = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+
+  const handlePhotoClick = () => {
+    setIsClicked(!isclicked);
+  };
+
   useEffect(() => {
-    const pictures = document.querySelectorAll(".photo");
-    pictures.forEach((photo) => {
-      photo.addEventListener("click", () => {
-        pictures.forEach((photo) => {
-          photo.classList.toggle("arrow");
-        });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          leftTextRef.current.classList.add("animate");
+          iconsRef.current.classList.add("animate");
+        } else {
+          leftTextRef.current.classList.remove("animate");
+          iconsRef.current.classList.remove("animate");
+        }
       });
     });
-    pictures[0].classList.add("first");
-    pictures[pictures.length - 1].classList.add("last");
+
+    observer.observe(leftTextRef.current);
+    observer.observe(iconsRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   return (
     <div className="contact_container">
       <div className="contact_left">
-        <div className="photo one"></div>
-        <div className="photo two"></div>
-        <div className="photo three"></div>
-        <div className="photo four"></div>
-        <div className="photo five"></div>
-        <div className="photo six"></div>
-        <span>Hi there</span>
+        {photoNo.map((item, index) => (
+          <div
+            key={index}
+            className={`photo ${item} ${isclicked ? "arrow" : ""} ${item === "one" ? "first" : ""} ${item === "ten" ? "last" : ""}`}
+            onClick={handlePhotoClick}
+          ></div>
+        ))}
+        <div className="leftText_container">
+          <span ref={leftTextRef} className="left_text">
+            Let's get in touch and create something great together.
+          </span>
+          <span ref={iconsRef} className="left_icons">
+            <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faGoogle} className="icon_google" />
+            </a>
+            <a href="https://twitter.com/freeCodeCamp" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faTwitter} className="icon_twitter" />
+            </a>
+            <a href="https://www.youtube.com/c/Freecodecamp" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faYoutube} className="icon_youtube" />
+            </a>
+            <a href="https://www.linkedin.com/school/free-code-camp" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faLinkedin} className="icon_linkedIn" />
+            </a>
+            <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">
+              <span className="google"></span>
+            </a>
+          </span>
+        </div>
       </div>
       <div className="contact_right">
         <span>Blablabla</span>

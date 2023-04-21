@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Sorts&Mill&Goudy&display=swap");
+
 .contact_container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -16,37 +18,19 @@
   display: none;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  background-color: green;
-  position: relative;
-}
-
-body::after {
-  content: "";
-  opacity: 0.07;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: fixed;
-  z-index: 100;
-  pointer-events: none;
-}
-
 .photo {
   cursor: pointer;
   width: 100%;
-  height: 1000px;
-  margin-bottom: -400px;
+  height: 700px;
+  margin-bottom: -200px;
   padding: 0;
   background-size: cover, auto;
   background-attachment: fixed;
   background-position: center center;
   clip-path: polygon(50% 25%, 100% 0%, 100% 50%, 50% 75%, 0% 100%, 0% 50%);
-  transition: all 0.7s ease-in-out;
+  transition: all 0.9s ease-in-out;
   background-blend-mode: lighten;
+  z-index: 1;
 }
 
 .photo.first {
@@ -58,15 +42,15 @@ body::after {
 }
 
 .arrow {
-  clip-path: polygon(50% 25%, 100% 50%, 100% 100%, 50% 75%, 0% 100%, 0% 50%);
+  clip-path: polygon(50% 25%, 100% 50%, 100% 100%, 50% 75%, 0% 50%, 0% 0%);
 }
 
-.arrow.first {
-  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 75%, 0% 100%, 0% 0%);
+.arrow.one {
+  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 75%, 0% 50%, 0% 0%);
 }
 
-.arrow.last {
-  clip-path: polygon(50% 25%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%);
+.arrow.ten {
+  clip-path: polygon(50% 25%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 0%);
 }
 
 .one {
@@ -91,7 +75,102 @@ body::after {
 
 .six {
   background-image: url(../../../public/contactPage/6.jpg);
+}
+
+.seven {
+  background-image: url(../../../public/contactPage/7.jpg);
+}
+
+.eight {
+  background-image: url(../../../public/contactPage/8.jpg);
+}
+
+.nine {
+  background-image: url(../../../public/contactPage/9.jpg);
+}
+
+.ten {
+  background-image: url(../../../public/contactPage/10.jpg);
   margin-bottom: 0px;
+}
+
+.leftText_container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: "center";
+  margin-bottom: 150px;
+  margin-top: 150px;
+  z-index: 0;
+  padding-left: 180px;
+  padding-right: 180px;
+}
+
+.left_text {
+  text-align: center;
+  font-family: "Sorts Mill Goudy";
+  font-size: 27px;
+  color: white;
+  border-bottom: 3px solid cyan;
+  margin-bottom: 15px;
+}
+
+.left_text.animate {
+  animation-name: backInLeft;
+  animation-duration: 2.5s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
+
+.left_icons {
+  text-align: center;
+  font-size: 30px;
+}
+
+.left_icons.animate {
+  animation-name: backInRight;
+  animation-duration: 2.5s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
+
+.icon_google,
+.icon_twitter,
+.icon_youtube,
+.icon_linkedIn {
+  margin-right: 15px;
+}
+
+.icon_google {
+  color: green;
+}
+
+.icon_google:hover {
+  transform: scale(1.35);
+}
+
+.icon_twitter {
+  color: rgb(52, 219, 231);
+}
+
+.icon_twitter:hover {
+  transform: scale(1.35);
+}
+
+.icon_youtube {
+  color: rgb(238, 48, 48);
+}
+
+.icon_youtube:hover {
+  transform: scale(1.35);
+}
+
+.icon_linkedIn {
+  color: rgb(20, 110, 228);
+}
+
+.icon_linkedIn:hover {
+  transform: scale(1.35);
 }
 
 .contact_right {
@@ -103,4 +182,26 @@ body::after {
 
 .contact_address {
   width: 600px;
+}
+
+@keyframes backInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(60%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes backInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-60%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
