@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Sorts&Mill&Goudy&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bruno&Ace&SC&display=swap");
 
 .contact_container {
   display: grid;
@@ -123,6 +124,9 @@
 }
 
 .left_icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   font-size: 30px;
 }
@@ -178,10 +182,135 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: rgba(128, 128, 128, 0.8);
+}
+
+.contact_text {
+  width: 700px;
+}
+
+.contact_text span {
+  display: inline-block;
+  text-align: center;
+  font-size: 19px;
+  color: white;
+  font-weight: bold;
+  font-family: "Bruno Ace SC";
+}
+
+.contact_right_text.animate {
+  animation-name: backInRight;
+  animation-duration: 2.5s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
+
+.right_floating_content {
+  position: relative;
+  background: rgb(41, 44, 44);
+  margin-top: 40px;
+  width: 700px;
+}
+
+.right_floating_content.animate {
+  animation-name: backInRight;
+  animation-duration: 2.5s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
+
+.right_floating_input {
+  background: transparent;
+  font-size: 14px;
+  height: 40px;
+  box-sizing: border-box;
+  border: 1px solid white;
+  border-radius: 4px;
+  color: cyan;
+  width: 700px;
+  padding-left: 40px;
+}
+
+.right_floating_input:focus {
+  outline: none;
+}
+
+.right_floating_input:focus ~ .right_floating_label {
+  top: -20px;
+  border-radius: 5px;
+  border-top: 1px solid white;
+  border-right: 1px solid white;
+  border-left: 1px solid white;
+  text-decoration: none;
+}
+
+.right_floating_input:not(:placeholder-shown) ~ .right_floating_label {
+  top: -20px;
+  color: white;
+  border-radius: 5px;
+  border-top: 1px solid white;
+  border-right: 1px solid white;
+  border-left: 1px solid white;
+  text-decoration: none;
+}
+
+.right_floating_label {
+  color: cyan;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 15px;
+  top: 8px;
+  padding: 0 5px;
+  margin-bottom: 5px;
+  background: rgb(41, 44, 44);
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+  text-decoration: underline;
+}
+
+.contact_send {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.contact_send_button {
+  width: 100px;
+  margin-left: 130px;
+  background: rgb(41, 44, 44);
+  color: cyan;
+  border: 1px solid white;
+  border-radius: 4px;
+}
+
+.contact_send_button:hover {
+  background: rgb(0, 0, 0);
+}
+
+.contact_send_button.animate {
+  animation-name: backInRight;
+  animation-duration: 2.5s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
+
+.icon_send {
+  color: cyan;
 }
 
 .contact_address {
-  width: 600px;
+  width: 700px;
+  height: 400px;
+  border: 0;
+  margin-top: 40px;
+}
+
+.contact_address_map.animate {
+  animation-name: backInRight;
+  animation-duration: 2.5s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
 }
 
 @keyframes backInRight {
