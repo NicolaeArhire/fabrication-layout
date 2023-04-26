@@ -247,6 +247,14 @@ select.floating_select {
   background-repeat: no-repeat;
 }
 
+.geometryToCart:disabled {
+  opacity: 0.8;
+}
+
+.geometryToCart:disabled:hover {
+  cursor: not-allowed;
+}
+
 @media screen and (max-width: 500px) {
   .img_PipeByPlane:hover {
     padding-top: 0.05px;

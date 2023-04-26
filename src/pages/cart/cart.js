@@ -5,21 +5,20 @@ import lookup from "country-code-lookup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faTruck, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { getCities, getPoints, getDistance } from "../../services/api";
 
 const Cart = () => {
   const shippingRef = useRef();
   const shippingCostRef = useRef();
 
-  const [cartItems, setCartItems] = useState([
-    "Stainless Steel Rectangular Tubes",
-    "Steel Flat Bars",
-    "Aluminium Bulbs",
-    "Stainless Steel Rectangular Tubes",
-    "Steel Flat Bars",
-    "Aluminium Bulbs",
-  ]);
+  const [cartItems, setCartItems] = useState({
+    description: sessionStorage.getItem("description"),
+    size: sessionStorage.getItem("size"),
+    length: sessionStorage.getItem("length"),
+    quantity: sessionStorage.getItem("quantity"),
+    weight: sessionStorage.getItem("weight"),
+    price: sessionStorage.getItem("price"),
+  });
   const [qty, setQty] = useState(1);
   const [price, setPrice] = useState(125);
   const [weight, setWeight] = useState(220);
@@ -29,6 +28,17 @@ const Cart = () => {
   const [cityPoints, setCityPoints] = useState([]);
   const [shipping, setShipping] = useState("-");
   const [arrival, setArrival] = useState("");
+
+  // useEffect(() => {
+  //   setCartItems({
+  //     description: sessionStorage.getItem("description"),
+  //     size: sessionStorage.getItem("size"),
+  //     length: sessionStorage.getItem("length"),
+  //     quantity: sessionStorage.getItem("quantity"),
+  //     weight: sessionStorage.getItem("weight"),
+  //     price: sessionStorage.getItem("price"),
+  //   });
+  // }, []);
 
   useEffect(() => {
     getCities(lookup.byCountry(clientCountry)?.iso2).then((result) =>
@@ -64,7 +74,8 @@ const Cart = () => {
   };
 
   const handleDeleteItem = () => {
-    setCartItems(cartItems.slice(0, -1));
+    sessionStorage.removeItem("description");
+    setCartItems(0);
   };
 
   const handleQtyChange = (e) => {
@@ -92,37 +103,30 @@ const Cart = () => {
               <th>#</th>
               <th>Item description</th>
               <th>Size (mm)</th>
+              <th>Length (m)</th>
               <th>Quantity (pcs)</th>
               <th>Weight</th>
               <th>Price</th>
-              <th>Total</th>
             </tr>
           </thead>
           <tbody>
-            {cartItems.length > 0 ? (
-              cartItems.map((item, index) => (
-                <tr key={index}>
-                  <td>
-                    {index + 1}.
-                    <FontAwesomeIcon icon={faTrashAlt} onClick={handleDeleteItem} style={{ marginLeft: 10, cursor: "pointer" }} />
-                  </td>
-                  <td>{item}</td>
-                  <td>L600xW400xT25</td>
-                  <td>
-                    <input type="number" min={1} defaultValue={1} className="product_qty" onChange={handleQtyChange} />
-                  </td>
-                  <td>{weight * qty} kg</td>
-                  <td>{price} $</td>
-                  <td>{qty * price} $</td>
-                </tr>
-              ))
+            {Object.keys(cartItems).length > 0 ? (
+              <tr>
+                <td>
+                  1.
+                  <FontAwesomeIcon icon={faTrashAlt} onClick={handleDeleteItem} style={{ marginLeft: 10, cursor: "pointer" }} />
+                </td>
+                <td>{cartItems.description}</td>
+                <td>{cartItems.size}</td>
+                <td>{cartItems.length}</td>
+                <td>{cartItems.quantity}</td>
+                <td>{cartItems.weight} kg</td>
+                <td>{cartItems.price} $</td>
+              </tr>
             ) : (
               <tr>
                 <td colSpan="7" className="empty_cart">
-                  Your cart is empty.{" "}
-                  <Link to="/" style={{ color: "white" }}>
-                    Let's do some shopping
-                  </Link>
+                  Your cart is empty.
                 </td>
               </tr>
             )}
@@ -133,15 +137,15 @@ const Cart = () => {
             <thead>
               <tr>
                 <th>Subtotal</th>
-                <th>{qty * price} $</th>
+                <th>{cartItems.price} $</th>
               </tr>
             </thead>
           </Table>
           <Table bordered variant="dark" className="cart_table3">
             <thead>
               <tr>
-                <th>
-                  Shipping <FontAwesomeIcon icon={faTruck} onClick={handleShipping} style={{ cursor: "pointer" }} />
+                <th onClick={handleShipping} style={{ cursor: "pointer" }}>
+                  Shipping <FontAwesomeIcon icon={faTruck} />
                 </th>
                 <td ref={shippingCostRef}>{shipping}</td>
               </tr>
@@ -162,7 +166,7 @@ const Cart = () => {
                 <th>
                   {shipping === "Sorry. We don't go there." || shipping === "-"
                     ? "See shipping"
-                    : `${(qty * price + parseFloat(shipping)).toFixed(2)} $`}
+                    : `${(parseFloat(cartItems.price) + parseFloat(shipping)).toFixed(2)} $`}
                 </th>
               </tr>
             </thead>

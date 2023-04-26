@@ -12,6 +12,7 @@ const CustomShape = () => {
   const [thickness, setThickness] = useState("");
   const [shape, setShape] = useState("Disc");
   const [material, setMaterial] = useState("---");
+  const [qty, setQty] = useState("");
   const [density, setDensity] = useState("");
   const [price, setPrice] = useState("");
   const [isScaledImg, setIsScaledImg] = useState(false);
@@ -51,6 +52,7 @@ const CustomShape = () => {
     setLength2("");
     setThickness("");
     setMaterial("---");
+    setQty("");
     document.querySelectorAll(".floating_input").forEach((element) => {
       element.value = "";
     });
@@ -264,6 +266,10 @@ const CustomShape = () => {
     }
   }
 
+  function handleQtyChange(e) {
+    setQty(e.target.value);
+  }
+
   function handleClickImg(event) {
     if (event.target === imgRef.current) {
       setIsScaledImg(!isScaledImg);
@@ -275,6 +281,84 @@ const CustomShape = () => {
       setIsScaled(!isScaled);
     }
   }
+
+  const handleAddProducts = () => {
+    sessionStorage.setItem("description", material === "Inox" ? `Stainless Steel Shape_${shape}` : `${material} Shape_${shape}`);
+    sessionStorage.setItem(
+      "size",
+      shape === "Disc"
+        ? "Ø" + diam1 + "x" + thickness
+        : shape === "Ring" || shape === "Star"
+        ? "Ø" + diam1 + "xØ" + diam2 + "x" + thickness
+        : shape === "Gusset"
+        ? length1 + "x" + length2 + "x" + thickness
+        : ""
+    );
+    sessionStorage.setItem("length", "-");
+    sessionStorage.setItem("quantity", qty);
+    sessionStorage.setItem(
+      "weight",
+      shape === "Disc"
+        ? diam1 === "" || thickness === "" || material === "---"
+          ? ""
+          : (Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density * qty).toFixed(2)
+        : shape === "Ring"
+        ? diam1 === "" || diam2 === "" || thickness === "" || material === "---"
+          ? ""
+          : (
+              (Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
+                Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) *
+              qty
+            ).toFixed(2)
+        : shape === "Gusset"
+        ? length1 === "" || length2 === "" || thickness === "" || material === "---"
+          ? ""
+          : ((((((density / 1000) * thickness * length1) / 1000) * length2) / 1000 / 2) * qty).toFixed(2)
+        : shape === "Star"
+        ? diam1 === "" || diam2 === "" || sideNo === "" || thickness === "" || material === "---"
+          ? ""
+          : (
+              ((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
+                Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) /
+                2) *
+              qty
+            ).toFixed(2)
+        : ""
+    );
+    sessionStorage.setItem(
+      "price",
+      shape === "Disc"
+        ? diam1 === "" || thickness === "" || material === "---"
+          ? ""
+          : (((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density * price) / 1000) * qty).toFixed(2)
+        : shape === "Ring"
+        ? diam1 === "" || diam2 === "" || thickness === "" || material === "---"
+          ? ""
+          : (
+              (((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
+                Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) *
+                price) /
+                1000) *
+              qty
+            ).toFixed(2)
+        : shape === "Gusset"
+        ? length1 === "" || length2 === "" || thickness === "" || material === "---"
+          ? ""
+          : ((((((((density / 1000) * thickness * length1) / 1000) * length2) / 1000 / 2) * price) / 1000) * qty).toFixed(2)
+        : shape === "Star"
+        ? diam1 === "" || diam2 === "" || sideNo === "" || thickness === "" || material === "---"
+          ? ""
+          : (
+              ((((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
+                Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) /
+                2) *
+                price) /
+                1000) *
+              qty
+            ).toFixed(2)
+        : ""
+    );
+  };
 
   return (
     <div className="home_root">
@@ -345,26 +429,16 @@ const CustomShape = () => {
                 </label>
               </div>
               {shape === "Disc" ? (
-                <div className="floating_content" style={{ marginTop: 3, width: 115 }}>
-                  <select
-                    className="floating_select"
-                    id="select_material"
-                    defaultValue="---"
-                    onChange={(e) => {
-                      e.target.setAttribute("value", e.target.value);
-                      handleMaterialChange(e);
-                    }}
-                    onClick={(e) => {
-                      e.target.setAttribute("value", e.target.value);
-                    }}
-                  >
-                    <option value="---">---</option>
-                    <option value="Steel">Steel</option>
-                    <option value="Inox">Inox</option>
-                    <option value="Aluminium">Aluminium</option>
-                    <option value="Wood">Wood</option>
-                  </select>
-                  <label className="floating_label">Material</label>
+                <div className="floating_content" style={{ marginTop: 3 }}>
+                  <input
+                    type="text"
+                    className="floating_input"
+                    placeholder=" "
+                    required
+                    onChange={handleQtyChange}
+                    style={{ width: 115 }}
+                  />
+                  <label className="floating_label">Quantity (pcs)</label>
                 </div>
               ) : (
                 <div className="floating_content" style={{ marginTop: 3 }}>
@@ -382,15 +456,10 @@ const CustomShape = () => {
             </div>
             <div style={{ display: "flex" }}>
               {shape === "Disc" ? (
-                <div className="floating_content">
-                  <input type="text" className="floating_input" placeholder=" " required onChange={handleThicknessChange} />
-                  <label className="floating_label">Thickness</label>
-                </div>
-              ) : shape === "Ring" || shape === "Star" ? (
                 <>
                   <div className="floating_content">
-                    <input type="text" className="floating_input" placeholder=" " required onChange={handleDiam2Change} />
-                    <label className="floating_label">Diameter B</label>
+                    <input type="text" className="floating_input" placeholder=" " required onChange={handleThicknessChange} />
+                    <label className="floating_label">Thickness</label>
                   </div>
                   <div className="floating_content" style={{ width: 115 }}>
                     <select
@@ -412,6 +481,24 @@ const CustomShape = () => {
                       <option value="Wood">Wood</option>
                     </select>
                     <label className="floating_label">Material</label>
+                  </div>
+                </>
+              ) : shape === "Ring" || shape === "Star" ? (
+                <>
+                  <div className="floating_content">
+                    <input type="text" className="floating_input" placeholder=" " required onChange={handleDiam2Change} />
+                    <label className="floating_label">Diameter B</label>
+                  </div>
+                  <div className="floating_content">
+                    <input
+                      type="text"
+                      className="floating_input"
+                      placeholder=" "
+                      required
+                      onChange={handleQtyChange}
+                      style={{ width: 115 }}
+                    />
+                    <label className="floating_label">Quantity (pcs)</label>
                   </div>
                 </>
               ) : shape === "Gusset" ? (
@@ -448,9 +535,59 @@ const CustomShape = () => {
             </div>
             <div style={{ display: "flex" }}>
               {shape === "Star" ? (
+                <>
+                  <div className="floating_content">
+                    <input type="text" className="floating_input" placeholder=" " required onChange={handleSideNoChange} />
+                    <label className="floating_label">Sides</label>
+                  </div>
+                  <div className="floating_content" style={{ width: 115 }}>
+                    <select
+                      className="floating_select"
+                      id="select_material"
+                      defaultValue="---"
+                      onChange={(e) => {
+                        e.target.setAttribute("value", e.target.value);
+                        handleMaterialChange(e);
+                      }}
+                      onClick={(e) => {
+                        e.target.setAttribute("value", e.target.value);
+                      }}
+                    >
+                      <option value="---">---</option>
+                      <option value="Steel">Steel</option>
+                      <option value="Inox">Inox</option>
+                      <option value="Aluminium">Aluminium</option>
+                      <option value="Wood">Wood</option>
+                    </select>
+                    <label className="floating_label">Material</label>
+                  </div>
+                </>
+              ) : shape === "Gusset" ? (
                 <div className="floating_content">
-                  <input type="text" className="floating_input" placeholder=" " required onChange={handleSideNoChange} />
-                  <label className="floating_label">Sides</label>
+                  <input type="text" className="floating_input" placeholder=" " required onChange={handleQtyChange} />
+                  <label className="floating_label">Quantity</label>
+                </div>
+              ) : shape === "Ring" ? (
+                <div className="floating_content" style={{ width: 105 }}>
+                  <select
+                    className="floating_select"
+                    id="select_material"
+                    defaultValue="---"
+                    onChange={(e) => {
+                      e.target.setAttribute("value", e.target.value);
+                      handleMaterialChange(e);
+                    }}
+                    onClick={(e) => {
+                      e.target.setAttribute("value", e.target.value);
+                    }}
+                  >
+                    <option value="---">---</option>
+                    <option value="Steel">Steel</option>
+                    <option value="Inox">Inox</option>
+                    <option value="Aluminium">Aluminium</option>
+                    <option value="Wood">Wood</option>
+                  </select>
+                  <label className="floating_label">Material</label>
                 </div>
               ) : (
                 ""
@@ -468,25 +605,27 @@ const CustomShape = () => {
                   shape === "Disc"
                     ? diam1 === "" || thickness === "" || material === "---"
                       ? ""
-                      : (Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density).toFixed(2) + " kg"
+                      : (Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density * qty).toFixed(2) + " kg"
                     : shape === "Ring"
                     ? diam1 === "" || diam2 === "" || thickness === "" || material === "---"
                       ? ""
                       : (
-                          Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
-                          Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density
+                          (Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
+                            Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) *
+                          qty
                         ).toFixed(2) + " kg"
                     : shape === "Gusset"
                     ? length1 === "" || length2 === "" || thickness === "" || material === "---"
                       ? ""
-                      : (((((density / 1000) * thickness * length1) / 1000) * length2) / 1000 / 2).toFixed(2) + " kg"
+                      : ((((((density / 1000) * thickness * length1) / 1000) * length2) / 1000 / 2) * qty).toFixed(2) + " kg"
                     : shape === "Star"
                     ? diam1 === "" || diam2 === "" || sideNo === "" || thickness === "" || material === "---"
                       ? ""
                       : (
-                          (Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
+                          ((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
                             Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) /
-                          2
+                            2) *
+                          qty
                         ).toFixed(2) + " kg"
                     : ""
                 }
@@ -503,29 +642,32 @@ const CustomShape = () => {
                   shape === "Disc"
                     ? diam1 === "" || thickness === "" || material === "---"
                       ? ""
-                      : ((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density * price) / 1000).toFixed(2) + " $"
+                      : (((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density * price) / 1000) * qty).toFixed(2) + " $"
                     : shape === "Ring"
                     ? diam1 === "" || diam2 === "" || thickness === "" || material === "---"
                       ? ""
                       : (
-                          ((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
+                          (((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
                             Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) *
                             price) /
-                          1000
+                            1000) *
+                          qty
                         ).toFixed(2) + " $"
                     : shape === "Gusset"
                     ? length1 === "" || length2 === "" || thickness === "" || material === "---"
                       ? ""
-                      : (((((((density / 1000) * thickness * length1) / 1000) * length2) / 1000 / 2) * price) / 1000).toFixed(2) + " $"
+                      : ((((((((density / 1000) * thickness * length1) / 1000) * length2) / 1000 / 2) * price) / 1000) * qty).toFixed(2) +
+                        " $"
                     : shape === "Star"
                     ? diam1 === "" || diam2 === "" || sideNo === "" || thickness === "" || material === "---"
                       ? ""
                       : (
-                          (((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
+                          ((((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
                             Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) /
                             2) *
                             price) /
-                          1000
+                            1000) *
+                          qty
                         ).toFixed(2) + " $"
                     : ""
                 }
@@ -544,7 +686,23 @@ const CustomShape = () => {
           <button className="download_file" onClick={handleDownload}>
             Download custom shape
           </button>
-          <button className="geometryToCart">Add plate to cart</button>
+          <button
+            className="geometryToCart"
+            onClick={handleAddProducts}
+            disabled={
+              shape === "Disc"
+                ? diam1 === "" || thickness === "" || material === "---"
+                : shape === "Ring"
+                ? diam1 === "" || diam2 === "" || thickness === "" || material === "---"
+                : shape === "Gusset"
+                ? length1 === "" || length2 === "" || thickness === "" || material === "---"
+                : shape === "Star"
+                ? diam1 === "" || diam2 === "" || sideNo === "" || thickness === "" || material === "---"
+                : ""
+            }
+          >
+            Add plate to cart
+          </button>
         </div>
       </div>
     </div>

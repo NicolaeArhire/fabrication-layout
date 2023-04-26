@@ -217,6 +217,45 @@ const ConcentricFrustum = () => {
     }
   }
 
+  const handleAddProducts = () => {
+    sessionStorage.setItem(
+      "description",
+      material === "Inox" ? `Stainless Steel Shape_ConcentricFrustum` : `${material} Shape_ConcentricFrustum`
+    );
+    sessionStorage.setItem(
+      "size",
+      Math.max(pointsLine1[1][0], pointsLine1[0][0], pointsLine2[1][0], pointsLine2[0][0]).toFixed(0) +
+        "x" +
+        Math.max(pointsLine1[0][1], pointsLine1[1][1], pointsLine2[0][1], pointsLine2[1][1]).toFixed(0) +
+        "x" +
+        thickness
+    );
+    sessionStorage.setItem("length", "-");
+    sessionStorage.setItem("quantity", "2");
+    sessionStorage.setItem(
+      "weight",
+      (
+        0.000001 *
+        density *
+        thickness *
+        (Math.max(pointsLine1[1][0], pointsLine1[0][0], pointsLine2[1][0], pointsLine2[0][0]).toFixed(0) / 1000) *
+        Math.max(pointsLine1[0][1], pointsLine1[1][1], pointsLine2[0][1], pointsLine2[1][1]).toFixed(0)
+      ).toFixed(2) * 2
+    );
+    sessionStorage.setItem(
+      "price",
+      (
+        ((0.000001 *
+          density *
+          thickness *
+          (Math.max(pointsLine1[1][0], pointsLine1[0][0], pointsLine2[1][0], pointsLine2[0][0]) / 1000) *
+          Math.max(pointsLine1[0][1], pointsLine1[1][1], pointsLine2[0][1], pointsLine2[1][1])) /
+          1000) *
+        price
+      ).toFixed(2) * 2
+    );
+  };
+
   return (
     <div className="home_root">
       <div className="home_container">
@@ -307,7 +346,7 @@ const ConcentricFrustum = () => {
                 placeholder=" "
                 readOnly
                 value={
-                  diam1 === "" || diam2 === "" || height === "" || thickness === "" || material === "Material..."
+                  diam1 === "" || diam2 === "" || height === "" || thickness === "" || material === "---"
                     ? ""
                     : (
                         0.000001 *
@@ -327,7 +366,7 @@ const ConcentricFrustum = () => {
                 placeholder=" "
                 readOnly
                 value={
-                  diam1 === "" || diam2 === "" || height === "" || thickness === "" || material === "Material..."
+                  diam1 === "" || diam2 === "" || height === "" || thickness === "" || material === "---"
                     ? ""
                     : (
                         ((0.000001 *
@@ -349,7 +388,13 @@ const ConcentricFrustum = () => {
           <button className="download_file" onClick={handleDownload}>
             Download file (1/2 of shape)
           </button>
-          <button className="geometryToCart">Add plate to cart</button>
+          <button
+            className="geometryToCart"
+            disabled={diam1 === "" || diam2 === "" || height === "" || thickness === "" || material === "---"}
+            onClick={handleAddProducts}
+          >
+            Add plate to cart
+          </button>
         </div>
       </div>
     </div>

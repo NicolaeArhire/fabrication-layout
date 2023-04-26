@@ -11,7 +11,6 @@
   justify-content: center;
   align-items: center;
   width: 800px;
-  /* border: 1px solid yellow; */
   margin-top: 50px;
 }
 
@@ -40,7 +39,7 @@
 }
 
 .cart_table thead th:nth-of-type(3) {
-  width: 250px;
+  width: 200px;
 }
 
 .cart_table thead th:nth-of-type(4) {
@@ -98,7 +97,7 @@
   background-color: rgb(66, 50, 50);
 }
 
-.product_qty {
+.cart_product_qty {
   width: 50px;
   height: 30px;
   border-radius: 5px;
@@ -143,6 +142,10 @@
 
 .cart_table3 th:nth-of-type(1) {
   width: 120px;
+}
+
+.cart_table3 th:nth-of-type(1):hover {
+  background-color: rgb(75, 49, 49);
 }
 
 .cart_table3 td {

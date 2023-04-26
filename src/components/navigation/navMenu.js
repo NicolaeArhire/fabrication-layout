@@ -3,15 +3,16 @@ import photo from "../../assets/logo.png";
 import { stack as Menu } from "react-burger-menu";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import { faPhone } from "@fortawesome/free-solid-svg-icons";
-import { faSquareRootAlt } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { faHome, faShoppingCart, faPhone, faSquareRootAlt } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
 
 function NavMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const [tab, setTab] = useState("Home");
+  const [tab, setTab] = useState(localStorage.getItem("tab") || "Home");
+
+  useEffect(() => {
+    localStorage.setItem("tab", tab);
+  }, [tab]);
 
   const handleMenuStateChange = (state) => {
     setIsOpen(state.isOpen);
@@ -37,6 +38,15 @@ function NavMenu() {
     <div>
       <div className="menu_tab">
         <span className="chosen_tab">{tab}</span>
+        <Link
+          to="/cart"
+          onClick={() => {
+            setIsOpen(false);
+            handleCartTab();
+          }}
+        >
+          <span className="products_in_cart"></span>
+        </Link>
       </div>
       <Menu className={"my-custom-menu"} animation={"stack"} isOpen={isOpen} onStateChange={handleMenuStateChange}>
         <div className="menu_img">
@@ -70,6 +80,7 @@ function NavMenu() {
         >
           <FontAwesomeIcon icon={faShoppingCart} />
           <span style={{ marginLeft: 10 }}>Cart</span>
+          <span className="no_of_products_in_cart">{sessionStorage.getItem("description") ? 1 : 0}</span>
         </Link>
         <Link
           to="/contact"

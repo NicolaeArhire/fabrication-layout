@@ -36,7 +36,7 @@ const PlateCalculator = () => {
   };
 
   const handleCloseModal = () => {
-    token === "1234" ? setShowModal(false) : setWrongToken("Please try again.");
+    token === "1234" ? setShowModal(false) : token === "" ? setWrongToken("Please write something.") : setWrongToken("Please try again.");
   };
 
   const handlePrev = () => {

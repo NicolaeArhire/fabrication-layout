@@ -20,6 +20,24 @@
   padding-right: 10px;
 }
 
+.products_in_cart {
+  font-size: 20px;
+  margin-left: 10px;
+  color: white;
+  text-decoration: underline red;
+}
+
+.no_of_products_in_cart {
+  font-size: 15px;
+  min-width: 20px;
+  text-align: center;
+  margin-left: 150px;
+  background: red;
+  padding-left: 2px;
+  padding-right: 2px;
+  border-radius: 20%;
+}
+
 .bm-menu-wrap.my-custom-menu {
   width: 250px !important;
 }
@@ -129,5 +147,13 @@
 
   .chosen_tab {
     font-size: 18px;
+  }
+
+  .products_in_cart {
+    font-size: 16px;
+  }
+
+  .no_of_products_in_cart {
+    font-size: 16px;
   }
 }

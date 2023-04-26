@@ -1,6 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Sorts&Mill&Goudy&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Bruno&Ace&SC&display=swap");
-
 .contact_container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -107,16 +104,44 @@
   padding-right: 180px;
 }
 
+.rightText_container {
+  display: none;
+  justify-content: center;
+  flex-direction: column;
+  align-items: "center";
+  margin-bottom: 150px;
+  margin-top: 150px;
+  z-index: 0;
+  padding-left: 180px;
+  padding-right: 180px;
+}
+
 .left_text {
   text-align: center;
-  font-family: "Sorts Mill Goudy";
-  font-size: 27px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
   color: white;
   border-bottom: 3px solid cyan;
   margin-bottom: 15px;
 }
 
 .left_text.animate {
+  animation-name: backInLeft;
+  animation-duration: 2.5s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
+
+.right_text {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 27px;
+  color: white;
+  border-bottom: 3px solid cyan;
+  margin-bottom: 15px;
+}
+
+.right_text.animate {
   animation-name: backInLeft;
   animation-duration: 2.5s;
   animation-timing-function: ease;
@@ -132,6 +157,21 @@
 }
 
 .left_icons.animate {
+  animation-name: backInRight;
+  animation-duration: 2.5s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
+
+.right_icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 30px;
+}
+
+.right_icons.animate {
   animation-name: backInRight;
   animation-duration: 2.5s;
   animation-timing-function: ease;
@@ -182,7 +222,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(128, 128, 128, 0.8);
+  background: rgba(20, 65, 77, 0.8);
+  overflow-y: auto;
 }
 
 .contact_text {
@@ -195,7 +236,7 @@
   font-size: 19px;
   color: white;
   font-weight: bold;
-  font-family: "Bruno Ace SC";
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .contact_right_text.animate {
@@ -306,6 +347,11 @@
   margin-top: 40px;
 }
 
+.contact_address_map {
+  width: 100%;
+  height: 100%;
+}
+
 .contact_address_map.animate {
   animation-name: backInRight;
   animation-duration: 2.5s;
@@ -332,5 +378,49 @@
   100% {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .contact_container {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 100vh;
+  }
+
+  .contact_left {
+    display: none;
+  }
+
+  .contact_right {
+    padding-top: 60px;
+  }
+
+  .contact_text {
+    font-size: 16px;
+    width: 400px;
+  }
+
+  .right_floating_content {
+    width: 400px;
+    margin-top: 30px;
+  }
+
+  .right_floating_input {
+    width: 400px;
+  }
+
+  .contact_send {
+    margin-top: 20px;
+  }
+
+  .contact_send_button {
+    margin-left: 8px;
+  }
+
+  .contact_address {
+    width: 400px;
+    height: 330px;
+    margin-top: 20px;
   }
 }

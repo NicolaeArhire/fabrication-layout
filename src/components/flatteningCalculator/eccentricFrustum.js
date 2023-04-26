@@ -526,6 +526,89 @@ const EccentricFrustum = () => {
     }
   }
 
+  const handleAddProducts = () => {
+    sessionStorage.setItem(
+      "description",
+      material === "Inox" ? `Stainless Steel Shape_EccentricFrustum` : `${material} Shape_EccentricFrustum`
+    );
+    sessionStorage.setItem(
+      "size",
+      points
+        .reduce((highest, current) => {
+          return current[0] > highest ? current[0] : highest;
+        }, 0)
+        .toFixed(0) -
+        points
+          .filter((num) => num[0] !== 0)
+          .reduce((smallest, current) => {
+            return current[0] < smallest ? current[0] : smallest;
+          }, Infinity)
+          .toFixed(0) +
+        "x" +
+        points
+          .reduce((highest, current) => {
+            return current[1] > highest ? current[1] : highest;
+          }, 0)
+          .toFixed(0) +
+        "x" +
+        thickness
+    );
+    sessionStorage.setItem("length", "-");
+    sessionStorage.setItem("quantity", "2");
+    sessionStorage.setItem(
+      "weight",
+      (
+        ((0.000001 *
+          density *
+          thickness *
+          (points
+            .reduce((highest, current) => {
+              return current[0] > highest ? current[0] : highest;
+            }, 0)
+            .toFixed(0) -
+            points
+              .filter((num) => num[0] !== 0)
+              .reduce((smallest, current) => {
+                return current[0] < smallest ? current[0] : smallest;
+              }, Infinity)
+              .toFixed(0))) /
+          1000) *
+        points
+          .reduce((highest, current) => {
+            return current[1] > highest ? current[1] : highest;
+          }, 0)
+          .toFixed(0)
+      ).toFixed(2) * 2
+    );
+    sessionStorage.setItem(
+      "price",
+      (
+        ((0.000001 *
+          density *
+          thickness *
+          ((points
+            .reduce((highest, current) => {
+              return current[0] > highest ? current[0] : highest;
+            }, 0)
+            .toFixed(0) -
+            points
+              .filter((num) => num[0] !== 0)
+              .reduce((smallest, current) => {
+                return current[0] < smallest ? current[0] : smallest;
+              }, Infinity)
+              .toFixed(0)) /
+            1000) *
+          points
+            .reduce((highest, current) => {
+              return current[1] > highest ? current[1] : highest;
+            }, 0)
+            .toFixed(0)) /
+          1000) *
+        price
+      ).toFixed(2) * 2
+    );
+  };
+
   return (
     <div className="home_root">
       <div className="home_container">
@@ -701,7 +784,13 @@ const EccentricFrustum = () => {
           <button className="download_file" onClick={handleDownload}>
             Download file (1/2 of shape)
           </button>
-          <button className="geometryToCart">Add plate to cart</button>
+          <button
+            className="geometryToCart"
+            disabled={diam1 === "" || diam2 === "" || height === "" || thickness === "" || material === "---"}
+            onClick={handleAddProducts}
+          >
+            Add plate to cart
+          </button>
         </div>
       </div>
     </div>

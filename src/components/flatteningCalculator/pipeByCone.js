@@ -307,6 +307,54 @@ const PipeByCone = () => {
     }
   }
 
+  const handleAddProducts = () => {
+    sessionStorage.setItem("description", material === "Inox" ? `Stainless Steel Shape_PipeIntByCone` : `${material} Shape_PipeIntByCone`);
+    sessionStorage.setItem(
+      "size",
+      (diam1 * Math.PI).toFixed(0) +
+        "x" +
+        points
+          .reduce((highest, current) => {
+            return current[1] > highest ? current[1] : highest;
+          }, 0)
+          .toFixed(0) +
+        "x" +
+        thickness
+    );
+    sessionStorage.setItem("length", "-");
+    sessionStorage.setItem("quantity", "2");
+    sessionStorage.setItem(
+      "weight",
+      (
+        0.000001 *
+        density *
+        thickness *
+        ((diam1 * Math.PI) / 1000) *
+        points
+          .reduce((highest, current) => {
+            return current[1] > highest ? current[1] : highest;
+          }, 0)
+          .toFixed(0)
+      ).toFixed(2) * 2
+    );
+    sessionStorage.setItem(
+      "price",
+      (
+        ((0.000001 *
+          density *
+          thickness *
+          ((diam1 * Math.PI) / 1000) *
+          points
+            .reduce((highest, current) => {
+              return current[1] > highest ? current[1] : highest;
+            }, 0)
+            .toFixed(0)) /
+          1000) *
+        price
+      ).toFixed(2) * 2
+    );
+  };
+
   return (
     <div className="home_root">
       <div className="home_container">
@@ -489,7 +537,13 @@ const PipeByCone = () => {
           <button className="download_file" onClick={handleDownload}>
             Download file (1/2 of shape)
           </button>
-          <button className="geometryToCart">Add plate to cart</button>
+          <button
+            className="geometryToCart"
+            disabled={diam1 === "" || length1 === "" || thickness === "" || material === "---"}
+            onClick={handleAddProducts}
+          >
+            Add plate to cart
+          </button>
         </div>
       </div>
     </div>

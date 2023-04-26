@@ -420,6 +420,13 @@ const ProductDetails = ({ renderItem }) => {
     "430x20": 90.8,
   };
 
+  const prices = {
+    steel: 852,
+    inox: 1200,
+    aluminium: 2415,
+    wood: 400,
+  };
+
   const prodInfo = [
     {
       title: "Steel Plates",
@@ -453,6 +460,10 @@ const ProductDetails = ({ renderItem }) => {
         },
       ],
       weight: ((((((steelPlateLength / 1000) * steelPlateWidth) / 1000) * steelPlateThickness * 7850) / 1000) * steelPlateQty).toFixed(2),
+      price: (
+        ((((((steelPlateLength / 1000) * steelPlateWidth) / 1000) * steelPlateThickness * 7850) / 1000) * steelPlateQty * prices.steel) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Stainless Steel Plates",
@@ -489,6 +500,12 @@ const ProductDetails = ({ renderItem }) => {
         (((((stainlessSteelPlateLength / 1000) * stainlessSteelPlateWidth) / 1000) * stainlessSteelPlateThickness * 7850) / 1000) *
         stainlessSteelPlateQty
       ).toFixed(2),
+      price: (
+        ((((((stainlessSteelPlateLength / 1000) * stainlessSteelPlateWidth) / 1000) * stainlessSteelPlateThickness * 7850) / 1000) *
+          stainlessSteelPlateQty *
+          prices.inox) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Aluminium Plates",
@@ -524,6 +541,12 @@ const ProductDetails = ({ renderItem }) => {
       weight: (
         (((((aluminiumPlateLength / 1000) * aluminiumPlateWidth) / 1000) * aluminiumPlateThickness * 2710) / 1000) *
         aluminiumPlateQty
+      ).toFixed(2),
+      price: (
+        ((((((aluminiumPlateLength / 1000) * aluminiumPlateWidth) / 1000) * aluminiumPlateThickness * 2710) / 1000) *
+          aluminiumPlateQty *
+          prices.aluminium) /
+        1000
       ).toFixed(2),
     },
     {
@@ -566,6 +589,10 @@ const ProductDetails = ({ renderItem }) => {
       weight: ((((((woodenPlateLength / 1000) * woodenPlateWidth) / 1000) * woodenPlateThickness * 1000) / 1000) * woodenPlateQty).toFixed(
         1
       ),
+      price: (
+        ((((((woodenPlateLength / 1000) * woodenPlateWidth) / 1000) * woodenPlateThickness * 1000) / 1000) * woodenPlateQty * prices.wood) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Steel Flat Bars",
@@ -599,6 +626,10 @@ const ProductDetails = ({ renderItem }) => {
         },
       ],
       weight: ((((((steelFlatLength / 1000) * steelFlatWidth) / 1000) * steelFlatThickness * 7850) / 1000) * steelFlatQty).toFixed(2),
+      price: (
+        ((((((steelFlatLength / 1000) * steelFlatWidth) / 1000) * steelFlatThickness * 7850) / 1000) * steelFlatQty * prices.steel) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Stainless Steel Flat Bars",
@@ -635,6 +666,12 @@ const ProductDetails = ({ renderItem }) => {
         (((((stainlessSteelFlatLength / 1000) * stainlessSteelFlatWidth) / 1000) * stainlessSteelFlatThickness * 7850) / 1000) *
         stainlessSteelFlatQty
       ).toFixed(2),
+      price: (
+        ((((((stainlessSteelFlatLength / 1000) * stainlessSteelFlatWidth) / 1000) * stainlessSteelFlatThickness * 7850) / 1000) *
+          stainlessSteelFlatQty *
+          prices.inox) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Aluminium Flat Bars",
@@ -670,6 +707,12 @@ const ProductDetails = ({ renderItem }) => {
       weight: (
         (((((aluminiumFlatLength / 1000) * aluminiumFlatWidth) / 1000) * aluminiumFlatThickness * 2710) / 1000) *
         aluminiumFlatQty
+      ).toFixed(2),
+      price: (
+        ((((((aluminiumFlatLength / 1000) * aluminiumFlatWidth) / 1000) * aluminiumFlatThickness * 2710) / 1000) *
+          aluminiumFlatQty *
+          prices.aluminium) /
+        1000
       ).toFixed(2),
     },
     {
@@ -716,6 +759,16 @@ const ProductDetails = ({ renderItem }) => {
         7850 *
         steelAngleLength *
         steelAngleQty
+      ).toFixed(2),
+      price: (
+        (0.000001 *
+          (parseInt(steelAngleLeg1) + parseInt(steelAngleLeg2) - parseInt(steelAngleThickness)) *
+          parseInt(steelAngleThickness) *
+          7850 *
+          steelAngleLength *
+          steelAngleQty *
+          prices.steel) /
+        1000
       ).toFixed(2),
     },
     {
@@ -769,6 +822,16 @@ const ProductDetails = ({ renderItem }) => {
         stainlessSteelAngleLength *
         stainlessSteelAngleQty
       ).toFixed(2),
+      price: (
+        (0.000001 *
+          (parseInt(stainlessSteelAngleLeg1) + parseInt(stainlessSteelAngleLeg2) - parseInt(stainlessSteelAngleThickness)) *
+          parseInt(stainlessSteelAngleThickness) *
+          7850 *
+          stainlessSteelAngleLength *
+          stainlessSteelAngleQty *
+          prices.inox) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Aluminium Angle Bars",
@@ -815,6 +878,16 @@ const ProductDetails = ({ renderItem }) => {
         aluminiumAngleLength *
         aluminiumAngleQty
       ).toFixed(2),
+      price: (
+        (0.000001 *
+          (parseInt(aluminiumAngleLeg1) + parseInt(aluminiumAngleLeg2) - parseInt(aluminiumAngleThickness)) *
+          parseInt(aluminiumAngleThickness) *
+          2710 *
+          aluminiumAngleLength *
+          aluminiumAngleQty *
+          prices.aluminium) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Steel Hexagonal Bars",
@@ -847,6 +920,9 @@ const ProductDetails = ({ renderItem }) => {
       ],
       value: steelHexSize1 ? (steelHexSize1 / 0.8660254).toFixed(2) : " ",
       weight: (0.000000866 * 7850 * (parseInt(steelHexSize1) ** 2 * parseInt(steelHexLength)) * steelHexQty).toFixed(2),
+      price: ((0.000000866 * 7850 * (parseInt(steelHexSize1) ** 2 * parseInt(steelHexLength)) * steelHexQty * prices.steel) / 1000).toFixed(
+        2
+      ),
     },
     {
       title: "Stainless Steel Hexagonal Bars",
@@ -889,6 +965,14 @@ const ProductDetails = ({ renderItem }) => {
         (parseInt(stainlessSteelHexSize1) ** 2 * parseInt(stainlessSteelHexLength)) *
         stainlessSteelHexQty
       ).toFixed(2),
+      price: (
+        (0.000000866 *
+          7850 *
+          (parseInt(stainlessSteelHexSize1) ** 2 * parseInt(stainlessSteelHexLength)) *
+          stainlessSteelHexQty *
+          prices.inox) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Aluminium Hexagonal Bars",
@@ -927,6 +1011,10 @@ const ProductDetails = ({ renderItem }) => {
       ],
       value: aluminiumHexSize1 ? (aluminiumHexSize1 / 0.8660254).toFixed(2) : " ",
       weight: (0.000000866 * 2710 * (parseInt(aluminiumHexSize1) ** 2 * parseInt(aluminiumHexLength)) * aluminiumHexQty).toFixed(2),
+      price: (
+        (0.000000866 * 2710 * (parseInt(aluminiumHexSize1) ** 2 * parseInt(aluminiumHexLength)) * aluminiumHexQty * prices.aluminium) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Steel Rectangular Bars",
@@ -960,6 +1048,10 @@ const ProductDetails = ({ renderItem }) => {
         },
       ],
       weight: ((((steelRectBarSide1 / 1000) * steelRectBarSide2) / 1000) * steelRectBarLength * 7850 * steelRectBarQty).toFixed(2),
+      price: (
+        ((((steelRectBarSide1 / 1000) * steelRectBarSide2) / 1000) * steelRectBarLength * 7850 * steelRectBarQty * prices.steel) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Stainless Steel Rectangular Bars",
@@ -997,6 +1089,14 @@ const ProductDetails = ({ renderItem }) => {
         stainlessSteelRectBarLength *
         7850 *
         stainlessSteelRectBarQty
+      ).toFixed(2),
+      price: (
+        ((((stainlessSteelRectBarSide1 / 1000) * stainlessSteelRectBarSide2) / 1000) *
+          stainlessSteelRectBarLength *
+          7850 *
+          stainlessSteelRectBarQty *
+          prices.inox) /
+        1000
       ).toFixed(2),
     },
     {
@@ -1042,6 +1142,14 @@ const ProductDetails = ({ renderItem }) => {
         2710 *
         aluminiumRectBarQty
       ).toFixed(2),
+      price: (
+        ((((aluminiumRectBarSide1 / 1000) * aluminiumRectBarSide2) / 1000) *
+          aluminiumRectBarLength *
+          2710 *
+          aluminiumRectBarQty *
+          prices.aluminium) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Steel Round Bars",
@@ -1076,6 +1184,10 @@ const ProductDetails = ({ renderItem }) => {
         },
       ],
       weight: (0.00000079 * 7850 * (parseInt(steelRoundBarDiam) ** 2 * parseInt(steelRoundBarLength)) * steelRoundBarQty).toFixed(2),
+      price: (
+        (0.00000079 * 7850 * (parseInt(steelRoundBarDiam) ** 2 * parseInt(steelRoundBarLength)) * steelRoundBarQty * prices.steel) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Stainless Steel Round Bars",
@@ -1114,6 +1226,14 @@ const ProductDetails = ({ renderItem }) => {
         7850 *
         (parseInt(stainlessSteelRoundBarDiam) ** 2 * parseInt(stainlessSteelRoundBarLength)) *
         stainlessSteelRoundBarQty
+      ).toFixed(2),
+      price: (
+        (0.00000079 *
+          7850 *
+          (parseInt(stainlessSteelRoundBarDiam) ** 2 * parseInt(stainlessSteelRoundBarLength)) *
+          stainlessSteelRoundBarQty *
+          prices.inox) /
+        1000
       ).toFixed(2),
     },
     {
@@ -1159,6 +1279,14 @@ const ProductDetails = ({ renderItem }) => {
         2710 *
         (parseInt(aluminiumRoundBarDiam) ** 2 * parseInt(aluminiumRoundBarLength)) *
         aluminiumRoundBarQty
+      ).toFixed(2),
+      price: (
+        (0.00000079 *
+          2710 *
+          (parseInt(aluminiumRoundBarDiam) ** 2 * parseInt(aluminiumRoundBarLength)) *
+          aluminiumRoundBarQty *
+          prices.aluminium) /
+        1000
       ).toFixed(2),
     },
     {
@@ -1206,6 +1334,17 @@ const ProductDetails = ({ renderItem }) => {
         steelRectTubeLength *
         7850 *
         steelRectTubeQty
+      ).toFixed(2),
+      price: (
+        (0.000001 *
+          (parseInt(steelRectTubeSide1) + parseInt(steelRectTubeSide2) - 2 * steelRectTubeThickness) *
+          2 *
+          steelRectTubeThickness *
+          steelRectTubeLength *
+          7850 *
+          steelRectTubeQty *
+          prices.steel) /
+        1000
       ).toFixed(2),
     },
     {
@@ -1260,6 +1399,17 @@ const ProductDetails = ({ renderItem }) => {
         7850 *
         stainlessSteelRectTubeQty
       ).toFixed(2),
+      price: (
+        (0.000001 *
+          (parseInt(stainlessSteelRectTubeSide1) + parseInt(stainlessSteelRectTubeSide2) - 2 * stainlessSteelRectTubeThickness) *
+          2 *
+          stainlessSteelRectTubeThickness *
+          stainlessSteelRectTubeLength *
+          7850 *
+          stainlessSteelRectTubeQty *
+          prices.inox) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Aluminium Rectangular Tubes",
@@ -1313,6 +1463,17 @@ const ProductDetails = ({ renderItem }) => {
         2710 *
         aluminiumRectTubeQty
       ).toFixed(2),
+      price: (
+        (0.000001 *
+          (parseInt(aluminiumRectTubeSide1) + parseInt(aluminiumRectTubeSide2) - 2 * aluminiumRectTubeThickness) *
+          2 *
+          aluminiumRectTubeThickness *
+          aluminiumRectTubeLength *
+          2710 *
+          aluminiumRectTubeQty *
+          prices.aluminium) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Steel Round Tubes",
@@ -1353,6 +1514,16 @@ const ProductDetails = ({ renderItem }) => {
         steelRoundTubeLength *
         steelRoundTubeQty
       ).toFixed(2),
+      price: (
+        (0.00000314 *
+          7850 *
+          (parseInt(steelRoundTubeDiam) - parseInt(steelRoundTubeThickness)) *
+          steelRoundTubeThickness *
+          steelRoundTubeLength *
+          steelRoundTubeQty *
+          prices.steel) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Stainless Steel Round Tubes",
@@ -1392,6 +1563,16 @@ const ProductDetails = ({ renderItem }) => {
         stainlessSteelRoundTubeThickness *
         stainlessSteelRoundTubeLength *
         stainlessSteelRoundTubeQty
+      ).toFixed(2),
+      price: (
+        (0.00000314 *
+          7850 *
+          (parseInt(stainlessSteelRoundTubeDiam) - parseInt(stainlessSteelRoundTubeThickness)) *
+          stainlessSteelRoundTubeThickness *
+          stainlessSteelRoundTubeLength *
+          stainlessSteelRoundTubeQty *
+          prices.inox) /
+        1000
       ).toFixed(2),
     },
     {
@@ -1439,6 +1620,16 @@ const ProductDetails = ({ renderItem }) => {
         aluminiumRoundTubeLength *
         aluminiumRoundTubeQty
       ).toFixed(2),
+      price: (
+        (0.00000314 *
+          2710 *
+          (parseInt(aluminiumRoundTubeDiam) - parseInt(aluminiumRoundTubeThickness)) *
+          aluminiumRoundTubeThickness *
+          aluminiumRoundTubeLength *
+          aluminiumRoundTubeQty *
+          prices.aluminium) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Steel Channels",
@@ -1483,6 +1674,15 @@ const ProductDetails = ({ renderItem }) => {
         steelChannelLength *
         7850 *
         steelChannelQty
+      ).toFixed(2),
+      price: (
+        (((steelChannelSide1 - 2 * steelChannelSide3) * steelChannelSide3 + steelChannelSide2 * steelChannelSide3 * 2) *
+          0.000001 *
+          steelChannelLength *
+          7850 *
+          steelChannelQty *
+          prices.steel) /
+        1000
       ).toFixed(2),
     },
     {
@@ -1536,6 +1736,16 @@ const ProductDetails = ({ renderItem }) => {
         7850 *
         stainlessSteelChannelQty
       ).toFixed(2),
+      price: (
+        (((stainlessSteelChannelSide1 - 2 * stainlessSteelChannelSide3) * stainlessSteelChannelSide3 +
+          stainlessSteelChannelSide2 * stainlessSteelChannelSide3 * 2) *
+          0.000001 *
+          stainlessSteelChannelLength *
+          7850 *
+          stainlessSteelChannelQty *
+          prices.inox) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Aluminium Channels",
@@ -1587,6 +1797,15 @@ const ProductDetails = ({ renderItem }) => {
         2710 *
         aluminiumChannelQty
       ).toFixed(2),
+      price: (
+        (((aluminiumChannelSide1 - 2 * aluminiumChannelSide3) * aluminiumChannelSide3 + aluminiumChannelSide2 * aluminiumChannelSide3 * 2) *
+          0.000001 *
+          aluminiumChannelLength *
+          2710 *
+          aluminiumChannelQty *
+          prices.aluminium) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Steel Beams",
@@ -1631,6 +1850,15 @@ const ProductDetails = ({ renderItem }) => {
         steelBeamLength *
         7850 *
         steelBeamQty
+      ).toFixed(2),
+      price: (
+        (((steelBeamSide1 - 2 * steelBeamSide2) * steelBeamSide2 + steelBeamSide2 * steelBeamSide3 * 2) *
+          0.000001 *
+          steelBeamLength *
+          7850 *
+          steelBeamQty *
+          prices.steel) /
+        1000
       ).toFixed(2),
     },
     {
@@ -1677,6 +1905,16 @@ const ProductDetails = ({ renderItem }) => {
         stainlessSteelBeamLength *
         7850 *
         stainlessSteelBeamQty
+      ).toFixed(2),
+      price: (
+        (((stainlessSteelBeamSide1 - 2 * stainlessSteelBeamSide2) * stainlessSteelBeamSide2 +
+          stainlessSteelBeamSide2 * stainlessSteelBeamSide3 * 2) *
+          0.000001 *
+          stainlessSteelBeamLength *
+          7850 *
+          stainlessSteelBeamQty *
+          prices.inox) /
+        1000
       ).toFixed(2),
     },
     {
@@ -1729,6 +1967,15 @@ const ProductDetails = ({ renderItem }) => {
         2710 *
         aluminiumBeamQty
       ).toFixed(2),
+      price: (
+        (((aluminiumBeamSide1 - 2 * aluminiumBeamSide2) * aluminiumBeamSide2 + aluminiumBeamSide2 * aluminiumBeamSide3 * 2) *
+          0.000001 *
+          aluminiumBeamLength *
+          2710 *
+          aluminiumBeamQty *
+          prices.aluminium) /
+        1000
+      ).toFixed(2),
     },
     {
       title: "Steel Bulbs",
@@ -1763,6 +2010,7 @@ const ProductDetails = ({ renderItem }) => {
         },
       ],
       weight: (bulbTypes[steelBulbSize] * steelBulbLength * steelBulbQty).toFixed(2),
+      price: ((bulbTypes[steelBulbSize] * steelBulbLength * steelBulbQty * prices.steel) / 1000).toFixed(2),
     },
     {
       title: "Stainless Steel Bulbs",
@@ -1797,6 +2045,7 @@ const ProductDetails = ({ renderItem }) => {
         },
       ],
       weight: (bulbTypes[stainlessSteelBulbSize] * stainlessSteelBulbLength * stainlessSteelBulbQty).toFixed(2),
+      price: ((bulbTypes[stainlessSteelBulbSize] * stainlessSteelBulbLength * stainlessSteelBulbQty * prices.inox) / 1000).toFixed(2),
     },
     {
       title: "Aluminium Bulbs",
@@ -1837,10 +2086,53 @@ const ProductDetails = ({ renderItem }) => {
         },
       ],
       weight: (bulbTypes[aluminiumBulbSize] * aluminiumBulbLength * aluminiumBulbQty).toFixed(2),
+      price: ((bulbTypes[aluminiumBulbSize] * aluminiumBulbLength * aluminiumBulbQty * prices.aluminium) / 1000).toFixed(2),
     },
   ];
 
   const products = prodInfo.map((item, index) => {
+    const handleAddProducts = () => {
+      sessionStorage.setItem("description", item.title.slice(0, -1));
+      sessionStorage.setItem(
+        "size",
+        item.title.includes("Plates") ||
+          item.title.includes("Flat") ||
+          item.title.includes("Angle") ||
+          item.title.includes("Rectangular Tube") ||
+          item.title.includes("Channel")
+          ? item.dims[0] + "x" + item.dims[1] + "x" + item.dims[2]
+          : item.title.includes("Hex") || item.title.includes("Round Bar")
+          ? "∅" + item.dims[0]
+          : item.title.includes("Round Tube")
+          ? "∅" + item.dims[0] + "x" + item.dims[1]
+          : item.title.includes("Rectangular Bar")
+          ? item.dims[0] + "x" + item.dims[1]
+          : item.title.includes("Beam")
+          ? item.dims[0] + "x" + item.dims[2] + "x" + item.dims[1]
+          : item.title.includes("Bulb")
+          ? item.dims[0]
+          : item.dims[0] + "x" + item.dims[1] + "x" + item.dims[2]
+      );
+      sessionStorage.setItem(
+        "length",
+        item.title.includes("Plates") || item.title.includes("Flat")
+          ? "-"
+          : item.title.includes("Angle") ||
+            item.title.includes("Rectangular Tube") ||
+            item.title.includes("Channel") ||
+            item.title.includes("Beam")
+          ? item.dims[4]
+          : item.title.includes("Hex") || item.title.includes("Rectangular Bar") || item.title.includes("Round Tube")
+          ? item.dims[2]
+          : item.title.includes("Round Bar") || item.title.includes("Bulb")
+          ? item.dims[1]
+          : item.dims[0]
+      );
+      sessionStorage.setItem("quantity", item.dims[3]);
+      sessionStorage.setItem("weight", item.weight);
+      sessionStorage.setItem("price", item.price);
+    };
+
     return {
       [item.title]: {
         content: (
@@ -1945,7 +2237,18 @@ const ProductDetails = ({ renderItem }) => {
               ) : (
                 <>
                   <span style={{ marginRight: item.dimsText3Margin }}>{item.dimsText3}</span>
-                  <input type="text" required onChange={item.dimsFuncs[2]} /> <br />
+                  <input type="text" required onChange={item.dimsFuncs[2]} />
+                  <span style={{ marginLeft: 30, marginRight: 63 }}>Price ($):</span>
+                  <input
+                    type="text"
+                    readOnly
+                    value={item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === "" || item.dims[4] === "" ? "" : item.price}
+                    style={{
+                      background: "black",
+                      color: "white",
+                    }}
+                  />
+                  <br />
                 </>
               )}
               {item.rectTube || item.angleBar || item.channel || item.beam ? (
@@ -1956,11 +2259,40 @@ const ProductDetails = ({ renderItem }) => {
               ) : (
                 ""
               )}
-              <span style={{ marginRight: item.dimsText4Margin }}>{item.dimsText4}</span>
-              <input type="number" min={1} defaultValue={1} className="product_qty" onChange={item.dimsFuncs[3]} /> <br />
+              {item.roundBar || item.bulb ? (
+                <>
+                  <span style={{ marginRight: item.dimsText4Margin }}>{item.dimsText4}</span>
+                  <input type="number" min={1} defaultValue={1} onChange={item.dimsFuncs[3]} style={{}} />
+                  <span style={{ marginLeft: 30, marginRight: 63 }}>Price ($):</span>
+                  <input
+                    type="text"
+                    readOnly
+                    value={item.dims[0] === "" || item.dims[1] === "" ? "" : item.price}
+                    style={{
+                      background: "black",
+                      color: "white",
+                    }}
+                  />
+                </>
+              ) : (
+                <>
+                  <span style={{ marginRight: item.dimsText4Margin }}>{item.dimsText4}</span>
+                  <input type="number" min={1} defaultValue={1} onChange={item.dimsFuncs[3]} style={{}} /> <br />
+                </>
+              )}
             </div>
             <div className="product_cart">
-              <button className="product_cart_button">Add to Cart</button>
+              <button
+                className="product_cart_button"
+                onClick={handleAddProducts}
+                disabled={
+                  item.roundBar || item.bulb
+                    ? item.dims[0] === "" || item.dims[1] === ""
+                    : item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === "" || item.dims[4] === ""
+                }
+              >
+                Add to Cart
+              </button>
             </div>
           </div>
         ),

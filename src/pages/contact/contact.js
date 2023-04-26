@@ -9,7 +9,9 @@ const Cart = () => {
   const [isclicked, setIsClicked] = useState(false);
 
   const leftTextRef = useRef(null);
+  const rightTextRef = useRef(null);
   const iconsRef = useRef(null);
+  const rightIconsRef = useRef(null);
   const rightPanelInput1Ref = useRef(null);
   const rightPanelInput2Ref = useRef(null);
   const rightPanelInput3Ref = useRef(null);
@@ -49,6 +51,18 @@ const Cart = () => {
       });
     });
 
+    const observer3 = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          rightTextRef.current.classList.add("animate");
+          rightIconsRef.current.classList.add("animate");
+        } else {
+          rightTextRef.current.classList.remove("animate");
+          rightIconsRef.current.classList.remove("animate");
+        }
+      });
+    });
+
     observer.observe(leftTextRef.current);
     observer.observe(iconsRef.current);
     observer2.observe(rightPanelInput1Ref.current);
@@ -56,10 +70,13 @@ const Cart = () => {
     observer2.observe(rightPanelInput3Ref.current);
     observer2.observe(rightPanelButtonRef.current);
     observer2.observe(rightPanelAddressRef.current);
+    observer3.observe(rightTextRef.current);
+    observer3.observe(rightIconsRef.current);
 
     return () => {
       observer.disconnect();
       observer2.disconnect();
+      observer3.disconnect();
     };
   }, []);
 
@@ -113,10 +130,11 @@ const Cart = () => {
             onInit={(typewriter) => {
               typewriter
                 .pauseFor(2500)
-                .typeString("LET'S DISCUSS HOW WE CAN CREATE YOUR PROJECT AT A COMPETITIVE PRICING AND A TIMELY DELIVERY. ")
-                .pauseFor(1000)
-                .typeString("NO STRINGS ATTACHED.")
-                .pauseFor(1000)
+                .typeString(
+                  "LET'S DISCUSS HOW WE CAN CREATE YOUR PROJECT AT A COMPETITIVE PRICING AND A TIMELY DELIVERY. NO STRINGS ATTACHED."
+                )
+                .pauseFor(2000)
+                .changeDeleteSpeed(10)
                 .deleteChars(20)
                 .pauseFor(1000)
                 .typeString('<span style="color: cyan;">MAYBE ONE.</span>')
@@ -131,7 +149,7 @@ const Cart = () => {
                 .start();
             }}
             options={{
-              delay: 40,
+              delay: 30,
               cursor: "",
             }}
           />
@@ -158,12 +176,33 @@ const Cart = () => {
             ref={rightPanelAddressRef}
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d104881.09486118425!2d2.277020427765447!3d48.85883760918865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis%2C%20France!5e0!3m2!1sen!2sus!4v1553497921355"
             title="Google Maps Embed"
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
             className="contact_address_map"
           ></iframe>
+        </div>
+        <div className="rightText_container">
+          <span ref={rightTextRef} className="right_text">
+            Let's get in touch and create something great together.
+          </span>
+          <span ref={rightIconsRef} className="right_icons">
+            <FontAwesomeIcon icon={faPhone} style={{ color: "white", width: 20, marginRight: 5 }} />
+            <span style={{ fontSize: 20, color: "white", marginRight: 15, textDecoration: "underline" }}>0712345678</span>
+            <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faGoogle} className="icon_google" />
+            </a>
+            <a href="https://twitter.com/freeCodeCamp" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faTwitter} className="icon_twitter" />
+            </a>
+            <a href="https://www.youtube.com/c/Freecodecamp" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faYoutube} className="icon_youtube" />
+            </a>
+            <a href="https://www.linkedin.com/school/free-code-camp" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faLinkedin} className="icon_linkedIn" />
+            </a>
+            <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">
+              <span className="google"></span>
+            </a>
+            <span style={{ fontSize: 20, color: "white", marginRight: 0, textDecoration: "underline" }}>nicolae.arhire10@gmail.com</span>
+          </span>
         </div>
       </div>
     </div>
