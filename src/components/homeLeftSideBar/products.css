@@ -21,7 +21,7 @@
 }
 
 .product_size {
-  margin-top: 50px;
+  margin-top: 35px;
   margin-right: 15px;
   margin-left: 15px;
 }
@@ -89,9 +89,20 @@
 }
 
 .product_cart_button:disabled {
-  opacity: 0.5;
+  background: rgb(4, 29, 75);
 }
 
 .product_cart_button:disabled:hover {
   cursor: not-allowed;
+}
+
+.complete_params {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 3px;
+}
+
+.complete_params span {
+  font-size: 13px;
 }

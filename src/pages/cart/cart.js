@@ -6,22 +6,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faTruck, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import { getCities, getPoints, getDistance } from "../../services/api";
+import { deleteFromCart, readCart } from "../../services/storageCart";
 
 const Cart = () => {
   const shippingRef = useRef();
   const shippingCostRef = useRef();
 
-  const [cartItems, setCartItems] = useState({
-    description: sessionStorage.getItem("description"),
-    size: sessionStorage.getItem("size"),
-    length: sessionStorage.getItem("length"),
-    quantity: sessionStorage.getItem("quantity"),
-    weight: sessionStorage.getItem("weight"),
-    price: sessionStorage.getItem("price"),
-  });
-  const [qty, setQty] = useState(1);
-  const [price, setPrice] = useState(125);
-  const [weight, setWeight] = useState(220);
+  const [cartItems, setCartItems] = useState(readCart());
   const [citiesList, setCitiesList] = useState("");
   const [clientCountry, setClientCountry] = useState("");
   const [clientCity, setClientCity] = useState("");
@@ -29,25 +20,16 @@ const Cart = () => {
   const [shipping, setShipping] = useState("-");
   const [arrival, setArrival] = useState("");
 
-  // useEffect(() => {
-  //   setCartItems({
-  //     description: sessionStorage.getItem("description"),
-  //     size: sessionStorage.getItem("size"),
-  //     length: sessionStorage.getItem("length"),
-  //     quantity: sessionStorage.getItem("quantity"),
-  //     weight: sessionStorage.getItem("weight"),
-  //     price: sessionStorage.getItem("price"),
-  //   });
-  // }, []);
-
   useEffect(() => {
     getCities(lookup.byCountry(clientCountry)?.iso2).then((result) =>
       setCitiesList(result.sort((a, b) => a.name.localeCompare(b.name)).map((city) => city.name))
     );
 
-    getPoints(clientCity).then((result) => {
-      setCityPoints([result[0].lon, result[0].lat]);
-    });
+    if (clientCity) {
+      getPoints(clientCity).then((result) => {
+        setCityPoints([result[0].lon, result[0].lat]);
+      });
+    }
   }, [clientCountry, clientCity]);
 
   useEffect(() => {
@@ -73,13 +55,9 @@ const Cart = () => {
     setClientCity(e.target.value);
   };
 
-  const handleDeleteItem = () => {
-    sessionStorage.removeItem("description");
-    setCartItems(0);
-  };
-
-  const handleQtyChange = (e) => {
-    setQty(e.target.value);
+  const handleDeleteItem = (index) => {
+    deleteFromCart(index);
+    setCartItems(readCart());
   };
 
   const handleShipping = () => {
@@ -97,47 +75,75 @@ const Cart = () => {
   return (
     <div className="cart_container">
       <div className="cart_content">
-        <Table bordered variant="dark" className="cart_table">
+        <Table className="cart_table_head">
           <thead>
             <tr>
               <th>#</th>
               <th>Item description</th>
               <th>Size (mm)</th>
               <th>Length (m)</th>
-              <th>Quantity (pcs)</th>
+              <th>Qty (pcs)</th>
               <th>Weight</th>
               <th>Price</th>
             </tr>
           </thead>
-          <tbody>
-            {Object.keys(cartItems).length > 0 ? (
-              <tr>
-                <td>
-                  1.
-                  <FontAwesomeIcon icon={faTrashAlt} onClick={handleDeleteItem} style={{ marginLeft: 10, cursor: "pointer" }} />
-                </td>
-                <td>{cartItems.description}</td>
-                <td>{cartItems.size}</td>
-                <td>{cartItems.length}</td>
-                <td>{cartItems.quantity}</td>
-                <td>{cartItems.weight} kg</td>
-                <td>{cartItems.price} $</td>
-              </tr>
-            ) : (
-              <tr>
-                <td colSpan="7" className="empty_cart">
-                  Your cart is empty.
-                </td>
-              </tr>
-            )}
-          </tbody>
         </Table>
+        <div className="xxx">
+          <Table bordered variant="dark" className="cart_table">
+            <tbody>
+              {cartItems.length > 0 ? (
+                cartItems.map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>
+                        {index + 1}.
+                        <FontAwesomeIcon
+                          icon={faTrashAlt}
+                          onClick={() => handleDeleteItem(index)}
+                          style={{ marginLeft: 10, cursor: "pointer" }}
+                        />
+                      </td>
+                      <td>{item.description}</td>
+                      <td>{item.size}</td>
+                      <td>{item.length}</td>
+                      <td>{item.quantity}</td>
+                      <td>{item.weight} kg</td>
+                      <td>{item.price} $</td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="7" className="empty_cart">
+                    Your cart is empty.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </div>
         <div className="table_totals">
           <Table bordered variant="dark" className="cart_table2">
             <thead>
               <tr>
-                <th>Subtotal</th>
-                <th>{cartItems.price} $</th>
+                <th>Total Weight</th>
+                {cartItems.length > 0 ? (
+                  <th key="1">{cartItems.reduce((prev, item) => prev + parseFloat(item.weight), 0).toFixed(2)} kg</th>
+                ) : (
+                  <th>-</th>
+                )}
+              </tr>
+            </thead>
+          </Table>
+          <Table bordered variant="dark" className="cart_table2A">
+            <thead>
+              <tr>
+                <th>Subtotal Cost</th>
+                {cartItems.length > 0 ? (
+                  <th key="2">{cartItems.reduce((prev, item) => prev + parseFloat(item.price), 0).toFixed(2)} $</th>
+                ) : (
+                  <th>-</th>
+                )}
               </tr>
             </thead>
           </Table>
@@ -147,7 +153,7 @@ const Cart = () => {
                 <th onClick={handleShipping} style={{ cursor: "pointer" }}>
                   Shipping <FontAwesomeIcon icon={faTruck} />
                 </th>
-                <td ref={shippingCostRef}>{shipping}</td>
+                <td ref={shippingCostRef}>{cartItems.length > 0 ? shipping : "-"}</td>
               </tr>
             </thead>
           </Table>
@@ -155,7 +161,7 @@ const Cart = () => {
             <thead>
               <tr>
                 <th>E.T.A.</th>
-                <th>{arrival}</th>
+                <th>{cartItems.length > 0 ? arrival : "See shipping"}</th>
               </tr>
             </thead>
           </Table>
@@ -163,10 +169,10 @@ const Cart = () => {
             <thead>
               <tr>
                 <th>Total Order</th>
-                <th>
-                  {shipping === "Sorry. We don't go there." || shipping === "-"
+                <th key="3">
+                  {shipping === "Sorry. We don't go there." || shipping === "-" || cartItems.length <= 0
                     ? "See shipping"
-                    : `${(parseFloat(cartItems.price) + parseFloat(shipping)).toFixed(2)} $`}
+                    : `${(cartItems.reduce((prev, item) => prev + parseFloat(item.price), 0) + parseFloat(shipping)).toFixed(2)} $`}
                 </th>
               </tr>
             </thead>

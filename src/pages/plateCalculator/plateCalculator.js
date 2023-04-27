@@ -20,6 +20,10 @@ const PlateCalculator = () => {
     setPageNo(currentComponent);
   }, [currentComponent]);
 
+  useEffect(() => {
+    if (sessionStorage.getItem("token")) setShowModal(false);
+  }, [token]);
+
   const components = [
     <PipeByPlane modalStatus={showModal} />,
     <PipeByPipe />,
@@ -36,7 +40,14 @@ const PlateCalculator = () => {
   };
 
   const handleCloseModal = () => {
-    token === "1234" ? setShowModal(false) : token === "" ? setWrongToken("Please write something.") : setWrongToken("Please try again.");
+    if (token === "1234") {
+      setShowModal(false);
+      sessionStorage.setItem("token", "token");
+    } else if (token === "") {
+      setWrongToken("Please write something.");
+    } else {
+      setWrongToken("Please try again.");
+    }
   };
 
   const handlePrev = () => {

@@ -3,13 +3,14 @@ import "./pipeByPlane.css";
 import photo from "../../assets/pipeByPlane.png";
 import { useEffect, useRef, useState } from "react";
 import makerjs from "makerjs";
+import { writeCart } from "../../services/storageCart";
 
 const PipeByPlane = ({ modalStatus }) => {
   const [diam, setDiam] = useState("");
   const [angle, setAngle] = useState("");
   const [length, setLength] = useState("");
   const [thickness, setThickness] = useState("");
-  const [material, setMaterial] = useState("---");
+  const [material, setMaterial] = useState("---");  
   const [density, setDensity] = useState("");
   const [price, setPrice] = useState("");
   const [closed, setClosed] = useState(true);
@@ -197,13 +198,10 @@ const PipeByPlane = ({ modalStatus }) => {
   }
 
   const handleAddProducts = () => {
-    sessionStorage.setItem(
-      "description",
-      material === "Inox" ? `Stainless Steel Shape_PipeIntByPlane` : `${material} Shape_PipeIntByPlane`
-    );
-    sessionStorage.setItem(
-      "size",
-      (diam * Math.PI).toFixed(0) +
+    const tempObj = {
+      description: material === "Inox" ? `Stainless Steel Shape_PipeIntByPlane` : `${material} Shape_PipeIntByPlane`,
+      size:
+        (diam * Math.PI).toFixed(0) +
         "x" +
         points
           .reduce((highest, current) => {
@@ -211,28 +209,12 @@ const PipeByPlane = ({ modalStatus }) => {
           }, 0)
           .toFixed(0) +
         "x" +
-        thickness
-    );
-    sessionStorage.setItem("length", "-");
-    sessionStorage.setItem("quantity", "2");
-    sessionStorage.setItem(
-      "weight",
-      (
-        0.000001 *
-        density *
-        thickness *
-        ((diam * Math.PI) / 1000) *
-        points
-          .reduce((highest, current) => {
-            return current[1] > highest ? current[1] : highest;
-          }, 0)
-          .toFixed(0)
-      ).toFixed(2) * 2
-    );
-    sessionStorage.setItem(
-      "price",
-      (
-        ((0.000001 *
+        thickness,
+      length: "-",
+      quantity: 2,
+      weight:
+        (
+          0.000001 *
           density *
           thickness *
           ((diam * Math.PI) / 1000) *
@@ -240,11 +222,24 @@ const PipeByPlane = ({ modalStatus }) => {
             .reduce((highest, current) => {
               return current[1] > highest ? current[1] : highest;
             }, 0)
-            .toFixed(0)) /
-          1000) *
-        price
-      ).toFixed(2) * 2
-    );
+            .toFixed(0)
+        ).toFixed(2) * 2,
+      price:
+        (
+          ((0.000001 *
+            density *
+            thickness *
+            ((diam * Math.PI) / 1000) *
+            points
+              .reduce((highest, current) => {
+                return current[1] > highest ? current[1] : highest;
+              }, 0)
+              .toFixed(0)) /
+            1000) *
+          price
+        ).toFixed(2) * 2,
+    };
+    writeCart(tempObj);
   };
 
   return (

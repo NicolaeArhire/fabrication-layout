@@ -31,7 +31,7 @@
   font-size: 15px;
   min-width: 20px;
   text-align: center;
-  margin-left: 150px;
+  margin-left: 140px;
   background: red;
   padding-left: 2px;
   padding-right: 2px;
@@ -133,6 +133,26 @@
   border-bottom: 1px solid white;
   height: 40px;
   padding-left: 10px;
+}
+
+.menu_footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 350px;
+  border-bottom: none;
+  padding: 0;
+}
+
+.menu_footer:hover {
+  background: #02222b !important;
+}
+
+.menu_footer span:last-of-type {
+  color: white;
+  font-size: 14px;
+  margin-top: 15px;
 }
 
 .bm-item:hover {

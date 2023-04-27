@@ -2,6 +2,7 @@ import "./rectToRound.css";
 import photo from "../../assets/rectToRound.png";
 import { useEffect, useRef, useState } from "react";
 import makerjs from "makerjs";
+import { writeCart } from "../../services/storageCart";
 
 const RectToRound = () => {
   const [diam, setDiam] = useState("");
@@ -219,14 +220,14 @@ const RectToRound = () => {
   }
 
   const handleAddProducts = () => {
-    sessionStorage.setItem("description", material === "Inox" ? `Stainless Steel Shape_RectToRound` : `${material} Shape_RectToRound`);
-    sessionStorage.setItem(
-      "size",
-      points
-        .reduce((highest, current) => {
-          return current[0] > highest ? current[0] : highest;
-        }, 0)
-        .toFixed(0) -
+    const tempObj = {
+      description: material === "Inox" ? `Stainless Steel Shape_RectToRound` : `${material} Shape_RectToRound`,
+      size:
+        points
+          .reduce((highest, current) => {
+            return current[0] > highest ? current[0] : highest;
+          }, 0)
+          .toFixed(0) -
         points
           .filter((num) => num[0] !== 0)
           .reduce((smallest, current) => {
@@ -240,62 +241,59 @@ const RectToRound = () => {
           }, 0)
           .toFixed(0) +
         "x" +
-        thickness
-    );
-    sessionStorage.setItem("length", "-");
-    sessionStorage.setItem("quantity", "2");
-    sessionStorage.setItem(
-      "weight",
-      (
-        ((0.000001 *
-          density *
-          thickness *
-          (points
-            .reduce((highest, current) => {
-              return current[0] > highest ? current[0] : highest;
-            }, 0)
-            .toFixed(0) -
-            points
-              .filter((num) => num[0] !== 0)
-              .reduce((smallest, current) => {
-                return current[0] < smallest ? current[0] : smallest;
-              }, Infinity)
-              .toFixed(0))) /
-          1000) *
-        points
-          .reduce((highest, current) => {
-            return current[1] > highest ? current[1] : highest;
-          }, 0)
-          .toFixed(0)
-      ).toFixed(2) * 2
-    );
-    sessionStorage.setItem(
-      "price",
-      (
-        ((0.000001 *
-          density *
-          thickness *
-          ((points
-            .reduce((highest, current) => {
-              return current[0] > highest ? current[0] : highest;
-            }, 0)
-            .toFixed(0) -
-            points
-              .filter((num) => num[0] !== 0)
-              .reduce((smallest, current) => {
-                return current[0] < smallest ? current[0] : smallest;
-              }, Infinity)
-              .toFixed(0)) /
+        thickness,
+      length: "-",
+      quantity: 2,
+      weight:
+        (
+          ((0.000001 *
+            density *
+            thickness *
+            (points
+              .reduce((highest, current) => {
+                return current[0] > highest ? current[0] : highest;
+              }, 0)
+              .toFixed(0) -
+              points
+                .filter((num) => num[0] !== 0)
+                .reduce((smallest, current) => {
+                  return current[0] < smallest ? current[0] : smallest;
+                }, Infinity)
+                .toFixed(0))) /
             1000) *
           points
             .reduce((highest, current) => {
               return current[1] > highest ? current[1] : highest;
             }, 0)
-            .toFixed(0)) /
-          1000) *
-        price
-      ).toFixed(2) * 2
-    );
+            .toFixed(0)
+        ).toFixed(2) * 2,
+      price:
+        (
+          ((0.000001 *
+            density *
+            thickness *
+            ((points
+              .reduce((highest, current) => {
+                return current[0] > highest ? current[0] : highest;
+              }, 0)
+              .toFixed(0) -
+              points
+                .filter((num) => num[0] !== 0)
+                .reduce((smallest, current) => {
+                  return current[0] < smallest ? current[0] : smallest;
+                }, Infinity)
+                .toFixed(0)) /
+              1000) *
+            points
+              .reduce((highest, current) => {
+                return current[1] > highest ? current[1] : highest;
+              }, 0)
+              .toFixed(0)) /
+            1000) *
+          price
+        ).toFixed(2) * 2,
+    };
+    writeCart(tempObj);
   };
 
   return (

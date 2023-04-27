@@ -2,6 +2,7 @@ import "./pipeByCone.css";
 import photo from "../../assets/pipeByCone.png";
 import { useEffect, useRef, useState } from "react";
 import makerjs from "makerjs";
+import { writeCart } from "../../services/storageCart";
 
 const PipeByCone = () => {
   const [diam1, setDiam1] = useState("");
@@ -308,10 +309,10 @@ const PipeByCone = () => {
   }
 
   const handleAddProducts = () => {
-    sessionStorage.setItem("description", material === "Inox" ? `Stainless Steel Shape_PipeIntByCone` : `${material} Shape_PipeIntByCone`);
-    sessionStorage.setItem(
-      "size",
-      (diam1 * Math.PI).toFixed(0) +
+    const tempObj = {
+      description: material === "Inox" ? `Stainless Steel Shape_PipeIntByCone` : `${material} Shape_PipeIntByCone`,
+      size:
+        (diam1 * Math.PI).toFixed(0) +
         "x" +
         points
           .reduce((highest, current) => {
@@ -319,28 +320,12 @@ const PipeByCone = () => {
           }, 0)
           .toFixed(0) +
         "x" +
-        thickness
-    );
-    sessionStorage.setItem("length", "-");
-    sessionStorage.setItem("quantity", "2");
-    sessionStorage.setItem(
-      "weight",
-      (
-        0.000001 *
-        density *
-        thickness *
-        ((diam1 * Math.PI) / 1000) *
-        points
-          .reduce((highest, current) => {
-            return current[1] > highest ? current[1] : highest;
-          }, 0)
-          .toFixed(0)
-      ).toFixed(2) * 2
-    );
-    sessionStorage.setItem(
-      "price",
-      (
-        ((0.000001 *
+        thickness,
+      length: "-",
+      quantity: 2,
+      weight:
+        (
+          0.000001 *
           density *
           thickness *
           ((diam1 * Math.PI) / 1000) *
@@ -348,11 +333,24 @@ const PipeByCone = () => {
             .reduce((highest, current) => {
               return current[1] > highest ? current[1] : highest;
             }, 0)
-            .toFixed(0)) /
-          1000) *
-        price
-      ).toFixed(2) * 2
-    );
+            .toFixed(0)
+        ).toFixed(2) * 2,
+      price:
+        (
+          ((0.000001 *
+            density *
+            thickness *
+            ((diam1 * Math.PI) / 1000) *
+            points
+              .reduce((highest, current) => {
+                return current[1] > highest ? current[1] : highest;
+              }, 0)
+              .toFixed(0)) /
+            1000) *
+          price
+        ).toFixed(2) * 2,
+    };
+    writeCart(tempObj);
   };
 
   return (

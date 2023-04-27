@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { writeCart } from "../../services/storageCart";
 
 const ProductDetails = ({ renderItem }) => {
   const imgRef = useRef(null);
@@ -2092,45 +2093,44 @@ const ProductDetails = ({ renderItem }) => {
 
   const products = prodInfo.map((item, index) => {
     const handleAddProducts = () => {
-      sessionStorage.setItem("description", item.title.slice(0, -1));
-      sessionStorage.setItem(
-        "size",
-        item.title.includes("Plates") ||
+      const tempObj = {
+        description: item.title.slice(0, -1),
+        size:
+          item.title.includes("Plates") ||
           item.title.includes("Flat") ||
           item.title.includes("Angle") ||
           item.title.includes("Rectangular Tube") ||
           item.title.includes("Channel")
-          ? item.dims[0] + "x" + item.dims[1] + "x" + item.dims[2]
-          : item.title.includes("Hex") || item.title.includes("Round Bar")
-          ? "∅" + item.dims[0]
-          : item.title.includes("Round Tube")
-          ? "∅" + item.dims[0] + "x" + item.dims[1]
-          : item.title.includes("Rectangular Bar")
-          ? item.dims[0] + "x" + item.dims[1]
-          : item.title.includes("Beam")
-          ? item.dims[0] + "x" + item.dims[2] + "x" + item.dims[1]
-          : item.title.includes("Bulb")
-          ? item.dims[0]
-          : item.dims[0] + "x" + item.dims[1] + "x" + item.dims[2]
-      );
-      sessionStorage.setItem(
-        "length",
-        item.title.includes("Plates") || item.title.includes("Flat")
-          ? "-"
-          : item.title.includes("Angle") ||
-            item.title.includes("Rectangular Tube") ||
-            item.title.includes("Channel") ||
-            item.title.includes("Beam")
-          ? item.dims[4]
-          : item.title.includes("Hex") || item.title.includes("Rectangular Bar") || item.title.includes("Round Tube")
-          ? item.dims[2]
-          : item.title.includes("Round Bar") || item.title.includes("Bulb")
-          ? item.dims[1]
-          : item.dims[0]
-      );
-      sessionStorage.setItem("quantity", item.dims[3]);
-      sessionStorage.setItem("weight", item.weight);
-      sessionStorage.setItem("price", item.price);
+            ? item.dims[0] + "x" + item.dims[1] + "x" + item.dims[2]
+            : item.title.includes("Hex") || item.title.includes("Round Bar")
+            ? "∅" + item.dims[0]
+            : item.title.includes("Round Tube")
+            ? "∅" + item.dims[0] + "x" + item.dims[1]
+            : item.title.includes("Rectangular Bar")
+            ? item.dims[0] + "x" + item.dims[1]
+            : item.title.includes("Beam")
+            ? item.dims[0] + "x" + item.dims[2] + "x" + item.dims[1]
+            : item.title.includes("Bulb")
+            ? item.dims[0]
+            : item.dims[0] + "x" + item.dims[1] + "x" + item.dims[2],
+        length:
+          item.title.includes("Plates") || item.title.includes("Flat")
+            ? "-"
+            : item.title.includes("Angle") ||
+              item.title.includes("Rectangular Tube") ||
+              item.title.includes("Channel") ||
+              item.title.includes("Beam")
+            ? item.dims[4]
+            : item.title.includes("Hex") || item.title.includes("Rectangular Bar") || item.title.includes("Round Tube")
+            ? item.dims[2]
+            : item.title.includes("Round Bar") || item.title.includes("Bulb")
+            ? item.dims[1]
+            : item.dims[0],
+        quantity: item.dims[3],
+        weight: item.weight,
+        price: item.price,
+      };
+      writeCart(tempObj);
     };
 
     return {
@@ -2293,6 +2293,22 @@ const ProductDetails = ({ renderItem }) => {
               >
                 Add to Cart
               </button>
+            </div>
+            <div className="complete_params">
+              <span
+                style={{
+                  display:
+                    item.roundBar || item.bulb
+                      ? item.dims[0] === "" || item.dims[1] === ""
+                        ? "block"
+                        : "none"
+                      : item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === "" || item.dims[4] === ""
+                      ? "block"
+                      : "none",
+                }}
+              >
+                Please fill in required fields.
+              </span>
             </div>
           </div>
         ),

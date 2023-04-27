@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./customShape.css";
 import { useEffect, useRef, useState } from "react";
 import makerjs from "makerjs";
+import { writeCart } from "../../services/storageCart";
 
 const CustomShape = () => {
   const [diam1, setDiam1] = useState("");
@@ -283,81 +284,78 @@ const CustomShape = () => {
   }
 
   const handleAddProducts = () => {
-    sessionStorage.setItem("description", material === "Inox" ? `Stainless Steel Shape_${shape}` : `${material} Shape_${shape}`);
-    sessionStorage.setItem(
-      "size",
-      shape === "Disc"
-        ? "Ø" + diam1 + "x" + thickness
-        : shape === "Ring" || shape === "Star"
-        ? "Ø" + diam1 + "xØ" + diam2 + "x" + thickness
-        : shape === "Gusset"
-        ? length1 + "x" + length2 + "x" + thickness
-        : ""
-    );
-    sessionStorage.setItem("length", "-");
-    sessionStorage.setItem("quantity", qty);
-    sessionStorage.setItem(
-      "weight",
-      shape === "Disc"
-        ? diam1 === "" || thickness === "" || material === "---"
-          ? ""
-          : (Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density * qty).toFixed(2)
-        : shape === "Ring"
-        ? diam1 === "" || diam2 === "" || thickness === "" || material === "---"
-          ? ""
-          : (
-              (Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
-                Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) *
-              qty
-            ).toFixed(2)
-        : shape === "Gusset"
-        ? length1 === "" || length2 === "" || thickness === "" || material === "---"
-          ? ""
-          : ((((((density / 1000) * thickness * length1) / 1000) * length2) / 1000 / 2) * qty).toFixed(2)
-        : shape === "Star"
-        ? diam1 === "" || diam2 === "" || sideNo === "" || thickness === "" || material === "---"
-          ? ""
-          : (
-              ((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
-                Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) /
-                2) *
-              qty
-            ).toFixed(2)
-        : ""
-    );
-    sessionStorage.setItem(
-      "price",
-      shape === "Disc"
-        ? diam1 === "" || thickness === "" || material === "---"
-          ? ""
-          : (((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density * price) / 1000) * qty).toFixed(2)
-        : shape === "Ring"
-        ? diam1 === "" || diam2 === "" || thickness === "" || material === "---"
-          ? ""
-          : (
-              (((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
-                Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) *
-                price) /
-                1000) *
-              qty
-            ).toFixed(2)
-        : shape === "Gusset"
-        ? length1 === "" || length2 === "" || thickness === "" || material === "---"
-          ? ""
-          : ((((((((density / 1000) * thickness * length1) / 1000) * length2) / 1000 / 2) * price) / 1000) * qty).toFixed(2)
-        : shape === "Star"
-        ? diam1 === "" || diam2 === "" || sideNo === "" || thickness === "" || material === "---"
-          ? ""
-          : (
-              ((((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
-                Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) /
-                2) *
-                price) /
-                1000) *
-              qty
-            ).toFixed(2)
-        : ""
-    );
+    const tempObj = {
+      description: material === "Inox" ? `Stainless Steel Shape_${shape}` : `${material} Shape_${shape}`,
+      size:
+        shape === "Disc"
+          ? "Ø" + diam1 + "x" + thickness
+          : shape === "Ring" || shape === "Star"
+          ? "Ø" + diam1 + "xØ" + diam2 + "x" + thickness
+          : shape === "Gusset"
+          ? length1 + "x" + length2 + "x" + thickness
+          : "",
+      length: "-",
+      quantity: qty,
+      weight:
+        shape === "Disc"
+          ? diam1 === "" || thickness === "" || material === "---"
+            ? ""
+            : (Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density * qty).toFixed(2)
+          : shape === "Ring"
+          ? diam1 === "" || diam2 === "" || thickness === "" || material === "---"
+            ? ""
+            : (
+                (Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
+                  Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) *
+                qty
+              ).toFixed(2)
+          : shape === "Gusset"
+          ? length1 === "" || length2 === "" || thickness === "" || material === "---"
+            ? ""
+            : ((((((density / 1000) * thickness * length1) / 1000) * length2) / 1000 / 2) * qty).toFixed(2)
+          : shape === "Star"
+          ? diam1 === "" || diam2 === "" || sideNo === "" || thickness === "" || material === "---"
+            ? ""
+            : (
+                ((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
+                  Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) /
+                  2) *
+                qty
+              ).toFixed(2)
+          : "",
+      price:
+        shape === "Disc"
+          ? diam1 === "" || thickness === "" || material === "---"
+            ? ""
+            : (((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density * price) / 1000) * qty).toFixed(2)
+          : shape === "Ring"
+          ? diam1 === "" || diam2 === "" || thickness === "" || material === "---"
+            ? ""
+            : (
+                (((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
+                  Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) *
+                  price) /
+                  1000) *
+                qty
+              ).toFixed(2)
+          : shape === "Gusset"
+          ? length1 === "" || length2 === "" || thickness === "" || material === "---"
+            ? ""
+            : ((((((((density / 1000) * thickness * length1) / 1000) * length2) / 1000 / 2) * price) / 1000) * qty).toFixed(2)
+          : shape === "Star"
+          ? diam1 === "" || diam2 === "" || sideNo === "" || thickness === "" || material === "---"
+            ? ""
+            : (
+                ((((Math.PI * (diam1 / 1000 / 2) ** 2 * (thickness / 1000) * density -
+                  Math.PI * (diam2 / 1000 / 2) ** 2 * (thickness / 1000) * density) /
+                  2) *
+                  price) /
+                  1000) *
+                qty
+              ).toFixed(2)
+          : "",
+    };
+    writeCart(tempObj);
   };
 
   return (

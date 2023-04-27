@@ -2,6 +2,7 @@ import "./concentricFrustum.css";
 import photo from "../../assets/concentricFrustum.png";
 import { useEffect, useRef, useState } from "react";
 import makerjs from "makerjs";
+import { writeCart } from "../../services/storageCart";
 
 const ConcentricFrustum = () => {
   const [diam1, setDiam1] = useState("");
@@ -218,42 +219,36 @@ const ConcentricFrustum = () => {
   }
 
   const handleAddProducts = () => {
-    sessionStorage.setItem(
-      "description",
-      material === "Inox" ? `Stainless Steel Shape_ConcentricFrustum` : `${material} Shape_ConcentricFrustum`
-    );
-    sessionStorage.setItem(
-      "size",
-      Math.max(pointsLine1[1][0], pointsLine1[0][0], pointsLine2[1][0], pointsLine2[0][0]).toFixed(0) +
+    const tempObj = {
+      description: material === "Inox" ? `Stainless Steel Shape_ConcentricFrustum` : `${material} Shape_ConcentricFrustum`,
+      size:
+        Math.max(pointsLine1[1][0], pointsLine1[0][0], pointsLine2[1][0], pointsLine2[0][0]).toFixed(0) +
         "x" +
         Math.max(pointsLine1[0][1], pointsLine1[1][1], pointsLine2[0][1], pointsLine2[1][1]).toFixed(0) +
         "x" +
-        thickness
-    );
-    sessionStorage.setItem("length", "-");
-    sessionStorage.setItem("quantity", "2");
-    sessionStorage.setItem(
-      "weight",
-      (
-        0.000001 *
-        density *
-        thickness *
-        (Math.max(pointsLine1[1][0], pointsLine1[0][0], pointsLine2[1][0], pointsLine2[0][0]).toFixed(0) / 1000) *
-        Math.max(pointsLine1[0][1], pointsLine1[1][1], pointsLine2[0][1], pointsLine2[1][1]).toFixed(0)
-      ).toFixed(2) * 2
-    );
-    sessionStorage.setItem(
-      "price",
-      (
-        ((0.000001 *
+        thickness,
+      length: "-",
+      quantity: 2,
+      weight:
+        (
+          0.000001 *
           density *
           thickness *
-          (Math.max(pointsLine1[1][0], pointsLine1[0][0], pointsLine2[1][0], pointsLine2[0][0]) / 1000) *
-          Math.max(pointsLine1[0][1], pointsLine1[1][1], pointsLine2[0][1], pointsLine2[1][1])) /
-          1000) *
-        price
-      ).toFixed(2) * 2
-    );
+          (Math.max(pointsLine1[1][0], pointsLine1[0][0], pointsLine2[1][0], pointsLine2[0][0]).toFixed(0) / 1000) *
+          Math.max(pointsLine1[0][1], pointsLine1[1][1], pointsLine2[0][1], pointsLine2[1][1]).toFixed(0)
+        ).toFixed(2) * 2,
+      price:
+        (
+          ((0.000001 *
+            density *
+            thickness *
+            (Math.max(pointsLine1[1][0], pointsLine1[0][0], pointsLine2[1][0], pointsLine2[0][0]) / 1000) *
+            Math.max(pointsLine1[0][1], pointsLine1[1][1], pointsLine2[0][1], pointsLine2[1][1])) /
+            1000) *
+          price
+        ).toFixed(2) * 2,
+    };
+    writeCart(tempObj);
   };
 
   return (
