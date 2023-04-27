@@ -23,7 +23,7 @@ const Home = () => {
             <div className="content_header"></div>
             <div className="content_main">
               <span>
-                <em style={{ fontSize: 30, fontWeight: "bold" }}>Shop your products Online!</em>
+                <em>Shop your products Online!</em>
                 &nbsp; Whether you're looking for a sturdy base for your construction project or a sleek finish for your interior design,
                 our wide range of high-quality products have got you covered. With a diverse selection of materials to choose from, we offer
                 a variety of options that can meet the specific requirements of your project. So why wait? Unleash the power of metals today

@@ -1,10 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { writeCart } from "../../services/storageCart";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 const ProductDetails = ({ renderItem }) => {
   const imgRef = useRef(null);
   const imgRef2 = useRef(null);
+  const cartButton = useRef(null);
 
+  const [disableAddToCartButton, setDisableAddToCartButton] = useState(false);
+  const [addToCartAnimation, setAddToCartAnimation] = useState(false);
+  const [cartItemsNo, setCartItemsNo] = useState(0);
   const [isImgScaled, setIsImgScaled] = useState(false);
   const [isImg2Scaled, setIsImg2Scaled] = useState(false);
   const [steelPlateLength, setSteelPlateLength] = useState("");
@@ -178,6 +184,7 @@ const ProductDetails = ({ renderItem }) => {
   }, [imgRef2]);
 
   useEffect(() => {
+    setCartItemsNo(0);
     setSteelPlateLength("");
     setSteelPlateWidth("");
     setSteelPlateThickness("");
@@ -2093,6 +2100,16 @@ const ProductDetails = ({ renderItem }) => {
 
   const products = prodInfo.map((item, index) => {
     const handleAddProducts = () => {
+      setAddToCartAnimation(true);
+      setDisableAddToCartButton(true);
+      cartButton.current.disabled = true;
+      setCartItemsNo((prev) => prev + 1);
+      setTimeout(() => {
+        setAddToCartAnimation(false);
+        setDisableAddToCartButton(false);
+        cartButton.current.disabled = false;
+      }, 1700);
+
       const tempObj = {
         description: item.title.slice(0, -1),
         size:
@@ -2143,7 +2160,7 @@ const ProductDetails = ({ renderItem }) => {
               </span>
             </div>
             <div className="product_props">
-              <div>
+              <div className="product_props_info">
                 <span style={{ textDecoration: "underline", color: "yellow", marginBottom: 20 }}>Mechanical Properties:</span>
                 <br />
                 {item.properties.map((item, index) => {
@@ -2174,115 +2191,113 @@ const ProductDetails = ({ renderItem }) => {
               />
             </div>
             <div className="product_size">
-              <span style={{ textDecoration: "underline", color: "yellow" }}>Set dimensions:</span> <br />
-              {item.bulb ? (
-                <>
-                  <span style={{ marginRight: item.dimsText1Margin }}>{item.dimsText1}</span>
-                  <select id="with-value" type="text" required onChange={item.dimsFuncs[0]}>
-                    <option value="">Your profile...</option>
-                    {Object.keys(bulbTypes).map((item, index) => (
-                      <option key={index}>{item}</option>
-                    ))}
-                  </select>
-                </>
-              ) : (
-                <>
-                  <span style={{ marginRight: item.dimsText1Margin }}>{item.dimsText1}</span>
-                  <input id="with-value" type="text" required onChange={item.dimsFuncs[0]} />
-                </>
-              )}
-              <span style={{ marginLeft: 30, marginRight: 10 }}>Density (kg/m³):</span>
-              <input
-                type="text"
-                readOnly
-                value={item.density}
-                style={{
-                  background: "black",
-                  color: "white",
-                }}
-              />
-              <br />
-              <span style={{ marginRight: item.dimsText2Margin }}>{item.dimsText2}</span>
-              {item.value ? (
-                <input type="text" required onChange={item.dimsFuncs[1]} value={item.value} />
-              ) : (
-                <input type="text" required onChange={item.dimsFuncs[1]} />
-              )}
-              <span style={{ marginLeft: 30, marginRight: 38 }}>Weight (kg):</span>
-              <input
-                type="text"
-                readOnly
-                value={
-                  item.roundBar || item.bulb
-                    ? item.dims[0] === "" || item.dims[1] === ""
+              <div className="product_size_input">
+                <span style={{ textDecoration: "underline", color: "yellow" }}>Set dimensions:</span>
+                <br />
+                {item.bulb ? (
+                  <>
+                    <span style={{ marginRight: item.dimsText1Margin }}>{item.dimsText1}</span>
+                    <select id="with-value" type="text" required onChange={item.dimsFuncs[0]}>
+                      <option value="">Your profile...</option>
+                      {Object.keys(bulbTypes).map((item, index) => (
+                        <option key={index}>{item}</option>
+                      ))}
+                    </select>
+                  </>
+                ) : (
+                  <>
+                    <span style={{ marginRight: item.dimsText1Margin }}>{item.dimsText1}</span>
+                    <input id="with-value" type="text" required onChange={item.dimsFuncs[0]} />
+                  </>
+                )}
+                <br />
+                <span style={{ marginRight: item.dimsText2Margin }}>{item.dimsText2}</span>
+                {item.value ? (
+                  <input type="text" required onChange={item.dimsFuncs[1]} value={item.value} />
+                ) : (
+                  <input type="text" required onChange={item.dimsFuncs[1]} />
+                )}
+                <br />
+                {item.roundBar || item.bulb ? (
+                  ""
+                ) : (
+                  <>
+                    <span style={{ marginRight: item.dimsText3Margin }}>{item.dimsText3}</span>
+                    <input type="text" required onChange={item.dimsFuncs[2]} />
+                    <br />
+                  </>
+                )}
+                {item.rectTube || item.angleBar || item.channel || item.beam ? (
+                  <>
+                    <span style={{ marginRight: item.dimsText5Margin }}>{item.dimsText5}</span>
+                    <input type="text" required onChange={item.dimsFuncs[4]} /> <br />
+                  </>
+                ) : (
+                  ""
+                )}
+                {item.roundBar || item.bulb ? (
+                  <>
+                    <span style={{ marginRight: item.dimsText4Margin }}>{item.dimsText4}</span>
+                    <input type="number" min={1} defaultValue={1} onChange={item.dimsFuncs[3]} style={{}} />
+                  </>
+                ) : (
+                  <>
+                    <span style={{ marginRight: item.dimsText4Margin }}>{item.dimsText4}</span>
+                    <input type="number" min={1} defaultValue={1} onChange={item.dimsFuncs[3]} style={{}} /> <br />
+                  </>
+                )}
+              </div>
+              <div className="product_size_output">
+                <span style={{ marginRight: 10 }}>Density (kg/m³):</span>
+                <input
+                  type="text"
+                  readOnly
+                  value={item.density}
+                  style={{
+                    background: "black",
+                    color: "white",
+                  }}
+                />
+                <br />
+                <span style={{ marginRight: 38 }}>Weight (kg):</span>
+                <input
+                  type="text"
+                  readOnly
+                  value={
+                    item.roundBar || item.bulb
+                      ? item.dims[0] === "" || item.dims[1] === ""
+                        ? ""
+                        : item.weight
+                      : item.rectTube || item.angleBar || item.channel || item.beam
+                      ? item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === "" || item.dims[4] === ""
+                        ? ""
+                        : item.weight
+                      : item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === ""
                       ? ""
                       : item.weight
-                    : item.rectTube || item.angleBar || item.channel || item.beam
-                    ? item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === "" || item.dims[4] === ""
-                      ? ""
-                      : item.weight
-                    : item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === ""
-                    ? ""
-                    : item.weight
-                }
-                style={{
-                  background: "black",
-                  color: "white",
-                }}
-                key={index}
-              />
-              <br />
-              {item.roundBar || item.bulb ? (
-                ""
-              ) : (
-                <>
-                  <span style={{ marginRight: item.dimsText3Margin }}>{item.dimsText3}</span>
-                  <input type="text" required onChange={item.dimsFuncs[2]} />
-                  <span style={{ marginLeft: 30, marginRight: 63 }}>Price ($):</span>
-                  <input
-                    type="text"
-                    readOnly
-                    value={item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === "" || item.dims[4] === "" ? "" : item.price}
-                    style={{
-                      background: "black",
-                      color: "white",
-                    }}
-                  />
-                  <br />
-                </>
-              )}
-              {item.rectTube || item.angleBar || item.channel || item.beam ? (
-                <>
-                  <span style={{ marginRight: item.dimsText5Margin }}>{item.dimsText5}</span>
-                  <input type="text" required onChange={item.dimsFuncs[4]} /> <br />
-                </>
-              ) : (
-                ""
-              )}
-              {item.roundBar || item.bulb ? (
-                <>
-                  <span style={{ marginRight: item.dimsText4Margin }}>{item.dimsText4}</span>
-                  <input type="number" min={1} defaultValue={1} onChange={item.dimsFuncs[3]} style={{}} />
-                  <span style={{ marginLeft: 30, marginRight: 63 }}>Price ($):</span>
-                  <input
-                    type="text"
-                    readOnly
-                    value={item.dims[0] === "" || item.dims[1] === "" ? "" : item.price}
-                    style={{
-                      background: "black",
-                      color: "white",
-                    }}
-                  />
-                </>
-              ) : (
-                <>
-                  <span style={{ marginRight: item.dimsText4Margin }}>{item.dimsText4}</span>
-                  <input type="number" min={1} defaultValue={1} onChange={item.dimsFuncs[3]} style={{}} /> <br />
-                </>
-              )}
+                  }
+                  style={{
+                    background: "black",
+                    color: "white",
+                  }}
+                  key={index}
+                />
+                <br />
+                <span style={{ marginRight: 63 }}>Price ($):</span>
+                <input
+                  type="text"
+                  readOnly
+                  value={item.dims[0] === "" || item.dims[1] === "" ? "" : item.price}
+                  style={{
+                    background: "black",
+                    color: "white",
+                  }}
+                />
+              </div>
             </div>
             <div className="product_cart">
               <button
+                ref={cartButton}
                 className="product_cart_button"
                 onClick={handleAddProducts}
                 disabled={
@@ -2308,6 +2323,9 @@ const ProductDetails = ({ renderItem }) => {
                 }}
               >
                 Please fill in required fields.
+              </span>
+              <span className={`${addToCartAnimation ? "animate_cart" : ""}`} style={{ display: addToCartAnimation ? "block" : "none" }}>
+                <FontAwesomeIcon icon={faShoppingCart} /> {cartItemsNo}
               </span>
             </div>
           </div>

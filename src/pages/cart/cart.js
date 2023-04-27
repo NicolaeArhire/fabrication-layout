@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faTruck, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import { getCities, getPoints, getDistance } from "../../services/api";
-import { deleteFromCart, readCart } from "../../services/storageCart";
+import { clearCart, deleteFromCart, readCart } from "../../services/storageCart";
 
 const Cart = () => {
   const shippingRef = useRef();
@@ -60,6 +60,11 @@ const Cart = () => {
     setCartItems(readCart());
   };
 
+  const handleClearCart = () => {
+    clearCart();
+    setCartItems(readCart());
+  };
+
   const handleShipping = () => {
     shippingRef.current.style.display = "flex";
   };
@@ -88,7 +93,7 @@ const Cart = () => {
             </tr>
           </thead>
         </Table>
-        <div className="xxx">
+        <div className="cart_items">
           <Table bordered variant="dark" className="cart_table">
             <tbody>
               {cartItems.length > 0 ? (
@@ -123,60 +128,67 @@ const Cart = () => {
           </Table>
         </div>
         <div className="table_totals">
-          <Table bordered variant="dark" className="cart_table2">
-            <thead>
-              <tr>
-                <th>Total Weight</th>
-                {cartItems.length > 0 ? (
-                  <th key="1">{cartItems.reduce((prev, item) => prev + parseFloat(item.weight), 0).toFixed(2)} kg</th>
-                ) : (
-                  <th>-</th>
-                )}
-              </tr>
-            </thead>
-          </Table>
-          <Table bordered variant="dark" className="cart_table2A">
-            <thead>
-              <tr>
-                <th>Subtotal Cost</th>
-                {cartItems.length > 0 ? (
-                  <th key="2">{cartItems.reduce((prev, item) => prev + parseFloat(item.price), 0).toFixed(2)} $</th>
-                ) : (
-                  <th>-</th>
-                )}
-              </tr>
-            </thead>
-          </Table>
-          <Table bordered variant="dark" className="cart_table3">
-            <thead>
-              <tr>
-                <th onClick={handleShipping} style={{ cursor: "pointer" }}>
-                  Shipping <FontAwesomeIcon icon={faTruck} />
-                </th>
-                <td ref={shippingCostRef}>{cartItems.length > 0 ? shipping : "-"}</td>
-              </tr>
-            </thead>
-          </Table>
-          <Table bordered variant="dark" className="cart_table4">
-            <thead>
-              <tr>
-                <th>E.T.A.</th>
-                <th>{cartItems.length > 0 ? arrival : "See shipping"}</th>
-              </tr>
-            </thead>
-          </Table>
-          <Table bordered variant="dark" className="cart_table5">
-            <thead>
-              <tr>
-                <th>Total Order</th>
-                <th key="3">
-                  {shipping === "Sorry. We don't go there." || shipping === "-" || cartItems.length <= 0
-                    ? "See shipping"
-                    : `${(cartItems.reduce((prev, item) => prev + parseFloat(item.price), 0) + parseFloat(shipping)).toFixed(2)} $`}
-                </th>
-              </tr>
-            </thead>
-          </Table>
+          <div className="clear_all_items">
+            <button disabled={cartItems.length <= 0} onClick={handleClearCart}>
+              Clear All
+            </button>
+          </div>
+          <div className="order_totals">
+            <Table bordered variant="dark" className="cart_table2">
+              <thead>
+                <tr>
+                  <th>Total Weight</th>
+                  {cartItems.length > 0 ? (
+                    <th key="1">{cartItems.reduce((prev, item) => prev + parseFloat(item.weight), 0).toFixed(2)} kg</th>
+                  ) : (
+                    <th>-</th>
+                  )}
+                </tr>
+              </thead>
+            </Table>
+            <Table bordered variant="dark" className="cart_table2A">
+              <thead>
+                <tr>
+                  <th>Subtotal Cost</th>
+                  {cartItems.length > 0 ? (
+                    <th key="2">{cartItems.reduce((prev, item) => prev + parseFloat(item.price), 0).toFixed(2)} $</th>
+                  ) : (
+                    <th>-</th>
+                  )}
+                </tr>
+              </thead>
+            </Table>
+            <Table bordered variant="dark" className="cart_table3">
+              <thead>
+                <tr>
+                  <th onClick={handleShipping} style={{ cursor: "pointer" }}>
+                    Shipping <FontAwesomeIcon icon={faTruck} />
+                  </th>
+                  <td ref={shippingCostRef}>{cartItems.length > 0 ? shipping : "-"}</td>
+                </tr>
+              </thead>
+            </Table>
+            <Table bordered variant="dark" className="cart_table4">
+              <thead>
+                <tr>
+                  <th>E.T.A.</th>
+                  <th>{cartItems.length > 0 ? arrival : "See shipping"}</th>
+                </tr>
+              </thead>
+            </Table>
+            <Table bordered variant="dark" className="cart_table5">
+              <thead>
+                <tr>
+                  <th>Total Order</th>
+                  <th key="3">
+                    {shipping === "Sorry. We don't go there." || shipping === "-" || cartItems.length <= 0
+                      ? "See shipping"
+                      : `${(cartItems.reduce((prev, item) => prev + parseFloat(item.price), 0) + parseFloat(shipping)).toFixed(2)} $`}
+                  </th>
+                </tr>
+              </thead>
+            </Table>
+          </div>
         </div>
         <div className="check_out">
           <button className="payment_button" onClick={handleCheckOut}>

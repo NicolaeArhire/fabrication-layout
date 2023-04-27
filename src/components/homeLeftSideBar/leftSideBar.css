@@ -1,4 +1,14 @@
+.sidebar_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .sidebar_left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   color: wheat;
   width: 310px;
   height: 100%;
@@ -15,7 +25,9 @@
   height: 50px;
   font-size: 20px;
   color: white;
-  background: #023f50;
+  background: rgb(40, 69, 78);
+  border: 1px solid white;
+  border-top-left-radius: 5px;
 }
 
 .title span {
@@ -34,6 +46,17 @@
 
 .accordion-button {
   font-size: 16px;
+  background: #023f50;
+  color: white;
+}
+
+.accordion-button:focus {
+  border: 1px solid white;
+  text-decoration: none;
+}
+
+.accordion-button:not(.collapsed) {
+  text-decoration: underline;
 }
 
 .accordion-item:first-of-type .accordion-button {
@@ -46,20 +69,30 @@
   border-bottom-left-radius: 0px;
 }
 
-.accordion-button:hover {
-  background-color: rgb(110, 102, 102);
-  color: white;
-}
-
 .accordion {
-  --bs-accordion-btn-icon: url(data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3e%3cpath fill=%27black%27 fill-rule=%27evenodd%27 d=%27M8 1.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-1 0v-12a.5.5 0 0 1 .5-.5zM1.5 8a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 0 1h-12a.5.5 0 0 1-.5-.5z%27/%3e%3c/svg%3e);
+  --bs-accordion-btn-icon: url(data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3e%3cpath fill=%27white%27 fill-rule=%27evenodd%27 d=%27M8 1.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-1 0v-12a.5.5 0 0 1 .5-.5zM1.5 8a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 0 1h-12a.5.5 0 0 1-.5-.5z%27/%3e%3c/svg%3e);
   --bs-accordion-btn-active-icon: url(data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3e%3cpath fill=%27black%27 fill-rule=%27evenodd%27 d=%27M14 8a.5.5 0 0 1-.5.5H2a.5.5 0 0 1 0-1h11.5A.5.5 0 0 1 14 8z%27/%3e%3c/svg%3e);
-  --bs-accordion-active-bg: #ffffff;
-  --bs-accordion-active-color: red;
+  --bs-accordion-active-bg: rgb(188, 194, 194);
+  --bs-accordion-active-color: rgb(19, 18, 18);
+  --bs-accordion-border-radius: 0px;
+  --bs-accordion-btn-focus-border: 1px solid white;
+  --bs-accordion-btn-focus-box-shadow: var(--bs-accordion-btn-focus-border-color);
 }
 
 .accordion-body {
   padding-top: 5px;
   padding-bottom: 5px;
-  background: #023f50;
+  background: rgb(22, 24, 24);
+}
+
+@media screen and (max-width: 500px) {
+  .sidebar_left {
+    margin-left: 0px;
+    margin-top: 55px;
+    width: 350px;
+  }
+
+  .title {
+    border-top-right-radius: 5px;
+  }
 }

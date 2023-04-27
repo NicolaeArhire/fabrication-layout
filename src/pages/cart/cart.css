@@ -27,7 +27,7 @@
   /* border: 1px solid red; */
 }
 
-.xxx {
+.cart_items {
   font-size: 17px;
   border-bottom: 1px solid white;
   width: 1200px;
@@ -130,6 +130,36 @@
 }
 
 .table_totals {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.clear_all_items {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.clear_all_items button {
+  width: 100px;
+  font-size: 17px;
+  border-radius: 10px;
+  background: rgb(87, 81, 81);
+  color: cyan;
+  border: 1px solid cyan;
+}
+
+.clear_all_items button:not(:disabled):hover {
+  background: rgb(41, 38, 38);
+}
+
+.clear_all_items button:disabled:hover {
+  cursor: not-allowed;
+}
+
+.order_totals {
   width: 100%;
   display: flex;
   flex-direction: column;

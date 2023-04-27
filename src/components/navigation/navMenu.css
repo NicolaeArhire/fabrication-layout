@@ -6,7 +6,7 @@
   align-items: center;
   width: fit-content;
   height: fit-content;
-  margin-left: 90px;
+  margin-left: 100px;
   margin-top: 10px;
   border-radius: 10px;
   z-index: 0;
@@ -15,9 +15,11 @@
 
 .chosen_tab {
   font-size: 24px;
-  text-decoration: underline cyan;
   padding-left: 10px;
   padding-right: 10px;
+  border: 1px solid white;
+  border-radius: 10px;
+  background: rgba(2, 59, 59, 0.5);
 }
 
 .products_in_cart {

@@ -125,7 +125,7 @@
 }
 
 .canvas_container.scale {
-  transform: scale(1.8) translate(0, -50px);
+  transform: scale(1.8) translate(0, -60px);
 }
 
 .menu_button {

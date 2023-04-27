@@ -38,6 +38,11 @@
   align-items: center;
 }
 
+.content_main span em {
+  font-size: 30px;
+  font-weight: bold;
+}
+
 .content_right {
   display: flex;
   flex-direction: column;
@@ -73,5 +78,40 @@
   }
   100% {
     background-image: url("../../assets/home/header1.png");
+  }
+}
+
+@media screen and (max-width: 500px) {
+  #homePage_container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content_right {
+    width: 250px;
+    margin-top: 10px;
+    margin-right: 0px;
+    height: auto;
+    border: none;
+  }
+
+  .content {
+    width: 350px;
+    height: auto;
+  }
+
+  .content_header {
+    width: 350px;
+    height: 232px;
+  }
+
+  .content_main {
+    width: 350px;
+    font-size: 16px;
+  }
+
+  .content_main span em {
+    font-size: 20px;
+    font-weight: bold;
   }
 }

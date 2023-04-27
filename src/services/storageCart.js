@@ -13,8 +13,15 @@ const readCart = () => {
 const deleteFromCart = (index) => {
   const storedCartStr = sessionStorage.getItem("cart");
   const storedCart = storedCartStr ? JSON.parse(storedCartStr) : [];
-  const removedItemFromCart = storedCart.splice(index, 1);
+  storedCart.splice(index, 1);
   sessionStorage.setItem("cart", JSON.stringify(storedCart));
 };
 
-export { writeCart, deleteFromCart, readCart };
+const clearCart = () => {
+  const storedCartStr = sessionStorage.getItem("cart");
+  const storedCart = storedCartStr ? JSON.parse(storedCartStr) : [];
+  storedCart.splice(0, storedCart.length);
+  sessionStorage.setItem("cart", JSON.stringify(storedCart));
+};
+
+export { writeCart, deleteFromCart, clearCart, readCart };

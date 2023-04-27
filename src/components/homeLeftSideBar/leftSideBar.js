@@ -1,7 +1,6 @@
+import Accordion from "react-bootstrap/Accordion";
 import "./leftSideBar.css";
 import "./products.css";
-
-import Accordion from "react-bootstrap/Accordion";
 
 const LeftSideBar = ({ onSelect }) => {
   const productAccordion = [
@@ -73,35 +72,43 @@ const LeftSideBar = ({ onSelect }) => {
     },
   ];
 
+  const handleBottomScroll = () => {
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+
   return (
-    <div className="sidebar_left">
-      <div className="title">
-        <span>PICK YOUR PRODUCT:</span>
+    <div className="sidebar_container">
+      <div className="sidebar_left">
+        <div className="title">
+          <span>PICK YOUR PRODUCT:</span>
+        </div>
+
+        <Accordion>
+          {productAccordion.map((item, index) => (
+            <Accordion.Item key={index} eventKey={index}>
+              <Accordion.Header>
+                <img src={item.img} alt={item.imgAlt} style={{ width: 30, height: 30, marginRight: 10 }} /> {item.product}
+              </Accordion.Header>
+              <Accordion.Body>
+                <ul style={{ marginBottom: 0 }}>
+                  {item.productMaterials.map((item, index) => (
+                    <li
+                      key={index}
+                      className="sidebar_profileContent"
+                      onClick={() => {
+                        onSelect(item);
+                        handleBottomScroll();
+                      }}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </Accordion.Body>
+            </Accordion.Item>
+          ))}
+        </Accordion>
       </div>
-      <Accordion>
-        {productAccordion.map((item, index) => (
-          <Accordion.Item key={index} eventKey={index}>
-            <Accordion.Header>
-              <img src={item.img} alt={item.imgAlt} style={{ width: 30, height: 30, marginRight: 10 }} /> {item.product}
-            </Accordion.Header>
-            <Accordion.Body>
-              <ul style={{ marginBottom: 0 }}>
-                {item.productMaterials.map((item, index) => (
-                  <li
-                    key={index}
-                    className="sidebar_profileContent"
-                    onClick={() => {
-                      onSelect(item);
-                    }}
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </Accordion.Body>
-          </Accordion.Item>
-        ))}
-      </Accordion>
     </div>
   );
 };
