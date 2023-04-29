@@ -12,8 +12,15 @@
   margin-left: 15px;
   margin-right: 15px;
 }
+
 .product_intro span {
   text-align: justify;
+}
+
+.product_intro span u {
+  font-size: 18px;
+  color: yellow;
+  margin-left: 50px;
 }
 
 .product_props {
@@ -155,6 +162,10 @@
     border-radius: 10px;
     margin-bottom: 15px;
     border: 1px solid white;
+  }
+
+  .product_intro span u {
+    margin-left: 10px;
   }
 
   .product_props {

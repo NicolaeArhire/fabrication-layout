@@ -2156,7 +2156,7 @@ const ProductDetails = ({ renderItem }) => {
           <div className="content_plates" key={index}>
             <div className="product_intro">
               <span>
-                <u style={{ marginLeft: 50, color: "yellow", fontSize: 18 }}>{item.title}</u> {item.description}
+                <u>{item.title}</u> {item.description}
               </span>
             </div>
             <div className="product_props">
@@ -2287,7 +2287,19 @@ const ProductDetails = ({ renderItem }) => {
                 <input
                   type="text"
                   readOnly
-                  value={item.dims[0] === "" || item.dims[1] === "" ? "" : item.price}
+                  value={
+                    item.roundBar || item.bulb
+                      ? item.dims[0] === "" || item.dims[1] === ""
+                        ? ""
+                        : item.price
+                      : item.rectTube || item.angleBar || item.channel || item.beam
+                      ? item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === "" || item.dims[4] === ""
+                        ? ""
+                        : item.price
+                      : item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === ""
+                      ? ""
+                      : item.price
+                  }
                   style={{
                     background: "black",
                     color: "white",

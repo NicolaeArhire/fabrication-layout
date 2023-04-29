@@ -80,57 +80,59 @@ const Cart = () => {
   return (
     <div className="cart_container">
       <div className="cart_content">
-        <Table className="cart_table_head">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Item description</th>
-              <th>Size (mm)</th>
-              <th>Length (m)</th>
-              <th>Qty (pcs)</th>
-              <th>Weight</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-        </Table>
-        <div className="cart_items">
-          <Table bordered variant="dark" className="cart_table">
-            <tbody>
-              {cartItems.length > 0 ? (
-                cartItems.map((item, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>
-                        {index + 1}.
-                        <FontAwesomeIcon
-                          icon={faTrashAlt}
-                          onClick={() => handleDeleteItem(index)}
-                          style={{ marginLeft: 10, cursor: "pointer" }}
-                        />
-                      </td>
-                      <td>{item.description}</td>
-                      <td>{item.size}</td>
-                      <td>{item.length}</td>
-                      <td>{item.quantity}</td>
-                      <td>{item.weight} kg</td>
-                      <td>{item.price} $</td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr>
-                  <td colSpan="7" className="empty_cart">
-                    Your cart is empty.
-                  </td>
-                </tr>
-              )}
-            </tbody>
+        <div className="cart_head_plus_items">
+          <Table className="cart_table_head">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Item</th>
+                <th>Size (mm)</th>
+                <th>Length (m)</th>
+                <th>Qty (pcs)</th>
+                <th>Weight</th>
+                <th>Price</th>
+              </tr>
+            </thead>
           </Table>
+          <div className="cart_items">
+            <Table bordered variant="dark" className="cart_table">
+              <tbody>
+                {cartItems.length > 0 ? (
+                  cartItems.map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>
+                          {index + 1}.
+                          <FontAwesomeIcon
+                            icon={faTrashAlt}
+                            onClick={() => handleDeleteItem(index)}
+                            style={{ marginLeft: 10, cursor: "pointer" }}
+                          />
+                        </td>
+                        <td>{item.description}</td>
+                        <td>{item.size}</td>
+                        <td>{item.length}</td>
+                        <td>{item.quantity}</td>
+                        <td>{item.weight} kg</td>
+                        <td>{item.price} $</td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan="7" className="empty_cart" contains="Empty">
+                      Your cart is empty.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
+          </div>
         </div>
         <div className="table_totals">
           <div className="clear_all_items">
             <button disabled={cartItems.length <= 0} onClick={handleClearCart}>
-              Clear All
+              Clear Cart
             </button>
           </div>
           <div className="order_totals">
