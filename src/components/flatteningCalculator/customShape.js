@@ -3,8 +3,12 @@ import "./customShape.css";
 import { useEffect, useRef, useState } from "react";
 import makerjs from "makerjs";
 import { writeCart } from "../../services/storageCart";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 const CustomShape = () => {
+  const [addToCartAnimation, setAddToCartAnimation] = useState(false);
+  const [cartItemsNo, setCartItemsNo] = useState(0);
   const [diam1, setDiam1] = useState("");
   const [diam2, setDiam2] = useState("");
   const [length1, setLength1] = useState("");
@@ -284,6 +288,12 @@ const CustomShape = () => {
   }
 
   const handleAddProducts = () => {
+    setAddToCartAnimation(true);
+    setCartItemsNo((prev) => prev + 1);
+    setTimeout(() => {
+      setAddToCartAnimation(false);
+    }, 1700);
+
     const tempObj = {
       description: material === "Inox" ? `Stainless Steel Shape_${shape}` : `${material} Shape_${shape}`,
       size:
@@ -685,7 +695,7 @@ const CustomShape = () => {
             Download custom shape
           </button>
           <button
-            className="geometryToCart"
+            className={`${addToCartAnimation ? "geometryToCart animate_cart_customShape" : "geometryToCart"}`}
             onClick={handleAddProducts}
             disabled={
               shape === "Disc"
@@ -699,7 +709,13 @@ const CustomShape = () => {
                 : ""
             }
           >
-            Add plate to cart
+            {addToCartAnimation ? (
+              <>
+                <FontAwesomeIcon icon={faShoppingCart} /> {cartItemsNo}
+              </>
+            ) : (
+              "Add plate to cart"
+            )}
           </button>
         </div>
       </div>

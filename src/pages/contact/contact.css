@@ -110,11 +110,10 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  width: 100%;
   margin-bottom: 15px;
   margin-top: 15px;
   z-index: 0;
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
 .right_mail {
@@ -338,8 +337,13 @@
   border-radius: 4px;
 }
 
-.contact_send_button:hover {
+.contact_send_button:not(:disabled):hover {
   background: rgb(0, 0, 0);
+}
+
+.contact_send_button:disabled {
+  cursor: not-allowed;
+  background: rgb(14, 139, 170);
 }
 
 .contact_send_button.animate {
@@ -347,6 +351,11 @@
   animation-duration: 2.5s;
   animation-timing-function: ease;
   animation-fill-mode: both;
+}
+
+.message_confirmation {
+  color: cyan;
+  margin-left: 15px;
 }
 
 .icon_send {

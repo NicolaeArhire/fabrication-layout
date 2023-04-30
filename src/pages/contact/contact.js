@@ -4,12 +4,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle, faTwitter, faYoutube, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { faPaperPlane, faPhone, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import Typewriter from "typewriter-effect";
+import emailjs from "@emailjs/browser";
 
 const Cart = () => {
   const [isclicked, setIsClicked] = useState(false);
+  const [showMessageConfirmation, setShowMessageConfirmation] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [userMail, setUserMail] = useState("");
+  const [userMessage, setUserMessage] = useState("");
+
+  const userNameInput = useRef(null);
+  const userMailInput = useRef(null);
+  const userMessageInput = useRef(null);
 
   const leftTextRef = useRef(null);
-
   const iconsRef = useRef(null);
   const rightEmailRef = useRef(null);
   const rightIconsRef = useRef(null);
@@ -81,8 +89,39 @@ const Cart = () => {
     setIsClicked(!isclicked);
   };
 
+  const handleUserName = (e) => {
+    setUserName(e.target.value);
+  };
+
+  const handleUserMail = (e) => {
+    setUserMail(e.target.value);
+  };
+
+  const handleUserMessage = (e) => {
+    setUserMessage(e.target.value);
+  };
+
+  const emailData = {
+    to_name: "Nick",
+    from_name: userName,
+    reply_to: userMail,
+    message: userMessage,
+  };
+
   const handleSendMessage = () => {
-    alert("Sorry. We don't accept messages from ugly people.");
+    emailjs.send("service_axii655", "template_qw0poyh", emailData, "qbI7Jc6ts8bm-zmLe").then(
+      (response) => {
+        // console.log("SUCCESS!", response.status, response.text);
+      },
+      (err) => {
+        // console.log("FAILED...", err);
+      }
+    );
+
+    userNameInput.current.value = "";
+    userMailInput.current.value = "";
+    userMessageInput.current.value = "";
+    setShowMessageConfirmation(true);
   };
 
   return (
@@ -152,21 +191,37 @@ const Cart = () => {
           />
         </div>
         <div className="right_floating_content" ref={rightPanelInput1Ref} style={{ marginTop: 10 }}>
-          <input type="text" className="right_floating_input" placeholder=" " required />
+          <input type="text" className="right_floating_input" placeholder=" " required onChange={handleUserName} ref={userNameInput} />
           <label className="right_floating_label">Your Name</label>
         </div>
         <div className="right_floating_content" ref={rightPanelInput2Ref}>
-          <input type="text" className="right_floating_input" placeholder=" " required />
+          <input type="text" className="right_floating_input" placeholder=" " required onChange={handleUserMail} ref={userMailInput} />
           <label className="right_floating_label">Your E-mail</label>
         </div>
         <div className="right_floating_content" ref={rightPanelInput3Ref} style={{ height: 100 }}>
-          <textarea type="text" className="right_floating_input" placeholder=" " required style={{ height: 100, resize: "none" }} />
+          <textarea
+            type="text"
+            className="right_floating_input"
+            placeholder=" "
+            required
+            style={{ height: 100, resize: "none" }}
+            onChange={handleUserMessage}
+            ref={userMessageInput}
+          />
           <label className="right_floating_label">Your Message</label>
         </div>
         <div className="contact_send">
-          <button className="contact_send_button" ref={rightPanelButtonRef} onClick={handleSendMessage}>
+          <button
+            className="contact_send_button"
+            ref={rightPanelButtonRef}
+            onClick={handleSendMessage}
+            disabled={userName === "" || userMail === "" || userMessage === ""}
+          >
             Send <FontAwesomeIcon icon={faPaperPlane} className="icon_send" />
           </button>
+          <span className="message_confirmation" style={{ display: showMessageConfirmation ? "inline" : "none" }}>
+            Message sent!
+          </span>
         </div>
         <div className="rightText_container">
           <div ref={rightEmailRef} className="right_mail">

@@ -8,7 +8,6 @@ const ProductDetails = ({ renderItem }) => {
   const imgRef2 = useRef(null);
   const cartButton = useRef(null);
 
-  const [disableAddToCartButton, setDisableAddToCartButton] = useState(false);
   const [addToCartAnimation, setAddToCartAnimation] = useState(false);
   const [cartItemsNo, setCartItemsNo] = useState(0);
   const [isImgScaled, setIsImgScaled] = useState(false);
@@ -2101,12 +2100,10 @@ const ProductDetails = ({ renderItem }) => {
   const products = prodInfo.map((item, index) => {
     const handleAddProducts = () => {
       setAddToCartAnimation(true);
-      setDisableAddToCartButton(true);
       cartButton.current.disabled = true;
       setCartItemsNo((prev) => prev + 1);
       setTimeout(() => {
         setAddToCartAnimation(false);
-        setDisableAddToCartButton(false);
         cartButton.current.disabled = false;
       }, 1700);
 

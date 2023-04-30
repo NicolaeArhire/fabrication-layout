@@ -3,8 +3,12 @@ import photo from "../../assets/rectToRound.png";
 import { useEffect, useRef, useState } from "react";
 import makerjs from "makerjs";
 import { writeCart } from "../../services/storageCart";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 const RectToRound = () => {
+  const [addToCartAnimation, setAddToCartAnimation] = useState(false);
+  const [cartItemsNo, setCartItemsNo] = useState(0);
   const [diam, setDiam] = useState("");
   const [height, setHeight] = useState("");
   const [length, setLength] = useState("");
@@ -220,6 +224,12 @@ const RectToRound = () => {
   }
 
   const handleAddProducts = () => {
+    setAddToCartAnimation(true);
+    setCartItemsNo((prev) => prev + 1);
+    setTimeout(() => {
+      setAddToCartAnimation(false);
+    }, 1700);
+
     const tempObj = {
       description: material === "Inox" ? `Stainless Steel Shape_RectToRound` : `${material} Shape_RectToRound`,
       size:
@@ -485,11 +495,17 @@ const RectToRound = () => {
             Download file (1/4 of shape)
           </button>
           <button
-            className="geometryToCart"
+            className={`${addToCartAnimation ? "geometryToCart animate_cart_rectToRound" : "geometryToCart"}`}
             disabled={diam === "" || height === "" || length === "" || width === "" || thickness === "" || material === "---"}
             onClick={handleAddProducts}
           >
-            Add plate to cart
+            {addToCartAnimation ? (
+              <>
+                <FontAwesomeIcon icon={faShoppingCart} /> {cartItemsNo}
+              </>
+            ) : (
+              "Add plate to cart"
+            )}{" "}
           </button>
         </div>
       </div>

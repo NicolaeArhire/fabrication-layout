@@ -4,13 +4,17 @@ import photo from "../../assets/pipeByPlane.png";
 import { useEffect, useRef, useState } from "react";
 import makerjs from "makerjs";
 import { writeCart } from "../../services/storageCart";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 const PipeByPlane = ({ modalStatus }) => {
+  const [addToCartAnimation, setAddToCartAnimation] = useState(false);
+  const [cartItemsNo, setCartItemsNo] = useState(0);
   const [diam, setDiam] = useState("");
   const [angle, setAngle] = useState("");
   const [length, setLength] = useState("");
   const [thickness, setThickness] = useState("");
-  const [material, setMaterial] = useState("---");  
+  const [material, setMaterial] = useState("---");
   const [density, setDensity] = useState("");
   const [price, setPrice] = useState("");
   const [closed, setClosed] = useState(true);
@@ -198,6 +202,12 @@ const PipeByPlane = ({ modalStatus }) => {
   }
 
   const handleAddProducts = () => {
+    setAddToCartAnimation(true);
+    setCartItemsNo((prev) => prev + 1);
+    setTimeout(() => {
+      setAddToCartAnimation(false);
+    }, 1700);
+
     const tempObj = {
       description: material === "Inox" ? `Stainless Steel Shape_PipeIntByPlane` : `${material} Shape_PipeIntByPlane`,
       size:
@@ -386,11 +396,17 @@ const PipeByPlane = ({ modalStatus }) => {
             Download file (1/2 of shape)
           </button>
           <button
-            className="geometryToCart"
+            className={`${addToCartAnimation ? "geometryToCart animate_cart_pipeByPlane" : "geometryToCart"}`}
             disabled={diam === "" || length === "" || thickness === "" || material === "---"}
             onClick={handleAddProducts}
           >
-            Add plate to cart
+            {addToCartAnimation ? (
+              <>
+                <FontAwesomeIcon icon={faShoppingCart} /> {cartItemsNo}
+              </>
+            ) : (
+              "Add plate to cart"
+            )}
           </button>
         </div>
       </div>

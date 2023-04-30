@@ -130,16 +130,13 @@
   font-size: 13px;
 }
 
-.complete_params span:nth-of-type(2) {
+.animate_cart {
   width: fit-content;
   background: red;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 10px;
   font-size: 18px;
-}
-
-.animate_cart {
   animation: moveCart 1.7s ease-in-out;
 }
 

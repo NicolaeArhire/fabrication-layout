@@ -255,6 +255,33 @@ select.floating_select {
   cursor: not-allowed;
 }
 
+.animate_cart_customShape {
+  text-align: center;
+  width: 135.53px;
+  height: 28.5px;
+  background: red !important;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 10px;
+  font-size: 15px;
+  color: white;
+  animation: moveShapeCart 1.7s ease-in-out;
+}
+
+@keyframes moveShapeCart {
+  0% {
+    transform: translate(0, 0);
+  }
+  30% {
+    transform: translate(0, 0);
+    width: 135.53px;
+  }
+  100% {
+    transform: translate(-1030px, -810px);
+    width: 75px;
+  }
+}
+
 @media screen and (max-width: 500px) {
   .img_PipeByPlane:hover {
     padding-top: 0.05px;
@@ -264,5 +291,24 @@ select.floating_select {
   .canvas_container.scale {
     transform: scale(1);
     margin-bottom: 0.05px;
+  }
+
+  .animate_cart_customShape {
+    animation: moveShapeCart 1.7s ease-in-out;
+    z-index: 2;
+  }
+
+  @keyframes moveShapeCart {
+    0% {
+      transform: translate(0, 0);
+    }
+    30% {
+      transform: translate(0, 0);
+      width: 135.53px;
+    }
+    100% {
+      transform: translate(-270px, -790px);
+      width: 75px;
+    }
   }
 }

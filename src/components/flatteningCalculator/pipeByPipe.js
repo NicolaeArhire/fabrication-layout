@@ -3,8 +3,12 @@ import photo from "../../assets/pipeByPipe.png";
 import { useEffect, useRef, useState } from "react";
 import makerjs from "makerjs";
 import { writeCart } from "../../services/storageCart";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 const PipeByPipe = () => {
+  const [addToCartAnimation, setAddToCartAnimation] = useState(false);
+  const [cartItemsNo, setCartItemsNo] = useState(0);
   const [diam1, setDiam1] = useState("");
   const [diam2, setDiam2] = useState("");
   const [length, setLength] = useState("");
@@ -206,6 +210,12 @@ const PipeByPipe = () => {
   }
 
   const handleAddProducts = () => {
+    setAddToCartAnimation(true);
+    setCartItemsNo((prev) => prev + 1);
+    setTimeout(() => {
+      setAddToCartAnimation(false);
+    }, 1700);
+
     const tempObj = {
       description: material === "Inox" ? `Stainless Steel Shape_PipeIntByPipe` : `${material} Shape_PipeIntByPipe`,
       size:
@@ -407,11 +417,17 @@ const PipeByPipe = () => {
             Download file (1/2 of shape)
           </button>
           <button
-            className="geometryToCart"
+            className={`${addToCartAnimation ? "geometryToCart animate_cart_pipeByPipe" : "geometryToCart"}`}
             disabled={diam1 === "" || length === "" || thickness === "" || material === "---"}
             onClick={handleAddProducts}
           >
-            Add plate to cart
+            {addToCartAnimation ? (
+              <>
+                <FontAwesomeIcon icon={faShoppingCart} /> {cartItemsNo}
+              </>
+            ) : (
+              "Add plate to cart"
+            )}{" "}
           </button>
         </div>
       </div>

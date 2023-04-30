@@ -164,7 +164,7 @@ const Cart = () => {
               <thead>
                 <tr>
                   <th onClick={handleShipping} style={{ cursor: "pointer" }}>
-                    Shipping <FontAwesomeIcon icon={faTruck} />
+                    Shipping <FontAwesomeIcon icon={faTruck} style={{ marginLeft: 10 }} />
                   </th>
                   <td ref={shippingCostRef}>{cartItems.length > 0 ? shipping : "-"}</td>
                 </tr>
