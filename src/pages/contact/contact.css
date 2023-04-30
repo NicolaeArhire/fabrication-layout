@@ -286,6 +286,7 @@
 
 .right_floating_input:focus {
   outline: none;
+  opacity: 1;
 }
 
 .right_floating_input:focus ~ .right_floating_label {
@@ -324,13 +325,32 @@
 }
 
 .contact_send {
-  width: 100%;
-  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 700px;
+  margin-top: 20px;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  width: 100px;
+  background: rgb(41, 44, 44);
+  color: cyan;
+  border: 1px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.contact_send input {
+  width: 350px;
+  color: cyan;
+  margin: 0 0 20px;
+  text-decoration: underline;
 }
 
 .contact_send_button {
   width: 100px;
-  margin-left: 130px;
   background: rgb(41, 44, 44);
   color: cyan;
   border: 1px solid white;
@@ -355,7 +375,7 @@
 
 .message_confirmation {
   color: cyan;
-  margin-left: 15px;
+  margin-left: 20px;
 }
 
 .icon_send {
@@ -407,7 +427,7 @@
   .contact_container {
     display: grid;
     grid-template-columns: 1fr;
-    height: 100vh;
+    height: 100%;
   }
 
   .contact_left {
@@ -423,6 +443,10 @@
     width: 400px;
   }
 
+  .contact_text span:nth-of-type(1) {
+    margin-top: 20px;
+  }
+
   .right_floating_content {
     width: 400px;
     margin-top: 30px;
@@ -433,17 +457,19 @@
   }
 
   .contact_send {
+    width: 400px;
     margin-top: 20px;
   }
 
-  .contact_send_button {
-    margin-left: 8px;
+  .contact_send input {
+    color: cyan;
+    margin: 0 0 20px;
   }
 
   .contact_address {
     width: 400px;
-    height: 330px;
-    margin-top: 0px;
+    height: 750px;
+    margin-top: 30px;
   }
 
   .contact_address_map.animate {
@@ -455,5 +481,6 @@
 
   .rightText_container {
     display: block;
+    margin: 20px 0 20px 0;
   }
 }

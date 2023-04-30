@@ -16,6 +16,7 @@ const Cart = () => {
   const userNameInput = useRef(null);
   const userMailInput = useRef(null);
   const userMessageInput = useRef(null);
+  const messageConfirmation = useRef(null);
 
   const leftTextRef = useRef(null);
   const iconsRef = useRef(null);
@@ -109,19 +110,27 @@ const Cart = () => {
   };
 
   const handleSendMessage = () => {
-    emailjs.send("service_axii655", "template_qw0poyh", emailData, "qbI7Jc6ts8bm-zmLe").then(
-      (response) => {
-        // console.log("SUCCESS!", response.status, response.text);
-      },
-      (err) => {
-        // console.log("FAILED...", err);
-      }
-    );
-
-    userNameInput.current.value = "";
-    userMailInput.current.value = "";
-    userMessageInput.current.value = "";
     setShowMessageConfirmation(true);
+
+    if (!userMail.includes("@")) {
+      messageConfirmation.current.innerHTML = 'Your e-mail must include "@".';
+    } else if (!userMail.includes(".com")) {
+      messageConfirmation.current.innerHTML = 'Your e-mail must include ".com".';
+    } else {
+      emailjs.send("service_axii655", "template_qw0poyh", emailData, "qbI7Jc6ts8bm-zmLe").then(
+        (response) => {
+          // console.log("SUCCESS!", response.status, response.text);
+        },
+        (err) => {
+          // console.log("FAILED...", err);
+        }
+      );
+
+      userNameInput.current.value = "";
+      userMailInput.current.value = "";
+      userMessageInput.current.value = "";
+      messageConfirmation.current.innerHTML = "Message sent!";
+    }
   };
 
   return (
@@ -211,17 +220,29 @@ const Cart = () => {
           <label className="right_floating_label">Your Message</label>
         </div>
         <div className="contact_send">
-          <button
-            className="contact_send_button"
-            ref={rightPanelButtonRef}
-            onClick={handleSendMessage}
-            disabled={userName === "" || userMail === "" || userMessage === ""}
-          >
-            Send <FontAwesomeIcon icon={faPaperPlane} className="icon_send" />
-          </button>
-          <span className="message_confirmation" style={{ display: showMessageConfirmation ? "inline" : "none" }}>
-            Message sent!
-          </span>
+          <input type="file" name="file" className="right_file" />
+          <div>
+            <button
+              className="contact_send_button"
+              ref={rightPanelButtonRef}
+              onClick={handleSendMessage}
+              disabled={userName === "" || userMail === "" || userMessage === ""}
+            >
+              Send <FontAwesomeIcon icon={faPaperPlane} className="icon_send" />
+            </button>
+            <span
+              ref={messageConfirmation}
+              className="message_confirmation"
+              style={{ display: showMessageConfirmation ? "inline" : "none" }}
+            ></span>
+          </div>
+        </div>
+        <div className="contact_address">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d104881.09486118425!2d2.277020427765447!3d48.85883760918865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis%2C%20France!5e0!3m2!1sen!2sus!4v1553497921355"
+            title="Google Maps Embed"
+            className="contact_address_map"
+          ></iframe>
         </div>
         <div className="rightText_container">
           <div ref={rightEmailRef} className="right_mail">
@@ -247,13 +268,6 @@ const Cart = () => {
               <span className="google"></span>
             </a>
           </div>
-        </div>
-        <div className="contact_address">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d104881.09486118425!2d2.277020427765447!3d48.85883760918865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis%2C%20France!5e0!3m2!1sen!2sus!4v1553497921355"
-            title="Google Maps Embed"
-            className="contact_address_map"
-          ></iframe>
         </div>
       </div>
     </div>
