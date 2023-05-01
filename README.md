@@ -4,7 +4,7 @@ This project was designed as an e-store for structural materials.
 
 ## Available Features
 
-In this project, the user can select and add to cart needed product (based on type, material, size, etc.). Once in the cart, he then can see total costs plus costs of shipping and estimated time of arrival. Payment method is to be added in a later stage, if the project will be of interest.
+In this project, the user can select and add to cart needed products (based on type, material, size, etc.). Once in the cart, he then can see total costs plus costs of shipping and estimated time of arrival. Payment method is to be added, if the project will be of interest.
 ![2023-05-02_02h41_52](https://user-images.githubusercontent.com/115340892/235550059-814c8fa9-fcc2-42aa-a60f-6b35c3e66486.png)
 ![2023-05-02_02h36_16](https://user-images.githubusercontent.com/115340892/235549607-d8f7949f-a1c1-4736-813d-9cbdefce3420.png)
 
