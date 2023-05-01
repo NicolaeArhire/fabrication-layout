@@ -1,27 +1,27 @@
 const writeCart = (data) => {
-  const storedCartStr = sessionStorage.getItem("cart");
+  const storedCartStr = localStorage.getItem("products");
   const storedCart = storedCartStr ? JSON.parse(storedCartStr) : [];
   storedCart.push(data);
-  sessionStorage.setItem("cart", JSON.stringify(storedCart));
+  localStorage.setItem("products", JSON.stringify(storedCart));
 };
 
 const readCart = () => {
-  const storedCartStr = sessionStorage.getItem("cart");
+  const storedCartStr = localStorage.getItem("products");
   return storedCartStr ? JSON.parse(storedCartStr) : [];
 };
 
 const deleteFromCart = (index) => {
-  const storedCartStr = sessionStorage.getItem("cart");
+  const storedCartStr = localStorage.getItem("products");
   const storedCart = storedCartStr ? JSON.parse(storedCartStr) : [];
   storedCart.splice(index, 1);
-  sessionStorage.setItem("cart", JSON.stringify(storedCart));
+  localStorage.setItem("products", JSON.stringify(storedCart));
 };
 
 const clearCart = () => {
-  const storedCartStr = sessionStorage.getItem("cart");
+  const storedCartStr = localStorage.getItem("products");
   const storedCart = storedCartStr ? JSON.parse(storedCartStr) : [];
   storedCart.splice(0, storedCart.length);
-  sessionStorage.setItem("cart", JSON.stringify(storedCart));
+  localStorage.setItem("products", JSON.stringify(storedCart));
 };
 
 export { writeCart, deleteFromCart, clearCart, readCart };

@@ -25,6 +25,7 @@ const Cart = () => {
   const rightPanelInput1Ref = useRef(null);
   const rightPanelInput2Ref = useRef(null);
   const rightPanelInput3Ref = useRef(null);
+  const rightAddFileRef = useRef(null);
   const rightPanelButtonRef = useRef(null);
 
   const photoNo = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
@@ -48,11 +49,13 @@ const Cart = () => {
           rightPanelInput1Ref.current.classList.add("animate");
           rightPanelInput2Ref.current.classList.add("animate");
           rightPanelInput3Ref.current.classList.add("animate");
+          rightAddFileRef.current.classList.add("animate");
           rightPanelButtonRef.current.classList.add("animate");
         } else {
           rightPanelInput1Ref.current.classList.remove("animate");
           rightPanelInput2Ref.current.classList.remove("animate");
           rightPanelInput3Ref.current.classList.remove("animate");
+          rightAddFileRef.current.classList.remove("animate");
           rightPanelButtonRef.current.classList.remove("animate");
         }
       });
@@ -75,6 +78,7 @@ const Cart = () => {
     observer2.observe(rightPanelInput1Ref.current);
     observer2.observe(rightPanelInput2Ref.current);
     observer2.observe(rightPanelInput3Ref.current);
+    observer2.observe(rightAddFileRef.current);
     observer2.observe(rightPanelButtonRef.current);
     observer3.observe(rightEmailRef.current);
     observer3.observe(rightIconsRef.current);
@@ -114,8 +118,8 @@ const Cart = () => {
 
     if (!userMail.includes("@")) {
       messageConfirmation.current.innerHTML = 'Your e-mail must include "@".';
-    } else if (!userMail.includes(".com")) {
-      messageConfirmation.current.innerHTML = 'Your e-mail must include ".com".';
+    } else if (!userMail.endsWith(".com")) {
+      messageConfirmation.current.innerHTML = 'Your e-mail must end with ".com".';
     } else {
       emailjs.send("service_axii655", "template_qw0poyh", emailData, "qbI7Jc6ts8bm-zmLe").then(
         (response) => {
@@ -199,7 +203,7 @@ const Cart = () => {
             }}
           />
         </div>
-        <div className="right_floating_content" ref={rightPanelInput1Ref} style={{ marginTop: 10 }}>
+        <div className="right_floating_content" ref={rightPanelInput1Ref} style={{ marginTop: 50 }}>
           <input type="text" className="right_floating_input" placeholder=" " required onChange={handleUserName} ref={userNameInput} />
           <label className="right_floating_label">Your Name</label>
         </div>
@@ -207,24 +211,24 @@ const Cart = () => {
           <input type="text" className="right_floating_input" placeholder=" " required onChange={handleUserMail} ref={userMailInput} />
           <label className="right_floating_label">Your E-mail</label>
         </div>
-        <div className="right_floating_content" ref={rightPanelInput3Ref} style={{ height: 100 }}>
+        <div className="right_floating_content" ref={rightPanelInput3Ref} style={{ height: 200 }}>
           <textarea
             type="text"
             className="right_floating_input"
             placeholder=" "
             required
-            style={{ height: 100, resize: "none" }}
+            style={{ height: 200, resize: "none" }}
             onChange={handleUserMessage}
             ref={userMessageInput}
           />
           <label className="right_floating_label">Your Message</label>
         </div>
         <div className="contact_send">
-          <input type="file" name="file" className="right_file" />
+          <input ref={rightAddFileRef} type="file" name="file" className="right_file" />
           <div>
             <button
-              className="contact_send_button"
               ref={rightPanelButtonRef}
+              className="contact_send_button"
               onClick={handleSendMessage}
               disabled={userName === "" || userMail === "" || userMessage === ""}
             >

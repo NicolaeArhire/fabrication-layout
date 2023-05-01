@@ -1,7 +1,7 @@
 .contact_container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: 100vh;
+  height: 1400px;
 }
 
 .contact_left {
@@ -10,6 +10,21 @@
   background-position: center center;
   min-height: 100vh;
   overflow-y: auto;
+}
+
+.contact_right {
+  min-height: 1400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(20, 65, 77, 0.8);
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.contact_container::-webkit-scrollbar {
+  display: none;
 }
 
 .contact_left::-webkit-scrollbar {
@@ -229,15 +244,6 @@
   transform: scale(1.35);
 }
 
-.contact_right {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: rgba(20, 65, 77, 0.8);
-  overflow-y: auto;
-}
-
 .contact_text {
   width: 700px;
 }
@@ -262,7 +268,7 @@
   position: relative;
   background: rgb(41, 44, 44);
   margin-top: 40px;
-  width: 700px;
+  width: 550px;
 }
 
 .right_floating_content.animate {
@@ -280,7 +286,7 @@
   border: 1px solid white;
   border-radius: 4px;
   color: cyan;
-  width: 700px;
+  width: 550px;
   padding-left: 40px;
 }
 
@@ -328,7 +334,7 @@
   display: flex;
   flex-direction: column;
   justify-content: start;
-  width: 700px;
+  width: 550px;
   margin-top: 20px;
 }
 
@@ -340,6 +346,13 @@ input[type="file"]::-webkit-file-upload-button {
   border-radius: 5px;
   cursor: pointer;
   margin-right: 20px;
+}
+
+.right_file.animate {
+  animation-name: backInRight;
+  animation-duration: 2.5s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
 }
 
 .contact_send input {
@@ -384,7 +397,7 @@ input[type="file"]::-webkit-file-upload-button {
 
 .contact_address {
   width: 700px;
-  height: 400px;
+  height: 600px;
   border: 0;
   margin-top: 40px;
 }
@@ -392,13 +405,6 @@ input[type="file"]::-webkit-file-upload-button {
 .contact_address_map {
   width: 100%;
   height: 100%;
-}
-
-.contact_address_map.animate {
-  animation-name: backInRight;
-  animation-duration: 2.5s;
-  animation-timing-function: ease;
-  animation-fill-mode: both;
 }
 
 @keyframes backInRight {
@@ -470,13 +476,6 @@ input[type="file"]::-webkit-file-upload-button {
     width: 400px;
     height: 750px;
     margin-top: 30px;
-  }
-
-  .contact_address_map.animate {
-    animation-name: backInRight;
-    animation-duration: 0.1s;
-    animation-timing-function: ease;
-    animation-fill-mode: both;
   }
 
   .rightText_container {

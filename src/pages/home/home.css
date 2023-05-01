@@ -7,7 +7,45 @@
   margin: 0px;
 }
 
+.content_right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  border: 1px solid white;
+  width: 650px;
+  height: 744px;
+  margin: 75px 10px 0 0;
+  font-size: 20px;
+}
+
+.content_right_mobile {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  border: 1px solid white;
+  width: 650px;
+  height: 744px;
+  margin-right: 10px;
+  margin-top: 75px;
+  font-size: 20px;
+}
+
 .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 650px;
+  height: 810px;
+  border: 1px solid white;
+  background: #023f50;
+}
+
+.content_mobile {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -21,6 +59,15 @@
 .content_header {
   width: 648px;
   height: 433px;
+  border: 3px solid white;
+  animation: image 10s linear infinite;
+  background-size: contain;
+  background-position: center center;
+}
+
+.content_header_mobile {
+  width: 648px;
+  height: 433px;
   animation: image 10s linear infinite;
   background-size: contain;
   background-position: center center;
@@ -29,7 +76,15 @@
 .content_main {
   color: white;
   width: 645px;
-  margin-top: 20px;
+  margin-top: 40px;
+  margin-left: 3px;
+  font-size: 20px;
+}
+
+.content_main_mobile {
+  color: white;
+  width: 645px;
+  margin-top: 10px;
   margin-left: 3px;
   font-size: 20px;
 }
@@ -39,22 +94,17 @@
 }
 
 .content_main span em {
-  font-size: 30px;
+  font-size: 25px;
   font-weight: bold;
 }
 
-.content_right {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+.content_main_mobile span {
   align-items: center;
-  color: white;
-  border: 1px solid white;
-  width: 650px;
-  height: 744px;
-  margin-right: 10px;
-  margin-top: 75px;
-  font-size: 20px;
+}
+
+.content_main_mobile span em {
+  font-size: 25px;
+  font-weight: bold;
 }
 
 @keyframes image {
@@ -88,8 +138,20 @@
   }
 
   .content_right {
-    width: 250px;
-    margin-top: 10px;
+    width: 350px;
+    margin: 0 0 30px 0;
+    height: auto;
+    border: none;
+  }
+
+  .content_right.noSelection {
+    display: none;
+  }
+
+  .content_right_mobile {
+    display: flex;
+    width: 350px;
+    margin-top: 70px;
     margin-right: 0px;
     height: auto;
     border: none;
@@ -100,7 +162,17 @@
     height: auto;
   }
 
+  .content_mobile {
+    width: 350px;
+    height: auto;
+  }
+
   .content_header {
+    width: 350px;
+    height: 232px;
+  }
+
+  .content_header_mobile {
     width: 350px;
     height: 232px;
   }
@@ -110,7 +182,17 @@
     font-size: 16px;
   }
 
+  .content_main_mobile {
+    width: 350px;
+    font-size: 16px;
+  }
+
   .content_main span em {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .content_main_mobile span em {
     font-size: 20px;
     font-weight: bold;
   }

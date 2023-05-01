@@ -87,8 +87,7 @@
 
 @media screen and (max-width: 500px) {
   .sidebar_left {
-    margin-left: 0px;
-    margin-top: 55px;
+    margin: 15px 0 30px 0;
     width: 350px;
   }
 
