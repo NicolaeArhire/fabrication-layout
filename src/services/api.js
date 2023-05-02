@@ -1,4 +1,4 @@
-const apiToken = process.env.REACT_APP_API_TOKEN;
+const apiToken = process.env.REACT_APP_COUNTRY_TOKEN;
 
 export const getCities = async (countryISO2) => {
   try {
