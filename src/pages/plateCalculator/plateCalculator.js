@@ -40,7 +40,7 @@ const PlateCalculator = () => {
   };
 
   const handleCloseModal = () => {
-    if (token === "1234") {
+    if (token === process.env.REACT_APP_SHAPE_CALCULATOR) {
       setShowModal(false);
       sessionStorage.setItem("token", "token");
     } else if (token === "") {
