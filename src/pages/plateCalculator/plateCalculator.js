@@ -15,6 +15,7 @@ const PlateCalculator = () => {
   const [token, setToken] = useState("");
   const [wrongToken, setWrongToken] = useState("");
   const [showModal, setShowModal] = useState(true);
+  const [noOfTries, setNoOfTries] = useState(1);
 
   useEffect(() => {
     setPageNo(currentComponent);
@@ -40,13 +41,15 @@ const PlateCalculator = () => {
   };
 
   const handleCloseModal = () => {
+    setNoOfTries((prev) => prev + 1);
+
     if (token === process.env.REACT_APP_SHAPE_CALCULATOR) {
       setShowModal(false);
       sessionStorage.setItem("token", "token");
     } else if (token === "") {
       setWrongToken("Please write something.");
     } else {
-      setWrongToken("Please try again.");
+      setWrongToken(`Please try again. (${noOfTries})`);
     }
   };
 
