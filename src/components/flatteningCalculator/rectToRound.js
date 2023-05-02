@@ -1,5 +1,4 @@
 import "./rectToRound.css";
-import photo from "../../assets/rectToRound.png";
 import { useEffect, useRef, useState } from "react";
 import makerjs from "makerjs";
 import { writeCart } from "../../services/storageCart";
@@ -314,7 +313,7 @@ const RectToRound = () => {
         </div>
         <div className="img_container">
           <img
-            src={photo}
+            src="shapeCalculator/rectToRound.png"
             alt="RectToRound"
             style={{
               width: 270,

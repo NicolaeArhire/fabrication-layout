@@ -1,5 +1,4 @@
 import "./cart.css";
-import cards from "../../assets/cards.png";
 import { Table } from "react-bootstrap";
 import lookup from "country-code-lookup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -222,7 +221,7 @@ const Cart = () => {
         </div>
         <div className="cart_intro">
           <span>
-            <img src={cards} alt="cards" />
+            <img src="/cards.png" alt="cards" />
           </span>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import "./pipeByPipe.css";
-import photo from "../../assets/pipeByPipe.png";
 import { useEffect, useRef, useState } from "react";
 import makerjs from "makerjs";
 import { writeCart } from "../../services/storageCart";
@@ -17,7 +16,6 @@ const PipeByPipe = () => {
   const [material, setMaterial] = useState("---");
   const [density, setDensity] = useState("");
   const [price, setPrice] = useState("");
-  const [closed, setClosed] = useState(true);
   const [points, setPoints] = useState([
     [1984.9, 100],
     [1984.9, 2100],
@@ -128,7 +126,7 @@ const PipeByPipe = () => {
   useEffect(() => {
     if (canvasRef.current) {
       const ctx = canvasRef.current.getContext("2d");
-      const model = new makerjs.models.ConnectTheDots(closed, points);
+      const model = new makerjs.models.ConnectTheDots(true, points);
       const svg = makerjs.exporter.toSVG(model);
       const img = new Image();
       img.onload = function () {
@@ -146,10 +144,10 @@ const PipeByPipe = () => {
       };
       img.src = "data:image/svg+xml;base64," + btoa(svg);
     }
-  }, [closed, points]);
+  }, [points]);
 
   function handleDownload() {
-    const model = new makerjs.models.ConnectTheDots(closed, points);
+    const model = new makerjs.models.ConnectTheDots(true, points);
     const exporter = makerjs.exporter.toDXF(model);
     const blob = new Blob([exporter], { type: "application/dxf" });
     const url = URL.createObjectURL(blob);
@@ -268,7 +266,7 @@ const PipeByPipe = () => {
         </div>
         <div className="img_container">
           <img
-            src={photo}
+            src="shapeCalculator/pipeByPipe.png"
             alt="pipeByPipe"
             style={{
               width: 300,

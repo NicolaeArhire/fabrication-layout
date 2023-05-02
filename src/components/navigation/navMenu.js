@@ -1,5 +1,4 @@
 import "./navMenu.css";
-import photo from "../../assets/logo.png";
 import { stack as Menu } from "react-burger-menu";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -52,7 +51,7 @@ function NavMenu() {
       </div>
       <Menu className={"my-custom-menu"} animation={"stack"} isOpen={isOpen} onStateChange={handleMenuStateChange}>
         <div className="menu_img">
-          <img src={photo} alt="logo.png" className="img_navbar" />
+          <img src="/logo.png" alt="logo.png" className="img_navbar" />
         </div>
         <Link
           to="/"

@@ -1,5 +1,4 @@
 import "./concentricFrustum.css";
-import photo from "../../assets/concentricFrustum.png";
 import { useEffect, useRef, useState } from "react";
 import makerjs from "makerjs";
 import { writeCart } from "../../services/storageCart";
@@ -269,7 +268,7 @@ const ConcentricFrustum = () => {
         </div>
         <div className="img_container">
           <img
-            src={photo}
+            src="shapeCalculator/concentricFrustum.png"
             alt="ConcentricFrustum"
             style={{
               width: 270,

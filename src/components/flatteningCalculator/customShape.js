@@ -395,7 +395,7 @@ const CustomShape = () => {
             <label className="floating_label">Your shape</label>
           </div>
           <img
-            src={`profiles/shape_${shape.includes(" ") ? shape.toLowerCase().split(" ")[0] : shape.toLowerCase()}.png`}
+            src={`shapeCalculator/shape_${shape.includes(" ") ? shape.toLowerCase().split(" ")[0] : shape.toLowerCase()}.png`}
             alt="customShape"
             style={{
               width: 210,

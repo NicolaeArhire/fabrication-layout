@@ -109,25 +109,25 @@
 
 @keyframes image {
   0% {
-    background-image: url("../../assets/home/header1.png");
+    background-image: url("../../../public/homeSlider/header1.png");
   }
   25% {
-    background-image: url("../../assets/home/header1.png");
+    background-image: url("../../../public/homeSlider/header1.png");
   }
   26% {
-    background-image: url("../../assets/home/header2.png");
+    background-image: url("../../../public/homeSlider/header2.png");
   }
   51% {
-    background-image: url("../../assets/home/header2.png");
+    background-image: url("../../../public/homeSlider/header2.png");
   }
   52% {
-    background-image: url("../../assets/home/header3.png");
+    background-image: url("../../../public/homeSlider/header3.png");
   }
   77% {
-    background-image: url("../../assets/home/header3.png");
+    background-image: url("../../../public/homeSlider/header3.png");
   }
   100% {
-    background-image: url("../../assets/home/header1.png");
+    background-image: url("../../../public/homeSlider/header1.png");
   }
 }
 
