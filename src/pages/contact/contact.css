@@ -442,6 +442,7 @@ input[type="file"]::-webkit-file-upload-button {
 
   .contact_right {
     padding-top: 20px;
+    min-height: 1300px;
   }
 
   .right_floating_content.animate {
