@@ -180,21 +180,21 @@ const Cart = () => {
               typewriter
                 .pauseFor(2500)
                 .typeString(
-                  `<span>LET'S DISCUSS HOW WE CAN CREATE YOUR PROJECT AT A COMPETITIVE PRICING AND A TIMELY DELIVERY.</span><br /><span style="color: rgba(20, 65, 77, 0.8);">.</span>NO STRINGS ATTACHED.`
+                  `<span>Let's discuss how we can create your project at a competitive pricing and a timely delivery.</span><br /><span style="color: rgba(20, 65, 77, 0.8);">.</span>No strings attached.`
                 )
                 .pauseFor(2000)
                 .changeDeleteSpeed(10)
                 .deleteChars(20)
                 .pauseFor(1000)
-                .typeString('<span style="color: cyan;">MAYBE ONE.</span>')
+                .typeString('<span style="color: cyan;">Maybe one.</span>')
                 .pauseFor(1000)
                 .deleteChars(10)
                 .pauseFor(1000)
-                .typeString('<span style="color: cyan;"> OUR WORD.</span>')
+                .typeString('<span style="color: cyan;"> Our word.</span>')
                 .pauseFor(1000)
                 .deleteChars(10)
                 .pauseFor(1000)
-                .typeString('<span style="color: cyan;"> A WELLDONE JOB.</span>')
+                .typeString('<span style="color: cyan;"> A welldone job.</span>')
                 .start();
             }}
             options={{
@@ -203,7 +203,7 @@ const Cart = () => {
             }}
           />
         </div>
-        <div className="right_floating_content" ref={rightPanelInput1Ref} style={{ marginTop: 50 }}>
+        <div className="right_floating_content" ref={rightPanelInput1Ref} style={{ marginTop: 30 }}>
           <input type="text" className="right_floating_input" placeholder=" " required onChange={handleUserName} ref={userNameInput} />
           <label className="right_floating_label">Your Name</label>
         </div>

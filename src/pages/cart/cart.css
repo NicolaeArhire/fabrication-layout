@@ -374,7 +374,7 @@
   .cart_table tbody tr td:nth-of-type(6),
   .cart_table tbody tr td:nth-of-type(7) {
     border: 1px solid rgb(29, 28, 28);
-    width: 262px;
+    width: 256px;
   }
 
   .cart_table tbody tr:hover td {
@@ -429,7 +429,9 @@
   }
 
   .empty_cart {
-    width: 250px !important;
+    width: 256px !important;
+    height: 270px;
+    padding: 125px 0 0 0 !important;
   }
 
   .empty_cart:hover {
