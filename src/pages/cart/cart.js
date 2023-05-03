@@ -192,6 +192,9 @@ const Cart = () => {
           </div>
         </div>
         <div className="check_out">
+          <span>
+            <img src="/cards.png" alt="cards" />
+          </span>
           <button className="payment_button" onClick={handleCheckOut}>
             Check Out <FontAwesomeIcon icon={faLock} style={{ cursor: "pointer" }} />
           </button>
@@ -219,11 +222,7 @@ const Cart = () => {
             Done
           </button>
         </div>
-        <div className="cart_intro">
-          <span>
-            <img src="/cards.png" alt="cards" />
-          </span>
-        </div>
+        <div className="cart_intro"></div>
       </div>
     </div>
   );

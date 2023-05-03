@@ -89,13 +89,13 @@ const PlateCalculator = () => {
           <div className="flatten_container">{components[currentComponent]}</div>
           <div className="pagination">
             <button onClick={handlePrev} disabled={currentComponent === 0} className="prev_button">
-              Previous Geometry
+              Previous
             </button>
             <span className="page_no">
               {pageNo + 1}/{components.length}
             </span>
             <button onClick={handleNext} disabled={currentComponent === components.length - 1} className="next_button">
-              Next Geometry
+              Next
             </button>
           </div>
         </div>

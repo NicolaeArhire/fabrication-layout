@@ -446,7 +446,7 @@ const CustomShape = () => {
                     onChange={handleQtyChange}
                     style={{ width: 115 }}
                   />
-                  <label className="floating_label">Quantity (pcs)</label>
+                  <label className="floating_label">Quantity</label>
                 </div>
               ) : (
                 <div className="floating_content" style={{ marginTop: 3 }}>
@@ -506,7 +506,7 @@ const CustomShape = () => {
                       onChange={handleQtyChange}
                       style={{ width: 115 }}
                     />
-                    <label className="floating_label">Quantity (pcs)</label>
+                    <label className="floating_label">Quantity</label>
                   </div>
                 </>
               ) : shape === "Gusset" ? (

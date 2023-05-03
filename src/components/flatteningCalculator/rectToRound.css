@@ -274,6 +274,14 @@ select.floating_select {
     margin-bottom: 0.05px;
   }
 
+  .download_file {
+    font-size: 12px;
+  }
+
+  .geometryToCart {
+    font-size: 12px;
+  }
+
   .animate_cart_rectToRound {
     animation: moveShapeCart 1.7s ease-in-out;
     z-index: 2;

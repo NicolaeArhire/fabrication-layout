@@ -178,4 +178,8 @@
   .no_of_products_in_cart {
     font-size: 16px;
   }
+
+  .menu_footer {
+    margin-top: calc(100vh - 225%);
+  }
 }

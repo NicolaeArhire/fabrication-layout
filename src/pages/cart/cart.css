@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
 }
 
 .cart_intro {
@@ -266,7 +266,8 @@
   color: white;
   padding-left: 15px;
   padding-right: 15px;
-  margin-right: 25px;
+  margin-left: 15px;
+  margin-right: 15px;
   border-radius: 10px;
 }
 
@@ -276,6 +277,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  /* margin-top: 5px; */
 }
 
 .address_info {
@@ -305,11 +307,15 @@
 }
 
 @media screen and (max-width: 500px) {
+  .cart_container {
+    height: 100%;
+  }
+
   .cart_head_plus_items {
     display: flex;
     flex-direction: row;
     justify-content: start;
-    width: 360px;
+    width: 80%;
     margin-top: 15px;
     border: 1px solid white;
   }
@@ -395,6 +401,10 @@
     justify-content: center;
   }
 
+  .clear_all_items button {
+    width: 150px;
+  }
+
   .empty_cart {
     width: 250px !important;
   }
@@ -414,7 +424,7 @@
 
   .check_out {
     justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 
   .payment_button {
