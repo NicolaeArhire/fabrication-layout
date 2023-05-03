@@ -256,6 +256,7 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  align-items: center;
   width: 100%;
 }
 
@@ -277,7 +278,6 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  /* margin-top: 5px; */
 }
 
 .address_info {
@@ -307,6 +307,11 @@
 }
 
 @media screen and (max-width: 500px) {
+  .cart_content {
+    width: calc(100vw - 10%);
+    margin-top: 40px;
+  }
+
   .cart_container {
     height: 100%;
   }
@@ -315,12 +320,13 @@
     display: flex;
     flex-direction: row;
     justify-content: start;
-    width: 80%;
+    width: 100%;
     margin-top: 15px;
     border: 1px solid white;
   }
 
   .cart_table_head {
+    font-size: 14px;
     text-align: center;
     width: 100px;
   }
@@ -337,6 +343,7 @@
 
   .cart_table {
     width: 250px;
+    font-size: 14px;
     border-top: 0;
   }
 
@@ -344,7 +351,6 @@
     display: flex;
     flex-direction: column;
     border-top: 0;
-    height: 304.5px;
     scroll-snap-align: start;
     scroll-snap-stop: always;
     border: 1px solid black;
@@ -368,7 +374,7 @@
   .cart_table tbody tr td:nth-of-type(6),
   .cart_table tbody tr td:nth-of-type(7) {
     border: 1px solid rgb(29, 28, 28);
-    width: 350px;
+    width: 255px;
   }
 
   .cart_table tbody tr:hover td {
@@ -383,17 +389,34 @@
     background: rgb(41, 72, 90);
   }
 
+  .cart_table2 {
+    margin-top: 0;
+    font-size: 14px;
+  }
+
+  .cart_table2A {
+    font-size: 14px;
+  }
+
+  .cart_table3 {
+    font-size: 14px;
+  }
+
+  .cart_table4 {
+    font-size: 14px;
+  }
+
+  .cart_table5 {
+    font-size: 14px;
+  }
+
   .cart_items {
-    width: 350px;
+    width: 262px;
     border-bottom: 0;
-    height: 304.5px;
+    height: 273px;
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     scroll-padding: 0 0 100px;
-  }
-
-  .cart_items td {
-    height: 43.5px;
   }
 
   .clear_all_items {
@@ -402,7 +425,7 @@
   }
 
   .clear_all_items button {
-    width: 150px;
+    width: 120px;
   }
 
   .empty_cart {
@@ -420,15 +443,22 @@
   .order_totals {
     justify-content: center;
     align-items: center;
+    margin-top: 50px;
+  }
+
+  .shipping_done {
+    font-size: 15px;
   }
 
   .check_out {
     justify-content: center;
+    align-items: center;
     margin-bottom: 20px;
   }
 
   .payment_button {
     margin-right: 0px;
+    font-size: 15px;
   }
 
   .address_country,

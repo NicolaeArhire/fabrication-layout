@@ -441,7 +441,19 @@ input[type="file"]::-webkit-file-upload-button {
   }
 
   .contact_right {
-    padding-top: 60px;
+    padding-top: 20px;
+  }
+
+  .right_floating_content.animate {
+    animation-name: none;
+  }
+
+  .right_file.animate {
+    animation-name: none;
+  }
+
+  .contact_send_button.animate {
+    animation-name: none;
   }
 
   .contact_text {
@@ -454,16 +466,16 @@ input[type="file"]::-webkit-file-upload-button {
   }
 
   .right_floating_content {
-    width: 400px;
+    width: calc(100vw - 10%);
     margin-top: 30px;
   }
 
   .right_floating_input {
-    width: 400px;
+    width: calc(100vw - 10%);
   }
 
   .contact_send {
-    width: 400px;
+    width: calc(100vw - 10%);
     margin-top: 20px;
   }
 
@@ -473,7 +485,7 @@ input[type="file"]::-webkit-file-upload-button {
   }
 
   input[type="file"]::-webkit-file-upload-button {
-    width: 150px;
+    width: 120px;
     background: rgb(41, 44, 44);
     color: cyan;
     border: 1px solid white;
@@ -483,7 +495,7 @@ input[type="file"]::-webkit-file-upload-button {
   }
 
   .contact_address {
-    width: 400px;
+    width: calc(100vw - 10%);
     height: 500px;
     margin-top: 30px;
   }
