@@ -186,7 +186,7 @@ const Cart = () => {
                 .changeDeleteSpeed(10)
                 .deleteChars(20)
                 .pauseFor(1000)
-                .typeString('<span style="color: cyan;">Maybe one.</span>')
+                .typeString('<span style="color: cyan;">Maybe one.')
                 .pauseFor(1000)
                 .deleteChars(10)
                 .pauseFor(1000)
