@@ -175,11 +175,11 @@
 }
 
 .cart_table2 th:nth-of-type(1) {
-  width: 150px;
+  width: 140px;
 }
 
 .cart_table2 th:nth-of-type(2) {
-  width: 180px;
+  width: 220px;
 }
 
 .cart_table2A {
@@ -191,11 +191,11 @@
 }
 
 .cart_table2A th:nth-of-type(1) {
-  width: 150px;
+  width: 140px;
 }
 
 .cart_table2A th:nth-of-type(2) {
-  width: 180px;
+  width: 220px;
 }
 
 .cart_table3 {
@@ -207,7 +207,7 @@
 }
 
 .cart_table3 th:nth-of-type(1) {
-  width: 150px;
+  width: 140px;
 }
 
 .cart_table3 th:nth-of-type(1):hover {
@@ -215,7 +215,7 @@
 }
 
 .cart_table3 td {
-  min-width: 180px;
+  min-width: 220px;
   font-weight: bold;
 }
 
@@ -228,11 +228,11 @@
 }
 
 .cart_table4 th:nth-of-type(1) {
-  width: 150px;
+  width: 140px;
 }
 
 .cart_table4 th:nth-of-type(2) {
-  width: 180px;
+  width: 220px;
   color: cyan;
 }
 
@@ -244,11 +244,11 @@
 }
 
 .cart_table5 th:nth-of-type(1) {
-  width: 150px;
+  width: 140px;
 }
 
 .cart_table5 th:nth-of-type(2) {
-  width: 180px;
+  width: 220px;
   color: cyan;
 }
 
