@@ -3,7 +3,7 @@ const apiToken = process.env.REACT_APP_API_COUNTRY_TOKEN;
 export const getCities = async (countryISO2) => {
   try {
     const res = await fetch(
-      `http://api.geonames.org/searchJSON?country=${countryISO2}&orderby=population&top=10&type=json&featureCode=PPL&featureCode=PPLA&featureCode=PPLC&username=${apiToken}`
+      `https://secure.geonames.org/searchJSON?country=${countryISO2}&orderby=population&top=10&type=json&featureCode=PPL&featureCode=PPLA&featureCode=PPLC&username=${apiToken}`
     );
     const data = await res.json();
     const cities = data.geonames.filter((city) => city.fcode === "PPL" || city.fcode === "PPLA" || city.fcode === "PPLC");
