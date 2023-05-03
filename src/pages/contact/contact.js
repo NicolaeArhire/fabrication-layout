@@ -180,7 +180,7 @@ const Cart = () => {
               typewriter
                 .pauseFor(2500)
                 .typeString(
-                  `<span>Let's discuss how we can create your project at a competitive pricing and a timely delivery.</span><br /><span style="color: rgba(20, 65, 77, 0.8);">.</span>No strings attached.`
+                  `Let's discuss how we can create your project at a competitive pricing and a timely delivery. No strings attached.`
                 )
                 .pauseFor(2000)
                 .changeDeleteSpeed(10)
