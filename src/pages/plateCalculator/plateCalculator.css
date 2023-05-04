@@ -131,6 +131,14 @@
     height: 250px;
   }
 
+  .modal_content span:first-of-type {
+    font-size: 15px;
+  }
+
+  .modal_content button {
+    font-size: 15px;
+  }
+
   .modal_content span {
     font-size: 15px;
   }
