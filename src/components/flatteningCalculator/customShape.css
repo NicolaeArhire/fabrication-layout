@@ -317,7 +317,7 @@ select.floating_select {
       width: 135.53px;
     }
     100% {
-      transform: translate(calc(-65.2vw), calc(-80.6vh));
+      transform: translate(calc(-65.2vw), calc(-75.6vh));
       width: 75px;
     }
   }
