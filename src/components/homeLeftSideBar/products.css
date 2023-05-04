@@ -202,7 +202,7 @@
       transform: translate(0, 0);
     }
     100% {
-      transform: translate(-160px, -810px);
+      transform: translate(calc(-38.6vw), calc(-90.4vh));
     }
   }
 }
