@@ -9,7 +9,7 @@
   margin-left: 100px;
   margin-top: 10px;
   border-radius: 10px;
-  z-index: 0;
+  z-index: 1;
   color: white;
 }
 
@@ -20,13 +20,6 @@
   border: 1px solid white;
   border-radius: 10px;
   background: rgba(2, 59, 59, 0.5);
-}
-
-.products_in_cart {
-  font-size: 20px;
-  margin-left: 10px;
-  color: white;
-  text-decoration: underline red;
 }
 
 .no_of_products_in_cart {
@@ -169,10 +162,6 @@
 
   .chosen_tab {
     font-size: 18px;
-  }
-
-  .products_in_cart {
-    font-size: 16px;
   }
 
   .no_of_products_in_cart {

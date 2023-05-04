@@ -45,9 +45,7 @@ function NavMenu() {
             setIsOpen(false);
             handleCartTab();
           }}
-        >
-          <span className="products_in_cart"></span>
-        </Link>
+        ></Link>
       </div>
       <Menu className={"my-custom-menu"} animation={"stack"} isOpen={isOpen} onStateChange={handleMenuStateChange}>
         <div className="menu_img">
