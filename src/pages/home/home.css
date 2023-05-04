@@ -59,8 +59,6 @@
 .content_header {
   width: 648px;
   height: 433px;
-  border: 3px solid white;
-  animation: image 10s linear infinite;
   background-size: contain;
   background-position: center center;
 }
@@ -68,7 +66,6 @@
 .content_header_mobile {
   width: 648px;
   height: 433px;
-  animation: image 10s linear infinite;
   background-size: contain;
   background-position: center center;
 }
@@ -105,30 +102,6 @@
 .content_main_mobile span em {
   font-size: 25px;
   font-weight: bold;
-}
-
-@keyframes image {
-  0% {
-    background-image: url("../../../public/homeSlider/header1.png");
-  }
-  25% {
-    background-image: url("../../../public/homeSlider/header1.png");
-  }
-  26% {
-    background-image: url("../../../public/homeSlider/header2.png");
-  }
-  51% {
-    background-image: url("../../../public/homeSlider/header2.png");
-  }
-  52% {
-    background-image: url("../../../public/homeSlider/header3.png");
-  }
-  77% {
-    background-image: url("../../../public/homeSlider/header3.png");
-  }
-  100% {
-    background-image: url("../../../public/homeSlider/header1.png");
-  }
 }
 
 @media screen and (max-width: 500px) {

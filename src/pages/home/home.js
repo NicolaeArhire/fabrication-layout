@@ -15,7 +15,9 @@ const Home = () => {
     <div id="homePage_container">
       <div className="content_right_mobile">
         <div className="content_mobile">
-          <div className="content_header_mobile"></div>
+          <div className="content_header_mobile">
+            <img src="/homeSlider/home.gif" alt="homeSlider" width={348} />
+          </div>
           <div className="content_main_mobile">
             <span>
               <em>Shop your products Online!</em>
@@ -34,7 +36,9 @@ const Home = () => {
           <ProductDetails renderItem={selectedItem} />
         ) : (
           <div className="content">
-            <div className="content_header"></div>
+            <div className="content_header">
+              <img src="/homeSlider/home.gif" alt="homeSlider" width={648} />
+            </div>
             <div className="content_main">
               <span>
                 <em>Shop your products Online!</em>
