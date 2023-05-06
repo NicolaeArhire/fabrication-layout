@@ -16,7 +16,7 @@ const Home = () => {
       <div className="content_right_mobile">
         <div className="content_mobile">
           <div className="content_header_mobile">
-            <img src="/homeSlider/home.gif" alt="homeSlider" width={348} />
+            <img src="/homeSlider/home.gif" alt="homeSlider" />
           </div>
           <div className="content_main_mobile">
             <span>

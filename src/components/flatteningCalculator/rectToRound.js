@@ -16,7 +16,6 @@ const RectToRound = () => {
   const [material, setMaterial] = useState("---");
   const [density, setDensity] = useState("");
   const [price, setPrice] = useState("");
-  const [closed, setClosed] = useState(true);
   const [points, setPoints] = useState([
     [1984.9, 100],
     [1984.9, 2100],
@@ -141,7 +140,7 @@ const RectToRound = () => {
   useEffect(() => {
     if (canvasRef.current) {
       const ctx = canvasRef.current.getContext("2d");
-      const model = new makerjs.models.ConnectTheDots(closed, points);
+      const model = new makerjs.models.ConnectTheDots(true, points);
       const svg = makerjs.exporter.toSVG(model);
       const img = new Image();
       img.onload = function () {
@@ -159,10 +158,10 @@ const RectToRound = () => {
       };
       img.src = "data:image/svg+xml;base64," + btoa(svg);
     }
-  }, [closed, points]);
+  }, [points]);
 
   function handleDownload() {
-    const model = new makerjs.models.ConnectTheDots(closed, points);
+    const model = new makerjs.models.ConnectTheDots(true, points);
     const exporter = makerjs.exporter.toDXF(model);
     const blob = new Blob([exporter], { type: "application/dxf" });
     const url = URL.createObjectURL(blob);

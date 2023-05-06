@@ -73,30 +73,22 @@
 .content_main {
   color: white;
   width: 645px;
-  margin-top: 40px;
-  margin-left: 3px;
+  margin: 40px 3px 0 3px;
   font-size: 20px;
+  text-align: center;
 }
 
 .content_main_mobile {
   color: white;
   width: 645px;
-  margin-top: 10px;
-  margin-left: 3px;
+  margin: 20px 4px 0 4px;
   font-size: 20px;
-}
-
-.content_main span {
-  align-items: center;
+  text-align: center;
 }
 
 .content_main span em {
   font-size: 25px;
   font-weight: bold;
-}
-
-.content_main_mobile span {
-  align-items: center;
 }
 
 .content_main_mobile span em {
@@ -136,7 +128,7 @@
   }
 
   .content_mobile {
-    width: 350px;
+    width: calc(100vw - 10%);
     height: auto;
   }
 
@@ -146,8 +138,12 @@
   }
 
   .content_header_mobile {
-    width: 350px;
+    width: calc(100vw - 10%);
     height: 232px;
+  }
+
+  .content_header_mobile img {
+    width: calc(100vw - 10%);
   }
 
   .content_main {
@@ -156,7 +152,7 @@
   }
 
   .content_main_mobile {
-    width: 350px;
+    width: calc(100vw - 13%);
     font-size: 16px;
   }
 
