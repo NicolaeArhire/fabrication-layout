@@ -11,20 +11,25 @@ import {
   faTimes,
   faEye,
   faEyeSlash,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle, faTwitter, faYoutube, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { useEffect, useState } from "react";
 import { readCart } from "../../services/storageCart";
 import ReactModal from "react-modal";
+import { readDB, addToDB } from "../../services/userAccount";
+import { Bars } from "react-loader-spinner";
 
 function NavMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [tab, setTab] = useState(localStorage.getItem("tab") || "Home");
   const [showModal, setShowModal] = useState(false);
+  const [accountIntro, setAccountIntro] = useState("");
   const [confirmButton, setConfirmButton] = useState("");
   const [username, setUserName] = useState("");
   const [pass, setPass] = useState("");
   const [mail, setMail] = useState("");
+  const [mailCheck, setMailCheck] = useState("");
   const [visiblePass, setVisibilePass] = useState(false);
 
   useEffect(() => {
@@ -34,28 +39,37 @@ function NavMenu() {
 
   const handleCloseModal = () => {
     setShowModal(false);
+    setMailCheck("");
+    setVisibilePass(false);
+  };
+
+  const handleConfigSignUp = async () => {
+    const newUser = {
+      username: username,
+      mail: mail,
+      pass: pass,
+    };
+
+    setMailCheck(<Bars height="30" width="30" color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />);
+
+    try {
+      const result = await readDB();
+      if (result.record.some((element) => Object.values(element)[1] === mail)) {
+        setTimeout(() => {
+          setMailCheck("Mail already existing. Check again.");
+        }, 2000);
+      } else {
+        await addToDB(newUser);
+        setMailCheck(<FontAwesomeIcon icon={faCheck} style={{ color: "green", width: 35, height: 35 }} />);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleConfigSignIn = () => {
-    // if (token === process.env.REACT_APP_SHAPE_CALCULATOR) {
-    //   setShowModal(false);
-    //   sessionStorage.setItem("token", "token");
-    // } else if (token === "") {
-    //   setWrongToken("Please write something.");
-    // } else {
-    //   setWrongToken(`Please try again. (${noOfTries})`);
-    // }
-  };
-
-  const handleConfigSignUp = () => {
-    // if (token === process.env.REACT_APP_SHAPE_CALCULATOR) {
-    //   setShowModal(false);
-    //   sessionStorage.setItem("token", "token");
-    // } else if (token === "") {
-    //   setWrongToken("Please write something.");
-    // } else {
-    //   setWrongToken(`Please try again. (${noOfTries})`);
-    // }
+    console.log(`mail - ${mail}`);
+    console.log(`pass - ${pass}`);
   };
 
   const handleUsernameChange = (e) => {
@@ -76,11 +90,13 @@ function NavMenu() {
     setShowModal(true);
     setIsOpen(false);
     setConfirmButton("Sign In");
+    setAccountIntro("Please type your e-mail and password.");
   };
   const handleOpenSignUpModal = () => {
     setShowModal(true);
     setIsOpen(false);
     setConfirmButton("Create Account");
+    setAccountIntro("Please set the credentials for your account.");
   };
 
   const handleMenuStateChange = (state) => {
@@ -107,15 +123,21 @@ function NavMenu() {
     <div>
       <ReactModal isOpen={showModal} onRequestClose={handleCloseModal} className="login_modal" ariaHideApp={false}>
         <div className="login_modal_content">
-          <span>
+          <span style={{ marginBottom: 20 }}>
             <i onClick={handleCloseModal}>
               <FontAwesomeIcon icon={faTimes} />
             </i>
           </span>
-          <span>Please complete your credentials below.</span>
+          <span>{accountIntro}</span>
           <form action="post">
-            <label htmlFor="username">Username:</label> <br />
-            <input type="text" id="username" autoComplete="username" onChange={handleUsernameChange} /> <br />
+            {confirmButton === "Create Account" ? (
+              <>
+                <label htmlFor="username">Username:</label> <br />
+                <input type="text" id="username" autoComplete="username" onChange={handleUsernameChange} /> <br />
+              </>
+            ) : (
+              ""
+            )}
             <label htmlFor="email">E-mail:</label> <br />
             <input type="email" id="mail" autoComplete="email" onChange={handleMailChange} />
             <br />
@@ -128,7 +150,34 @@ function NavMenu() {
             />
             <br />
           </form>
-          <button onClick={confirmButton === "Sign Up" ? handleConfigSignUp : handleConfigSignIn}>{confirmButton}</button>
+          <button
+            onClick={confirmButton === "Create Account" ? handleConfigSignUp : handleConfigSignIn}
+            disabled={confirmButton === "Create Account" ? username === "" || mail === "" || pass === "" : mail === "" || pass === ""}
+          >
+            {confirmButton}
+          </button>
+          {confirmButton === "Create Account" ? (
+            <>
+              {" "}
+              <span>{mailCheck}</span>
+              <span style={{ marginTop: 10 }}>
+                Go back to{" "}
+                <span className="signUp_button" onClick={handleOpenSignInModal}>
+                  sign in.
+                </span>
+              </span>
+            </>
+          ) : (
+            <>
+              <span>Don't have an account yet?</span>
+              <span>
+                Simply create one{" "}
+                <span className="signUp_button" onClick={handleOpenSignUpModal}>
+                  here.
+                </span>
+              </span>
+            </>
+          )}
         </div>
       </ReactModal>
       <div className="menu_tab">
@@ -146,12 +195,8 @@ function NavMenu() {
           <img src="/logo.png" alt="logo.png" className="img_navbar" />
         </div>
         <div className="login_menu">
-          <button onClick={handleOpenSignInModal} disabled={!(tab === "Home")}>
-            Sign In
-          </button>
-
-          <button onClick={handleOpenSignUpModal} disabled={!(tab === "Home")}>
-            Sign Up
+          <button onClick={handleOpenSignInModal} disabled={tab === "Shape Calculator"}>
+            Access your account
           </button>
         </div>
         <Link

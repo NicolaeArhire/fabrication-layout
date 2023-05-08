@@ -28,17 +28,25 @@
 .login_menu button {
   color: white;
   background: #02222b;
-  border: none;
+  border: 1px solid cyan;
+  box-shadow: 4px 4px 0 rgb(4, 121, 121);
+  transition: color 0.2s ease-in, box-shadow 0.2s ease-in, -webkit-box-shadow 0.2s ease-in;
 }
 
 .login_menu button:hover:not(:disabled) {
   color: white;
-  border-left: 1px solid cyan;
-  border-bottom: 1px solid cyan;
+  box-shadow: 0 0 0 red;
 }
 
 .login_menu button:disabled {
   cursor: not-allowed;
+}
+
+.signUp_button {
+  color: cyan !important;
+  text-decoration: underline;
+  font-size: 18px !important;
+  cursor: pointer;
 }
 
 .login_modal {
@@ -70,7 +78,7 @@
 }
 
 .login_modal_content span:first-of-type {
-  width: 112%;
+  width: 113%;
   text-align: right;
   font-size: 20px;
   color: white;
@@ -107,15 +115,19 @@
 .login_modal_content button {
   width: 191px;
   margin-top: 25px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   background: #0366e7;
   color: white;
   font-weight: bold;
 }
 
-.login_modal_content button:hover {
-  color: white;
+.login_modal_content button:hover:not(:disabled) {
   background: rgb(13, 161, 206);
+}
+
+.login_modal_content button:disabled {
+  cursor: not-allowed;
+  background: rgb(2, 72, 94);
 }
 
 .chosen_tab {
@@ -265,6 +277,12 @@
     margin-top: 15px;
   }
 
+  #username,
+  #mail,
+  #pass {
+    font-size: 15px;
+  }
+
   .login_modal_content {
     width: calc(100vw - 10%);
     height: auto;
@@ -284,6 +302,10 @@
 
   .login_modal_content label {
     font-size: 15px;
+  }
+
+  .signUp_button {
+    font-size: 16px !important;
   }
 
   .chosen_tab {

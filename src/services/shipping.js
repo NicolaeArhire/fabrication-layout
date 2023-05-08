@@ -1,9 +1,7 @@
-const apiToken = process.env.REACT_APP_API_COUNTRY_TOKEN;
-
-export const getCities = async (countryISO2) => {
+const getCities = async (countryISO2) => {
   try {
     const res = await fetch(
-      `https://secure.geonames.org/searchJSON?country=${countryISO2}&orderby=population&top=10&type=json&featureCode=PPL&featureCode=PPLA&featureCode=PPLC&username=${apiToken}`
+      `https://secure.geonames.org/searchJSON?country=${countryISO2}&orderby=population&top=10&type=json&featureCode=PPL&featureCode=PPLA&featureCode=PPLC&username=${process.env.REACT_APP_API_COUNTRY_TOKEN}`
     );
     const data = await res.json();
     const cities = data.geonames.filter((city) => city.fcode === "PPL" || city.fcode === "PPLA" || city.fcode === "PPLC");
@@ -13,7 +11,7 @@ export const getCities = async (countryISO2) => {
   }
 };
 
-export const getPoints = async (clientCity) => {
+const getPoints = async (clientCity) => {
   try {
     const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${clientCity}&format=json&limit=1`);
     const data = await res.json();
@@ -23,7 +21,7 @@ export const getPoints = async (clientCity) => {
   }
 };
 
-export const getDistance = async (cityPoints) => {
+const getDistance = async (cityPoints) => {
   try {
     const res = await fetch(
       `https://router.project-osrm.org/route/v1/driving/2.3483915,48.8534951;${cityPoints}?overview=false&geometries=geojson`
@@ -34,3 +32,5 @@ export const getDistance = async (cityPoints) => {
     return error;
   }
 };
+
+export { getCities, getPoints, getDistance };
