@@ -1,3 +1,12 @@
+const passDBToLocal = (data) => {
+  localStorage.setItem("userAccount", JSON.stringify(data));
+};
+
+const readDBFromLocal = () => {
+  const userAccount = JSON.parse(localStorage.getItem("userAccount"));
+  return userAccount;
+};
+
 const readDB = async () => {
   try {
     const res = await fetch(`https://api.jsonbin.io/v3/b/${process.env.REACT_APP_BIN_ID}`, {
@@ -43,4 +52,4 @@ const addToDB = async (newAccount) => {
   }
 };
 
-export { readDB, addToDB };
+export { readDB, addToDB, passDBToLocal, readDBFromLocal };

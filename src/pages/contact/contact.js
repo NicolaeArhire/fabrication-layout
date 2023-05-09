@@ -121,13 +121,11 @@ const Cart = () => {
     } else if (!userMail.endsWith(".com")) {
       messageConfirmation.current.innerHTML = 'Your e-mail must end with ".com".';
     } else {
-      emailjs.send("service_axii655", "template_qw0poyh", emailData, "qbI7Jc6ts8bm-zmLe").then(
-        (response) => {
-          // console.log("SUCCESS!", response.status, response.text);
-        },
-        (err) => {
-          // console.log("FAILED...", err);
-        }
+      emailjs.send(
+        process.env.REACT_APP_EMAILJS_SERVICE,
+        process.env.REACT_APP_EMAILJS_TEMPLATE,
+        emailData,
+        process.env.REACT_APP_EMAILJS_KEY
       );
 
       userNameInput.current.value = "";

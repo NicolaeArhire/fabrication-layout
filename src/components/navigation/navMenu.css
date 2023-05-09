@@ -49,6 +49,32 @@
   cursor: pointer;
 }
 
+.mail_check {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.mail_check span {
+  width: 100%;
+  font-size: 16px !important;
+  text-align: center !important;
+}
+
+.mail_check input {
+  width: 75px !important;
+  text-align: center !important;
+  font-size: 15px !important;
+}
+
+#check_icon {
+  color: green;
+  width: 35px;
+  height: 35px;
+}
+
 .login_modal {
   display: flex;
   flex-direction: column;
@@ -306,6 +332,15 @@
 
   .signUp_button {
     font-size: 16px !important;
+  }
+
+  .mail_check span {
+    font-size: 16px !important;
+  }
+
+  #check_icon {
+    width: 25px;
+    height: 25px;
   }
 
   .chosen_tab {

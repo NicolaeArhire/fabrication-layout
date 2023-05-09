@@ -6,6 +6,7 @@ import PlateCalculator from "./pages/plateCalculator/plateCalculator";
 import Cart from "./pages/cart/cart";
 import Contact from "./pages/contact/contact";
 import NavMenu from "./components/navigation/navMenu";
+import MyAccount from "./pages/myAccount/myAccount";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <NavMenu />
         </div>
         <Routes>
+          <Route path="/my-account" element={<MyAccount />} className="page_account"></Route>
           <Route index element={<Home />} className="page_home"></Route>
           <Route path="/calculator" element={<PlateCalculator />} className="page_calculator"></Route>
           <Route path="/cart" element={<Cart />} className="page_cart"></Route>

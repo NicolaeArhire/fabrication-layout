@@ -3,6 +3,7 @@ import { stack as Menu } from "react-burger-menu";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faGear,
   faHome,
   faShoppingCart,
   faPhone,
@@ -14,13 +15,14 @@ import {
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle, faTwitter, faYoutube, faLinkedin } from "@fortawesome/free-brands-svg-icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { readCart } from "../../services/storageCart";
 import ReactModal from "react-modal";
-import { readDB, addToDB } from "../../services/userAccount";
+import { readDB, addToDB, passDBToLocal } from "../../services/userAccount";
 import { Bars } from "react-loader-spinner";
+import emailjs from "@emailjs/browser";
 
-function NavMenu() {
+const NavMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [tab, setTab] = useState(localStorage.getItem("tab") || "Home");
   const [showModal, setShowModal] = useState(false);
@@ -30,46 +32,50 @@ function NavMenu() {
   const [pass, setPass] = useState("");
   const [mail, setMail] = useState("");
   const [mailCheck, setMailCheck] = useState("");
+  const [mailCode, setMailCode] = useState("");
+  const [randomCode, setRandomCode] = useState("");
+  const [visibileCodeCheck, setVisibileCodeCheck] = useState(false);
   const [visiblePass, setVisibilePass] = useState(false);
+  const [accountCreated, setAccountCreated] = useState(false);
+
+  const userNameInput = useRef(null);
+  const userMailInput = useRef(null);
+  const userPassInput = useRef(null);
 
   useEffect(() => {
     localStorage.setItem("tab", tab);
-    setShowModal(false);
+    tab === "My Account" ? setShowModal(true) : setShowModal(false);
   }, [tab]);
 
+  useEffect(() => {
+    if (userNameInput.current) userNameInput.current.value = "";
+    if (userMailInput.current) userMailInput.current.value = "";
+    if (userPassInput.current) userPassInput.current.value = "";
+    setUserName("");
+    setMail("");
+    setPass("");
+    setMailCheck("");
+    setVisibilePass(false);
+    setVisibileCodeCheck(false);
+    setAccountCreated(false);
+  }, [confirmButton, showModal]);
+
+  useEffect(() => {
+    setRandomCode(Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);
+  }, [mail]);
+
   const handleCloseModal = () => {
+    if (userNameInput.current) userNameInput.current.value = "";
+    if (userMailInput.current) userMailInput.current.value = "";
+    if (userPassInput.current) userPassInput.current.value = "";
+    setUserName("");
+    setMail("");
+    setPass("");
     setShowModal(false);
     setMailCheck("");
     setVisibilePass(false);
-  };
-
-  const handleConfigSignUp = async () => {
-    const newUser = {
-      username: username,
-      mail: mail,
-      pass: pass,
-    };
-
-    setMailCheck(<Bars height="30" width="30" color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />);
-
-    try {
-      const result = await readDB();
-      if (result.record.some((element) => Object.values(element)[1] === mail)) {
-        setTimeout(() => {
-          setMailCheck("Mail already existing. Check again.");
-        }, 2000);
-      } else {
-        await addToDB(newUser);
-        setMailCheck(<FontAwesomeIcon icon={faCheck} style={{ color: "green", width: 35, height: 35 }} />);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleConfigSignIn = () => {
-    console.log(`mail - ${mail}`);
-    console.log(`pass - ${pass}`);
+    setVisibileCodeCheck(false);
+    setAccountCreated(false);
   };
 
   const handleUsernameChange = (e) => {
@@ -82,11 +88,209 @@ function NavMenu() {
     setMail(e.target.value);
   };
 
+  const newUser = {
+    username: username,
+    mail: mail,
+    pass: pass,
+  };
+
+  const emailData = {
+    to_name: username,
+    new_mail: mail,
+    confirmation_code: randomCode,
+  };
+
+  const handleCheckSignUpAccount = async () => {
+    setMailCheck(
+      <div className="mail_check">
+        <Bars height="30" width="30" color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
+      </div>
+    );
+
+    try {
+      const result = await readDB();
+
+      if (result.record.some((element) => Object.values(element)[2] === mail)) {
+        setTimeout(() => {
+          setMailCheck(
+            <div className="mail_check">
+              <span>Mail already existing. Check again.</span>
+            </div>
+          );
+        }, 1000);
+      } else if (username === "" || mail === "" || pass === "") {
+        setTimeout(() => {
+          setMailCheck(
+            <div className="mail_check">
+              <span>Please fill in required fields.</span>
+            </div>
+          );
+        }, 1000);
+      } else if (!mail.includes("@")) {
+        setTimeout(() => {
+          setMailCheck(
+            <div className="mail_check">
+              <span>Mail address must include "@"</span>
+            </div>
+          );
+        }, 1000);
+      } else if (!mail.includes(".")) {
+        setTimeout(() => {
+          setMailCheck(
+            <div className="mail_check">
+              <span>Mail address must include "."</span>
+            </div>
+          );
+        }, 1000);
+      } else {
+        setVisibileCodeCheck(true);
+
+        emailData.id = result.record.length + 1;
+
+        const accountDate = new Date().getDate() < 9 ? "0" + new Date().getDate() : new Date().getDate();
+        const accountMonth = new Date().getMonth() < 9 ? "0" + new Date().getMonth() : new Date().getMonth();
+        const accountYear = new Date().getFullYear();
+
+        emailData.created = `${accountDate}-${accountMonth}-${accountYear}`;
+
+        console.log(emailData);
+
+        emailjs.send(
+          process.env.REACT_APP_EMAILJS_SIGNUP_SERVICE,
+          process.env.REACT_APP_EMAILJS_SIGNUP_TEMPLATE,
+          emailData,
+          process.env.REACT_APP_EMAILJS_SIGNUP_KEY
+        );
+
+        const handleMailCode = (e) => {
+          setMailCode(e.target.value);
+        };
+
+        setTimeout(() => {
+          setMailCheck(
+            <div className="mail_check">
+              <span>Type the code we've sent you:</span>
+              <input type="text" onChange={handleMailCode} />
+            </div>
+          );
+        }, 1000);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleConfigSignUp = () => {
+    setMailCheck(
+      <div className="mail_check">
+        <Bars height="30" width="30" color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
+      </div>
+    );
+
+    try {
+      if (parseInt(mailCode) === emailData.confirmation_code) {
+        addToDB(newUser);
+        setAccountCreated(true);
+
+        setTimeout(() => {
+          setMailCheck(
+            <div className="mail_check">
+              <span>Account created &nbsp;</span> <FontAwesomeIcon icon={faCheck} id="check_icon" />
+            </div>
+          );
+        }, 1000);
+      } else {
+        const handleMailCode = (e) => {
+          setMailCode(e.target.value);
+        };
+
+        setTimeout(() => {
+          setMailCheck(
+            <div className="mail_check">
+              <span>Wrong code. Please try again.</span>
+              <input type="text" onChange={handleMailCode} />
+            </div>
+          );
+        }, 1000);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleConfigSignIn = async () => {
+    setMailCheck(
+      <div className="mail_check">
+        <Bars height="30" width="30" color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
+      </div>
+    );
+
+    try {
+      const result = await readDB();
+      if (
+        result.record.some((element) => Object.values(element)[2] === mail) &&
+        result.record.some((element) => Object.values(element)[3] === pass)
+      ) {
+        setAccountCreated(true);
+
+        setTimeout(() => {
+          setMailCheck(
+            <div className="mail_check">
+              <span>Welcome back, {result.record.find((user) => user.mail === mail).username}!</span>{" "}
+              <FontAwesomeIcon icon={faCheck} id="check_icon" />
+            </div>
+          );
+        }, 1000);
+
+        setTimeout(() => {
+          setShowModal(false);
+        }, 3000);
+
+        passDBToLocal({
+          username: result.record.find((user) => user.mail === mail).username,
+          mail: result.record.find((user) => user.mail === mail).mail,
+          pass: result.record.find((user) => user.mail === mail).pass,
+        });
+      } else if (mail === "" || pass === "") {
+        setTimeout(() => {
+          setMailCheck(
+            <div className="mail_check">
+              <span>Please fill in required fields.</span>
+            </div>
+          );
+        }, 1000);
+      } else if (!(pass === result.record.find((user) => user.mail === mail).pass)) {
+        setTimeout(() => {
+          setMailCheck(
+            <div className="mail_check">
+              <span>
+                Wrong password. <span style={{ color: "cyan", textDecoration: "underline" }}>Forgot it?</span>
+              </span>
+            </div>
+          );
+        }, 1000);
+      } else {
+        setVisibileCodeCheck(true);
+
+        setTimeout(() => {
+          setMailCheck(
+            <div className="mail_check">
+              <span>This is not an existing account.</span>
+            </div>
+          );
+        }, 1000);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleVisiblePass = () => {
     setVisibilePass((prevState) => !prevState);
   };
 
   const handleOpenSignInModal = () => {
+    setTab("My Account");
     setShowModal(true);
     setIsOpen(false);
     setConfirmButton("Sign In");
@@ -133,16 +337,22 @@ function NavMenu() {
             {confirmButton === "Create Account" ? (
               <>
                 <label htmlFor="username">Username:</label> <br />
-                <input type="text" id="username" autoComplete="username" onChange={handleUsernameChange} /> <br />
+                <input type="text" ref={userNameInput} id="username" autoComplete="username" onChange={handleUsernameChange} /> <br />
               </>
             ) : (
               ""
             )}
             <label htmlFor="email">E-mail:</label> <br />
-            <input type="email" id="mail" autoComplete="email" onChange={handleMailChange} />
+            <input type="email" ref={userMailInput} id="mail" autoComplete="email" onChange={handleMailChange} />
             <br />
             <label htmlFor="password">Password:</label> <br />
-            <input type={visiblePass ? "text" : "password"} id="password" autoComplete="password" onChange={handlePasswordChange} />{" "}
+            <input
+              type={visiblePass ? "text" : "password"}
+              ref={userPassInput}
+              id="password"
+              autoComplete="password"
+              onChange={handlePasswordChange}
+            />{" "}
             <FontAwesomeIcon
               icon={visiblePass ? faEye : faEyeSlash}
               style={{ width: 20, color: "white", cursor: "pointer", marginLeft: 5 }}
@@ -150,16 +360,17 @@ function NavMenu() {
             />
             <br />
           </form>
+          {mailCheck}
           <button
-            onClick={confirmButton === "Create Account" ? handleConfigSignUp : handleConfigSignIn}
-            disabled={confirmButton === "Create Account" ? username === "" || mail === "" || pass === "" : mail === "" || pass === ""}
+            onClick={
+              confirmButton === "Create Account" ? (visibileCodeCheck ? handleConfigSignUp : handleCheckSignUpAccount) : handleConfigSignIn
+            }
+            disabled={accountCreated}
           >
             {confirmButton}
           </button>
           {confirmButton === "Create Account" ? (
             <>
-              {" "}
-              <span>{mailCheck}</span>
               <span style={{ marginTop: 10 }}>
                 Go back to{" "}
                 <span className="signUp_button" onClick={handleOpenSignInModal}>
@@ -169,6 +380,7 @@ function NavMenu() {
             </>
           ) : (
             <>
+              {" "}
               <span>Don't have an account yet?</span>
               <span>
                 Simply create one{" "}
@@ -182,23 +394,22 @@ function NavMenu() {
       </ReactModal>
       <div className="menu_tab">
         <span className="chosen_tab">{tab}</span>
-        <Link
-          to="/cart"
-          onClick={() => {
-            setIsOpen(false);
-            handleCartTab();
-          }}
-        ></Link>
       </div>
       <Menu className={"my-custom-menu"} animation={"stack"} isOpen={isOpen} onStateChange={handleMenuStateChange}>
         <div className="menu_img">
           <img src="/logo.png" alt="logo.png" className="img_navbar" />
         </div>
-        <div className="login_menu">
-          <button onClick={handleOpenSignInModal} disabled={tab === "Shape Calculator"}>
-            Access your account
-          </button>
-        </div>
+        <Link
+          to="/my-account"
+          onClick={() => {
+            setIsOpen(false);
+            if (!localStorage.getItem("userAccount")) {
+              handleOpenSignInModal();
+            }
+          }}
+        >
+          <FontAwesomeIcon icon={faGear} /> <span style={{ marginLeft: 10 }}>My Account</span>
+        </Link>
         <Link
           to="/"
           onClick={() => {
@@ -267,6 +478,6 @@ function NavMenu() {
       </Menu>
     </div>
   );
-}
+};
 
 export default NavMenu;
