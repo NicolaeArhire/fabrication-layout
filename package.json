@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@auth0/auth0-react": "^2.1.0",
     "@emailjs/browser": "^3.11.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -16,6 +17,7 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.3",
     "country-code-lookup": "^0.0.23",
+    "firebase": "^9.21.0",
     "makerjs": "^0.17.6",
     "paper": "^0.12.17",
     "react": "^18.2.0",

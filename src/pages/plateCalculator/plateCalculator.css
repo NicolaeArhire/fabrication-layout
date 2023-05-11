@@ -26,15 +26,15 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 450px;
-  height: 270px;
+  width: 530px;
+  height: 100px;
   background: rgb(9 39 48);
   border-radius: 25px;
   padding: 10px;
 }
 
 .modal_content span:first-of-type {
-  font-size: 17px;
+  font-size: 22px;
 }
 
 .modal_content span {
@@ -128,7 +128,7 @@
 
   .modal_content {
     width: calc(100vw - 10%);
-    height: 250px;
+    height: 100px;
   }
 
   .modal_content span:first-of-type {

@@ -4,19 +4,22 @@ import { readDBFromLocal } from "../../services/userAccount";
 import { useEffect, useState } from "react";
 
 const MyAccount = () => {
-  const [username, setUsername] = useState();
+  const [username, setUsername] = useState("");
+  const [mail, setMail] = useState("");
+  const [dateCreated, setDateCreated] = useState("");
 
   useEffect(() => {
-    setUsername(readDBFromLocal().username);
+    setUsername(readDBFromLocal()?.username);
+    setMail(readDBFromLocal()?.mail);
+    setDateCreated(readDBFromLocal()?.created);
   }, []);
-
-  console.log(readDBFromLocal());
 
   return (
     <div className="account_container">
       <div className="account_content">
-        <span style={{ color: "white" }}>Hello, {username}</span> <br />
-        <span style={{ color: "white" }}>Modaldddddffdd d dd- </span>
+        <span style={{ color: "white" }}>Hewwweedllo, {username || ""}</span>
+        <span style={{ color: "white" }}>Your e-mail - {mail || ""}</span>
+        <span style={{ color: "white" }}>Account created on - {dateCreated || ""}</span>
       </div>
     </div>
   );

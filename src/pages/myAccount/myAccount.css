@@ -8,8 +8,12 @@
 
 .account_content {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   border: 1px solid red;
   margin-top: 75px;
+  background: rgb(3, 46, 71);
+  height: 500px;
+  width: 1200px;
 }
