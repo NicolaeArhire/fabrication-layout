@@ -3,7 +3,7 @@ import { stack as Menu } from "react-burger-menu";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faGear,
+  faUserAlt,
   faHome,
   faShoppingCart,
   faPhone,
@@ -19,61 +19,34 @@ import { faGoogle, faTwitter, faYoutube, faLinkedin, faFacebook } from "@fortawe
 import { useEffect, useRef, useState } from "react";
 import { readCart } from "../../services/storageCart";
 import ReactModal from "react-modal";
-import { readDB, addToDB, passDBToLocal } from "../../services/userAccount";
 import { Bars } from "react-loader-spinner";
 import emailjs from "@emailjs/browser";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../firebase";
-import { signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import SignUp from "../../signUpPassword";
-import SignIn from "../../signInPassword";
-import FacebookSignIn from "../../services/signInFacebook";
+import passwordSignIn from "../../services/signInPassword";
+import passwordSignUp from "../../services/signUpPassword";
 import googleSignIn from "../../services/signInGoogle";
 import facebookSignIn from "../../services/signInFacebook";
+import deleteUserAccount from "../../services/deleteAccount";
 
 const NavMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [tab, setTab] = useState(localStorage.getItem("tab") || "Home");
   const [showModal, setShowModal] = useState(false);
   const [logOption, setLogOption] = useState("");
-  const [userID, setUserID] = useState("");
   const [username, setUserName] = useState("");
+  const [userDisplayName, setUserDisplayName] = useState("");
   const [pass, setPass] = useState("");
   const [mail, setMail] = useState("");
   const [mailCheck, setMailCheck] = useState("");
   const [mailCode, setMailCode] = useState("");
+  const [wrongMailCode, setWrongMailCode] = useState(false);
   const [randomCode, setRandomCode] = useState("");
   const [visibileCodeCheck, setVisibileCodeCheck] = useState(false);
   const [visiblePass, setVisibilePass] = useState(false);
-  const [accountCreated, setAccountCreated] = useState(false);
+  const [socialLoginCheck, setSocialLoginCheck] = useState("");
 
   const userNameInput = useRef(null);
   const userMailInput = useRef(null);
   const userPassInput = useRef(null);
-
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        navigate("/");
-        console.log("Signed out successfully");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       console.log(user);
-  //     } else {
-  //       console.log("user is logged out");
-  //     }
-  //   });
-  // }, []);
 
   useEffect(() => {
     localStorage.setItem("tab", tab);
@@ -86,21 +59,15 @@ const NavMenu = () => {
     setUserName("");
     setMail("");
     setPass("");
+    setSocialLoginCheck("");
     setMailCheck("");
+    setWrongMailCode(false);
     setVisibilePass(false);
     setVisibileCodeCheck(false);
-    setAccountCreated(false);
   }, [showModal, isOpen]);
 
   useEffect(() => {
     setRandomCode(Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);
-
-    const fetchDB = async () => {
-      const result = await readDB();
-      setUserID(result.record.length + 1);
-    };
-
-    fetchDB();
   }, [mail]);
 
   const handleCloseModal = () => {
@@ -110,11 +77,12 @@ const NavMenu = () => {
     setUserName("");
     setMail("");
     setPass("");
+    setSocialLoginCheck("");
     setShowModal(false);
     setMailCheck("");
+    setWrongMailCode(false);
     setVisibilePass(false);
     setVisibileCodeCheck(false);
-    setAccountCreated(false);
   };
 
   const handleUsernameChange = (e) => {
@@ -127,69 +95,25 @@ const NavMenu = () => {
     setMail(e.target.value);
   };
 
-  const newAccountDate = new Date().getDate() < 10 ? "0" + new Date().getDate() : new Date().getDate();
-  const newAccountMonth = new Date().getMonth() < 10 ? "0" + new Date().getMonth() : new Date().getMonth();
-  const newAccountYear = new Date().getFullYear();
-
-  const dateCreated = `${newAccountDate}-${newAccountMonth}-${newAccountYear}`;
-
-  const newUser = {
-    id: userID,
-    username: username,
-    mail: mail,
-    pass: pass,
-    created: dateCreated,
-  };
-
   const emailData = {
     to_name: username,
     new_mail: mail,
     confirmation_code: randomCode,
   };
 
-  const handleCheckSignUpAccount = async () => {
+  const handleSignUpChecking = async (e) => {
+    e.preventDefault();
+
     setMailCheck(
       <div className="mail_check">
         <Bars height="30" width="30" color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
       </div>
     );
 
-    try {
-      const result = await readDB();
+    if (mail && pass && username) {
+      try {
+        await passwordSignUp(mail, pass, username);
 
-      if (result.record.some((element) => Object.values(element)[2] === mail)) {
-        setTimeout(() => {
-          setMailCheck(
-            <div className="mail_check">
-              <span>Mail already existing. Check again.</span>
-            </div>
-          );
-        }, 1000);
-      } else if (username === "" || mail === "" || pass === "") {
-        setTimeout(() => {
-          setMailCheck(
-            <div className="mail_check">
-              <span>Please fill in required fields.</span>
-            </div>
-          );
-        }, 1000);
-      } else if (!mail.includes("@")) {
-        setTimeout(() => {
-          setMailCheck(
-            <div className="mail_check">
-              <span>Mail address must include "@"</span>
-            </div>
-          );
-        }, 1000);
-      } else if (!mail.includes(".")) {
-        setTimeout(() => {
-          setMailCheck(
-            <div className="mail_check">
-              <span>Mail address must include "."</span>
-            </div>
-          );
-        }, 1000);
-      } else {
         setVisibileCodeCheck(true);
 
         emailjs.send(
@@ -210,14 +134,54 @@ const NavMenu = () => {
               <input type="text" onChange={handleMailCode} />
             </div>
           );
-        }, 1000);
+        }, 500);
+      } catch (error) {
+        if (error.code === "auth/invalid-email") {
+          setTimeout(() => {
+            setMailCheck(
+              <div className="mail_check">
+                <span>This is not a valid e-mail address.</span>
+              </div>
+            );
+          }, 500);
+        } else if (error.code === "auth/weak-password") {
+          setTimeout(() => {
+            setMailCheck(
+              <div className="mail_check">
+                <span>Password has to be at least 6 characters.</span>
+              </div>
+            );
+          }, 500);
+        } else if (error.code === "auth/email-already-in-use") {
+          setTimeout(() => {
+            setMailCheck(
+              <div className="mail_check">
+                <span>E-mail address already registered.</span>
+              </div>
+            );
+          }, 500);
+        } else if (error.code === "app/no-options") {
+          setTimeout(() => {
+            setMailCheck(
+              <div className="mail_check">
+                <span>Error {"->"} app/no-options</span>
+              </div>
+            );
+          }, 500);
+        }
       }
-    } catch (error) {
-      console.error(error);
+    } else {
+      setTimeout(() => {
+        setMailCheck(
+          <div className="mail_check">
+            <span>Please fill in required fields.</span>
+          </div>
+        );
+      }, 500);
     }
   };
 
-  const handleConfigSignUp = () => {
+  const handleSignUpCreate = async () => {
     setMailCheck(
       <div className="mail_check">
         <Bars height="30" width="30" color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
@@ -226,95 +190,175 @@ const NavMenu = () => {
 
     try {
       if (parseInt(mailCode) === emailData.confirmation_code) {
-        addToDB(newUser);
-        setAccountCreated(true);
+        setUserDisplayName("User signed up");
 
         setTimeout(() => {
           setMailCheck(
             <div className="mail_check">
-              <span>Account created &nbsp;</span> <FontAwesomeIcon icon={faCheck} id="check_icon" />
+              <span>Account created. Please sign in. &nbsp;</span> <FontAwesomeIcon icon={faCheck} id="check_icon" />
             </div>
           );
-        }, 1000);
+        }, 500);
       } else {
-        const handleMailCode = (e) => {
-          setMailCode(e.target.value);
-        };
+        setUserDisplayName("");
+        setWrongMailCode(true);
+        deleteUserAccount();
 
         setTimeout(() => {
           setMailCheck(
             <div className="mail_check">
-              <span>Wrong code. Please try again.</span>
-              <input type="text" onChange={handleMailCode} />
+              <span>Wrong code. Please submit again.</span>
             </div>
           );
-        }, 1000);
+        }, 500);
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleConfigSignIn = async () => {
+  const handlePasswordSignIn = async () => {
     setMailCheck(
       <div className="mail_check">
         <Bars height="30" width="30" color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
       </div>
     );
 
-    try {
-      const result = await readDB();
-      if (
-        result.record.some((element) => Object.values(element)[2] === mail) &&
-        pass === result.record.find((user) => user.mail === mail).pass
-      ) {
-        setTimeout(() => {
-          setMailCheck(
-            <div className="mail_check">
-              <span>Welcome back, {result.record.find((user) => user.mail === mail).username}!</span>{" "}
-              <FontAwesomeIcon icon={faCheck} id="check_icon" />
-            </div>
-          );
-          setAccountCreated(true);
-        }, 1000);
+    if (mail && pass) {
+      try {
+        const user = await passwordSignIn(mail, pass);
 
-        passDBToLocal({
-          username: result.record.find((user) => user.mail === mail).username,
-          mail: result.record.find((user) => user.mail === mail).mail,
-          created: result.record.find((user) => user.mail === mail).created,
-        });
-      } else if (!result.record.some((element) => Object.values(element)[2] === mail)) {
-        setTimeout(() => {
-          setMailCheck(
-            <div className="mail_check">
-              <span>This is not an existing e-mail address.</span>
-            </div>
-          );
-        }, 1000);
-      } else if (mail === "" || pass === "") {
-        setTimeout(() => {
-          setMailCheck(
-            <div className="mail_check">
-              <span>Please fill in required fields.</span>
-            </div>
-          );
-        }, 1000);
-      } else if (!(pass === result.record.find((user) => user.mail === mail).pass)) {
-        setTimeout(() => {
-          setMailCheck(
-            <div className="mail_check">
-              <span>Wrong password. Try again.</span>
-            </div>
-          );
-        }, 1000);
+        setUserDisplayName(user.displayName);
+
+        const userData = {
+          name: user.displayName,
+          mail: user.email,
+          photo: user.photoURL,
+          dateCreated: user.metadata.creationTime,
+        };
+
+        localStorage.setItem("userSignedIn", JSON.stringify(userData));
+
+        if (user.displayName) {
+          setTimeout(() => {
+            setMailCheck(
+              <div className="mail_check">
+                <span>Welcome back, {user.displayName}! &nbsp;</span> <FontAwesomeIcon icon={faCheck} id="check_icon" />
+              </div>
+            );
+          }, 500);
+        }
+      } catch (error) {
+        if (error.code === "auth/missing-email") {
+          setTimeout(() => {
+            setMailCheck(
+              <div className="mail_check">
+                <span>E-mail address not registered.</span>
+              </div>
+            );
+          }, 500);
+        } else if (error.code === "auth/invalid-email") {
+          setTimeout(() => {
+            setMailCheck(
+              <div className="mail_check">
+                <span>Wrong e-mail address.</span>
+              </div>
+            );
+          }, 500);
+        } else if (error.code === "auth/wrong-password") {
+          setTimeout(() => {
+            setMailCheck(
+              <div className="mail_check">
+                <span>Wrong password.</span>
+              </div>
+            );
+          }, 500);
+        } else if (error.code === "app/no-options") {
+          setTimeout(() => {
+            setMailCheck(
+              <div className="mail_check">
+                <span>Error {"->"} app/no-options</span>
+              </div>
+            );
+          }, 500);
+        }
       }
-    } catch (error) {
-      console.error(error);
+    } else {
+      setTimeout(() => {
+        setMailCheck(
+          <div className="mail_check">
+            <span>Please fill in required fields.</span>
+          </div>
+        );
+      }, 500);
     }
   };
 
-  const handleConfigSignOut = async () => {
-    localStorage.removeItem("userAccount");
+  const handleGoogleSignIn = () => {
+    googleSignIn()
+      .then((userCredential) => {
+        const user = userCredential.user;
+
+        setUserDisplayName(user.displayName);
+        const userData = {
+          name: user.displayName,
+          mail: user.email,
+          photo: user.photoURL,
+          dateCreated: user.metadata.creationTime,
+        };
+
+        localStorage.setItem("userSignedIn", JSON.stringify(userData));
+        setMailCheck(
+          <div className="mail_check">
+            <span>Welcome back, {user.displayName}! &nbsp;</span> <FontAwesomeIcon icon={faCheck} id="check_icon" />
+          </div>
+        );
+      })
+      .catch((error) => {
+        if (error.code === "auth/account-exists-with-different-credential") {
+          setSocialLoginCheck("E-mail address already existing.");
+        } else if (error.code === "app/no-options") {
+          setSocialLoginCheck("Error -> app/no-options.");
+        } else {
+          setSocialLoginCheck("");
+        }
+      });
+  };
+
+  const handleFacebookSignIn = () => {
+    facebookSignIn()
+      .then((userCredential) => {
+        const user = userCredential.user;
+
+        setUserDisplayName(user.displayName);
+        const userData = {
+          name: user.displayName,
+          mail: user.email,
+          photo: user.photoURL,
+          dateCreated: user.metadata.creationTime,
+        };
+
+        localStorage.setItem("userSignedIn", JSON.stringify(userData));
+        setMailCheck(
+          <div className="mail_check">
+            <span>Welcome back, {user.displayName}! &nbsp;</span> <FontAwesomeIcon icon={faCheck} id="check_icon" />
+          </div>
+        );
+      })
+      .catch((error) => {
+        if (error.code === "auth/account-exists-with-different-credential") {
+          setSocialLoginCheck("E-mail address already existing.");
+        } else if (error.code === "app/no-options") {
+          setSocialLoginCheck("Error -> app/no-options.");
+        } else {
+          setSocialLoginCheck("");
+        }
+      });
+  };
+
+  const handleSignOut = async () => {
+    setUserDisplayName("");
+    localStorage.removeItem("userSignedIn");
 
     setMailCheck(
       <div className="mail_check">
@@ -328,45 +372,15 @@ const NavMenu = () => {
           <span>You've been successfully signed out!</span> <FontAwesomeIcon icon={faCheck} id="check_icon" />
         </div>
       );
-    }, 1000);
+    }, 500);
   };
 
-  const handleConfigDoNotSignOut = async () => {
+  const handleDoNotSignOut = async () => {
     setMailCheck(
       <div className="mail_check">
         <span>Smart choice not to sign out!</span> <FontAwesomeIcon icon={faThumbsUp} id="check_icon" />
       </div>
     );
-  };
-
-  const handleGoogleSignIn = () => {
-    googleSignIn()
-      .then((userCredential) => {
-        // Handle the successful login
-        const user = userCredential.user;
-        console.log("User logged in:", user);
-        // Additional logic here...
-      })
-      .catch((error) => {
-        // Handle login error
-        console.log("Login error:", error);
-        // Additional error handling here...
-      });
-  };
-
-  const handleFacebookSignIn = () => {
-    facebookSignIn()
-      .then((userCredential) => {
-        // Handle the successful login
-        const user = userCredential.user;
-        console.log("User logged in:", user);
-        // Additional logic here...
-      })
-      .catch((error) => {
-        // Handle login error
-        console.log("Login error:", error);
-        // Additional error handling here...
-      });
   };
 
   const handleVisiblePass = () => {
@@ -377,18 +391,22 @@ const NavMenu = () => {
     setShowModal(true);
     setIsOpen(false);
     setLogOption(1);
+    setMailCheck("");
   };
 
   const handleOpenSignUpModal = () => {
     setShowModal(true);
     setIsOpen(false);
     setLogOption(2);
+    setMailCheck("");
+    setSocialLoginCheck("");
   };
 
   const handleOpenSignOutModal = () => {
     setShowModal(true);
     setIsOpen(false);
     setLogOption(3);
+    setMailCheck("");
   };
 
   const handleMenuStateChange = (state) => {
@@ -430,7 +448,7 @@ const NavMenu = () => {
                 <span>Sign In.</span>
               </div>
               <div id="google_auth">
-                <button onClick={handleGoogleSignIn}>
+                <button onClick={handleGoogleSignIn} disabled={localStorage.getItem("userSignedIn")}>
                   <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                     <g>
                       <path
@@ -456,20 +474,18 @@ const NavMenu = () => {
                 </button>
               </div>
               <div id="facebook_auth">
-                <button onClick={handleFacebookSignIn}>
+                <button onClick={handleFacebookSignIn} disabled={localStorage.getItem("userSignedIn")}>
                   <FontAwesomeIcon icon={faFacebook} />
                   Sign in with Facebook
                 </button>
+              </div>
+              <div className="social_login_checking">
+                <span>{socialLoginCheck}</span>
               </div>
               <div id="social_login_hint">
                 <span>Hint: </span>
                 <span> If you use either Google or Facebook, sign in means also sign up.</span>
               </div>
-              {/* <SignIn /> */}
-              {/* <FacebookSignIn /> */}
-              {/* <div>
-                <button onClick={handleLogout}>Logout</button>
-              </div> */}
               <div id="social_or_credentials">
                 <hr />
                 <span>OR</span>
@@ -508,19 +524,22 @@ const NavMenu = () => {
                 </div>
               </form>
               {mailCheck}
-              <button onClick={handleConfigSignIn} disabled={accountCreated} id="sign_in_button">
+              <button onClick={handlePasswordSignIn} disabled={localStorage.getItem("userSignedIn")} id="sign_in_button">
                 Sign In
               </button>
               <div id="sign_up">
                 <span>- Don't have an account? </span>
-                <span onClick={handleOpenSignUpModal} disabled={localStorage.getItem("userAccount")} id="sign_up_button">
+                <span
+                  onClick={localStorage.getItem("userSignedIn") ? () => {} : handleOpenSignUpModal}
+                  id="sign_up_button"
+                  style={{ cursor: localStorage.getItem("userSignedIn") ? "auto" : "pointer" }}
+                >
                   Sign up.
                 </span>
               </div>
             </>
           ) : logOption === 2 ? (
             <>
-              {" "}
               <div id="log_option">
                 <span>Sign Up.</span>
               </div>
@@ -571,25 +590,35 @@ const NavMenu = () => {
               </form>
               {mailCheck}
               <button
-                onClick={visibileCodeCheck ? handleConfigSignUp : handleCheckSignUpAccount}
-                disabled={accountCreated}
+                onClick={visibileCodeCheck ? handleSignUpCreate : handleSignUpChecking}
+                disabled={localStorage.getItem("userSignedIn")}
                 id="sign_in_button"
               >
                 Create Account
               </button>
               <div id="sign_up">
                 <span>- Back to </span>
-                <span onClick={handleOpenSignInModal} disabled={localStorage.getItem("userAccount")} id="sign_up_button">
+                <span
+                  onClick={handleOpenSignInModal}
+                  disabled={localStorage.getItem("userSignedIn")}
+                  style={{ pointerEvents: wrongMailCode ? "none" : "auto" }}
+                  id="sign_up_button"
+                >
                   sign in.
                 </span>
               </div>
             </>
           ) : logOption === 3 ? (
             <>
+              <div id="log_option">
+                <span>Sign Out.</span>
+              </div>
               <span style={{ marginTop: 20, marginBottom: 20 }}>Are you sure you want to sign out?</span>
               <div id="signOut_confirm">
-                <button onClick={handleConfigSignOut}>Yes</button>
-                <button onClick={handleConfigDoNotSignOut}>No</button>
+                <button onClick={handleSignOut}>Yes</button>
+                <button onClick={handleDoNotSignOut} disabled={!userDisplayName}>
+                  No
+                </button>
               </div>
               {mailCheck}
             </>
@@ -606,10 +635,10 @@ const NavMenu = () => {
           <img src="/logo.png" alt="logo.png" className="img_navbar" />
         </div>
         <div id="auth_options" style={{ display: "flex" }}>
-          <button onClick={handleOpenSignInModal} disabled={localStorage.getItem("userAccount")}>
+          <button onClick={handleOpenSignInModal} disabled={localStorage.getItem("userSignedIn")}>
             Sign In
           </button>
-          <button onClick={handleOpenSignOutModal} disabled={!localStorage.getItem("userAccount")}>
+          <button onClick={handleOpenSignOutModal} disabled={!localStorage.getItem("userSignedIn")}>
             Sign Out
           </button>
         </div>
@@ -619,9 +648,9 @@ const NavMenu = () => {
             setIsOpen(false);
             handleAccountTab();
           }}
-          style={{ display: localStorage.getItem("userAccount") ? "flex" : "none" }}
+          style={{ display: localStorage.getItem("userSignedIn") ? "flex" : "none" }}
         >
-          <FontAwesomeIcon icon={faGear} /> <span style={{ marginLeft: 10 }}>My Account</span>
+          <FontAwesomeIcon icon={faUserAlt} /> <span style={{ marginLeft: 10 }}>My Account</span>
         </Link>
         <Link
           to="/"

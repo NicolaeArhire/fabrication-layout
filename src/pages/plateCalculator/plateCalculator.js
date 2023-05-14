@@ -20,7 +20,7 @@ const PlateCalculator = () => {
   }, [currentComponent]);
 
   useEffect(() => {
-    if (localStorage.getItem("userAccount")) setShowModal(false);
+    if (localStorage.getItem("userSignedIn")) setShowModal(false);
   }, []);
 
   const components = [

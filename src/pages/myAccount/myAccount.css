@@ -11,9 +11,218 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid red;
+  border: 1px solid cyan;
   margin-top: 75px;
   background: rgb(3, 46, 71);
-  height: 500px;
+  height: fit-content;
   width: 1200px;
+  border-radius: 20px;
+}
+
+.user_details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 150px;
+  width: 100%;
+  padding: 15px 0 15px 70px;
+}
+
+.user_name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.user_name span:nth-of-type(1) {
+  font-size: 25px;
+  color: cyan;
+  margin-bottom: 15px;
+}
+
+.user_name span:nth-of-type(2) {
+  font-size: 16px;
+  color: white;
+}
+
+.user_photo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-right: 30px;
+}
+
+.user_photo img {
+  width: 120px;
+  height: 120px;
+  border-radius: 10%;
+}
+
+.user_info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.account_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  border-right: 1px solid cyan;
+}
+
+.account_info_title {
+  text-align: center;
+  border: 1px solid cyan;
+  width: 95%;
+  font-size: 20px;
+  background: rgb(2, 29, 48);
+  padding: 5px 0 5px 0;
+  border-radius: 10px;
+}
+
+.account_info_title span {
+  color: white;
+}
+
+.account_info_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  padding-top: 20px;
+  padding-bottom: 30px;
+}
+
+.account_info_props {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid cyan;
+  border-radius: 10px;
+  background: rgb(2, 59, 70);
+  color: white;
+}
+
+.account_info_props:hover {
+  background: rgb(2, 29, 48);
+}
+
+.delete_account {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  width: 95%;
+}
+
+.delete_account button {
+  color: white;
+  width: 25%;
+  padding: 10px;
+  border: 1px solid cyan;
+  border-radius: 10px;
+  background: rgb(172, 9, 9);
+}
+
+.delete_account button:disabled {
+  background: rgb(77, 73, 73);
+}
+.delete_account button:hover:not(:disabled) {
+  background: rgb(114, 4, 4);
+}
+
+.account_orders {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+}
+
+.account_orders span {
+  color: white;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.account_orders_title {
+  text-align: center;
+  border: 1px solid cyan;
+  width: 95%;
+  font-size: 20px;
+  background: rgb(2, 29, 48);
+  padding: 5px 0 5px 0;
+  border-radius: 10px;
+}
+
+.account_orders_title span {
+  color: white;
+}
+
+.account_orders_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  height: fit-content;
+  padding-top: 20px;
+}
+
+@media screen and (max-width: 500px) {
+  .account_content {
+    width: calc(100vw - 5%);
+  }
+
+  .user_name span:nth-of-type(1) {
+    font-size: 20px;
+  }
+
+  .user_info {
+    flex-direction: column;
+  }
+
+  .user_details {
+    flex-direction: column-reverse;
+    justify-content: center;
+    padding-left: 10px;
+    height: 270px;
+  }
+
+  .user_photo {
+    margin-top: 10px;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .account_info {
+    border-right: none;
+    border-bottom: 1px solid white;
+  }
+
+  .account_info_title {
+    font-size: 16px;
+  }
+
+  .account_orders_title {
+    margin-top: 20px;
+    font-size: 16px;
+  }
+
+  .delete_account button {
+    width: 40%;
+  }
 }

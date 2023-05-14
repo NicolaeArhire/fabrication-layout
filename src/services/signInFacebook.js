@@ -1,7 +1,8 @@
-import { getAuth, signInWithPopup, FacebookAuthProvider } from "firebase/auth";
+import { signInWithPopup, FacebookAuthProvider } from "firebase/auth";
+import { auth } from "../../src/firebase";
 
 const facebookSignIn = () => {
-  return signInWithPopup(getAuth(), new FacebookAuthProvider());
+  return signInWithPopup(auth, new FacebookAuthProvider());
 };
 
 export default facebookSignIn;
