@@ -233,8 +233,8 @@ const NavMenu = () => {
         const userData = {
           name: user.displayName,
           mail: user.email,
-          photo: user.photoURL,
           dateCreated: user.metadata.creationTime,
+          userID: user.uid,
         };
 
         localStorage.setItem("userSignedIn", JSON.stringify(userData));
@@ -303,11 +303,12 @@ const NavMenu = () => {
         const userData = {
           name: user.displayName,
           mail: user.email,
-          photo: user.photoURL,
           dateCreated: user.metadata.creationTime,
+          userID: user.uid,
         };
 
         localStorage.setItem("userSignedIn", JSON.stringify(userData));
+
         setMailCheck(
           <div className="mail_check">
             <span>Welcome back, {user.displayName}! &nbsp;</span> <FontAwesomeIcon icon={faCheck} id="check_icon" />
@@ -334,8 +335,8 @@ const NavMenu = () => {
         const userData = {
           name: user.displayName,
           mail: user.email,
-          photo: user.photoURL,
           dateCreated: user.metadata.creationTime,
+          userID: user.uid,
         };
 
         localStorage.setItem("userSignedIn", JSON.stringify(userData));
@@ -372,7 +373,13 @@ const NavMenu = () => {
           <span>You've been successfully signed out!</span> <FontAwesomeIcon icon={faCheck} id="check_icon" />
         </div>
       );
+
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 500);
     }, 500);
+    setIsOpen(false);
+    handleHomeTab();
   };
 
   const handleDoNotSignOut = async () => {

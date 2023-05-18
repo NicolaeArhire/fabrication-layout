@@ -362,21 +362,21 @@ input[type="file"]::-webkit-file-upload-button {
   text-decoration: underline;
 }
 
+.rc-anchor-light {
+  background: black !important;
+}
+
 .contact_send_button {
   width: 100px;
   background: rgb(41, 44, 44);
   color: cyan;
   border: 1px solid white;
   border-radius: 4px;
+  margin-top: 20px;
 }
 
 .contact_send_button:not(:disabled):hover {
   background: rgb(0, 0, 0);
-}
-
-.contact_send_button:disabled {
-  cursor: not-allowed;
-  background: rgb(14, 139, 170);
 }
 
 .contact_send_button.animate {

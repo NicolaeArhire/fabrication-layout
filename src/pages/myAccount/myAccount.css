@@ -1,3 +1,17 @@
+.page_loading {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(68, 56, 56, 0.6);
+}
+
+.page_loading svg {
+  width: 250px;
+  height: 250px;
+}
+
 .account_container {
   display: flex;
   flex-direction: row;
@@ -23,7 +37,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 150px;
+  height: 120px;
   width: 100%;
   padding: 15px 0 15px 70px;
 }
@@ -61,6 +75,18 @@
   border-radius: 10%;
 }
 
+.user_photo svg {
+  position: absolute;
+  margin: 80px 0 0 80px;
+  color: red;
+  width: 30px;
+  height: 30px;
+}
+
+.user_photo svg:hover {
+  cursor: pointer;
+}
+
 .user_info {
   display: flex;
   flex-direction: row;
@@ -89,6 +115,7 @@
 }
 
 .account_info_title span {
+  font-size: 18px;
   color: white;
 }
 
@@ -107,6 +134,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   width: 95%;
   padding: 10px;
   margin-bottom: 20px;
@@ -116,8 +144,255 @@
   color: white;
 }
 
-.account_info_props:hover {
+.account_info_props span:nth-of-type(1) {
+  font-size: 15px;
+}
+
+.account_info_props span:nth-of-type(2) {
+  font-size: 14px;
+}
+
+.account_info_props_phone {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  width: 150px;
+}
+
+.user_phone {
+  font-size: 14px;
+  background: rgb(2, 59, 70);
+  border: none;
+  color: white;
+  width: 115px;
+  text-align: right;
+}
+
+.user_phone:focus {
+  outline: none;
+}
+
+.user_phone::placeholder {
+  color: white;
+}
+
+#edit_phone {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+#save_phone {
+  text-align: center;
+  cursor: pointer;
+  width: 45px;
+  background: white;
+  border: none;
+  font-weight: bold;
+  color: black;
+  margin-left: 10px;
+  font-size: 15px;
+  padding: 0 6px 0 6px;
+  border-radius: 5px;
+}
+
+#save_phone:hover {
+  background: cyan;
+}
+
+.account_info_props_address {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  width: 450px;
+}
+
+.user_address {
+  font-size: 14px;
+  background: rgb(2, 59, 70);
+  border: none;
+  color: white;
+  width: 350px;
+  text-align: right;
+}
+
+.user_address:focus {
+  outline: none;
+}
+
+#edit_address {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+#save_address {
+  text-align: center;
+  cursor: pointer;
+  width: 45px;
+  background: white;
+  border: none;
+  font-weight: bold;
+  color: black;
+  margin-left: 10px;
+  font-size: 15px;
+  padding: 0 6px 0 6px;
+  border-radius: 5px;
+}
+
+#save_address:hover {
+  background: cyan;
+}
+
+.account_info_props:hover,
+.account_info_props:hover span,
+.account_info_props:hover input {
   background: rgb(2, 29, 48);
+}
+
+.address_modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  min-width: 100vw;
+  min-height: 100vh;
+  z-index: 2;
+}
+
+.address_modal_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: auto;
+  background: rgb(9 39 48);
+  border-radius: 25px 0 25px 25px;
+  padding: 0 25px 25px 25px;
+  z-index: 2;
+}
+
+.address_modal_content span:first-of-type {
+  width: 113%;
+  text-align: right;
+  font-size: 20px;
+  color: white;
+}
+
+.address_modal_content form {
+  margin-left: 30px;
+}
+
+.address_modal_content i {
+  padding: 0 10px 2px 10px;
+  background: red;
+}
+
+.address_modal_content i:hover {
+  cursor: pointer;
+}
+
+.address_modal_content span {
+  font-size: 18px;
+  color: white;
+}
+
+.address_modal_content input {
+  width: 250px;
+  border: 1px solid rgb(11, 238, 227);
+}
+
+.address_modal_content button:hover:not(:disabled) {
+  background: rgb(13, 161, 206);
+}
+
+.address_modal_content button:disabled {
+  cursor: not-allowed;
+  background: rgb(2, 72, 94);
+}
+
+.address_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.billing_address_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.billing_address_country,
+.billing_address_city {
+  font-size: 15px;
+  width: 90%;
+  margin-bottom: 40px;
+}
+
+#billing_address_home {
+  font-size: 15px;
+  width: 90%;
+  margin-bottom: 30px;
+}
+
+#billing_address_home::placeholder {
+  color: black;
+}
+
+#billing_address_home:focus {
+  outline: none;
+}
+
+#save_billing_address {
+  text-align: center;
+  cursor: pointer;
+  width: 80px;
+  background: white;
+  border: none;
+  font-weight: bold;
+  color: black;
+  font-size: 15px;
+  padding: 2px 0 2px 0;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+#save_billing_address:hover {
+  background: cyan;
+}
+
+#save_billing_address:focus {
+  outline: none;
+}
+
+#address_save_check {
+  text-align: center;
+  font-size: 15px;
+}
+
+#address_title {
+  display: flex;
+  justify-content: start;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+#address_title span {
+  width: fit-content;
+  font-weight: bold;
+  color: aqua;
+  font-size: 20px;
 }
 
 .delete_account {
@@ -162,7 +437,7 @@
   text-align: center;
   border: 1px solid cyan;
   width: 95%;
-  font-size: 20px;
+  font-size: 18px;
   background: rgb(2, 29, 48);
   padding: 5px 0 5px 0;
   border-radius: 10px;
@@ -183,6 +458,11 @@
 }
 
 @media screen and (max-width: 500px) {
+  .page_loading svg {
+    width: 250px;
+    height: 250px;
+  }
+
   .account_content {
     width: calc(100vw - 5%);
   }
@@ -208,6 +488,14 @@
     margin-bottom: 20px;
   }
 
+  .user_address {
+    width: 250px;
+  }
+
+  .account_info_props_address {
+    width: 300px;
+  }
+
   .account_info {
     border-right: none;
     border-bottom: 1px solid white;
@@ -220,6 +508,27 @@
   .account_orders_title {
     margin-top: 20px;
     font-size: 16px;
+  }
+
+  .address_modal_content {
+    width: calc(100vw - 10%);
+    height: auto;
+  }
+
+  .address_modal_content span:first-of-type {
+    width: 115.5%;
+  }
+
+  .address_modal_content span {
+    font-size: 16px;
+  }
+
+  .address_modal_content button {
+    font-size: 15px;
+  }
+
+  .address_modal_content label {
+    font-size: 15px;
   }
 
   .delete_account button {

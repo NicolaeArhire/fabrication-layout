@@ -5,6 +5,7 @@ import { faGoogle, faTwitter, faYoutube, faLinkedin } from "@fortawesome/free-br
 import { faPaperPlane, faPhone, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import Typewriter from "typewriter-effect";
 import emailjs from "@emailjs/browser";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const Cart = () => {
   const [isclicked, setIsClicked] = useState(false);
@@ -12,6 +13,7 @@ const Cart = () => {
   const [userName, setUserName] = useState("");
   const [userMail, setUserMail] = useState("");
   const [userMessage, setUserMessage] = useState("");
+  const [isVerified, setIsVerified] = useState(false);
 
   const userNameInput = useRef(null);
   const userMailInput = useRef(null);
@@ -26,6 +28,7 @@ const Cart = () => {
   const rightPanelInput2Ref = useRef(null);
   const rightPanelInput3Ref = useRef(null);
   const rightAddFileRef = useRef(null);
+  const rightReCaptchaRef = useRef(null);
   const rightPanelButtonRef = useRef(null);
 
   const photoNo = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
@@ -83,6 +86,12 @@ const Cart = () => {
     observer3.observe(rightEmailRef.current);
     observer3.observe(rightIconsRef.current);
 
+    rightReCaptchaRef.current.style.display = "none";
+
+    setTimeout(() => {
+      rightReCaptchaRef.current.style.display = "block";
+    }, 3000);
+
     return () => {
       observer.disconnect();
       observer2.disconnect();
@@ -113,13 +122,21 @@ const Cart = () => {
     message: userMessage,
   };
 
+  const handleRecaptchaChange = (token) => {
+    token ? setIsVerified(true) : setIsVerified(false);
+  };
+
   const handleSendMessage = () => {
     setShowMessageConfirmation(true);
 
-    if (!userMail.includes("@")) {
+    if (userName === "" || userMail === "" || userMessage === "") {
+      messageConfirmation.current.innerHTML = "Please fill in required fields.";
+    } else if (!userMail.includes("@")) {
       messageConfirmation.current.innerHTML = 'Your e-mail must include "@".';
     } else if (!userMail.endsWith(".com")) {
       messageConfirmation.current.innerHTML = 'Your e-mail must end with ".com".';
+    } else if (isVerified === false) {
+      messageConfirmation.current.innerHTML = "Please check reCaptcha.";
     } else {
       emailjs.send(
         process.env.REACT_APP_EMAILJS_SERVICE,
@@ -223,13 +240,11 @@ const Cart = () => {
         </div>
         <div className="contact_send">
           <input ref={rightAddFileRef} type="file" name="file" className="right_file" />
+          <div ref={rightReCaptchaRef}>
+            <ReCAPTCHA sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} onChange={handleRecaptchaChange} />
+          </div>
           <div>
-            <button
-              ref={rightPanelButtonRef}
-              className="contact_send_button"
-              onClick={handleSendMessage}
-              disabled={userName === "" || userMail === "" || userMessage === ""}
-            >
+            <button ref={rightPanelButtonRef} className="contact_send_button" onClick={handleSendMessage}>
               Send <FontAwesomeIcon icon={faPaperPlane} className="icon_send" />
             </button>
             <span
