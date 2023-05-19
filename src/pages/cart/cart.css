@@ -1,3 +1,17 @@
+.cart_loading {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(68, 56, 56, 0.6);
+}
+
+.cart_loading svg {
+  width: 80px;
+  height: 80px;
+}
+
 .cart_container {
   display: flex;
   flex-direction: row;
@@ -308,6 +322,11 @@
 }
 
 @media screen and (max-width: 500px) {
+  .cart_loading svg {
+    width: 50px;
+    height: 50px;
+  }
+
   .cart_content {
     width: calc(100vw - 10%);
     margin-top: 40px;

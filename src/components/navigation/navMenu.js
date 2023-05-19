@@ -26,6 +26,7 @@ import passwordSignUp from "../../services/signUpPassword";
 import googleSignIn from "../../services/signInGoogle";
 import facebookSignIn from "../../services/signInFacebook";
 import deleteUserAccount from "../../services/deleteAccount";
+import forgotPassword from "../../services/forgotPassword";
 
 const NavMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +34,6 @@ const NavMenu = () => {
   const [showModal, setShowModal] = useState(false);
   const [logOption, setLogOption] = useState("");
   const [username, setUserName] = useState("");
-  const [userDisplayName, setUserDisplayName] = useState("");
   const [pass, setPass] = useState("");
   const [mail, setMail] = useState("");
   const [mailCheck, setMailCheck] = useState("");
@@ -43,14 +43,16 @@ const NavMenu = () => {
   const [visibileCodeCheck, setVisibileCodeCheck] = useState(false);
   const [visiblePass, setVisibilePass] = useState(false);
   const [socialLoginCheck, setSocialLoginCheck] = useState("");
+  const [isForgotPass, setIsForgotPass] = useState(false);
 
   const userNameInput = useRef(null);
   const userMailInput = useRef(null);
   const userPassInput = useRef(null);
 
   useEffect(() => {
-    localStorage.setItem("tab", tab);
-  }, [tab]);
+    const location = window.location.href.split("/").pop() || "";
+    location ? setTab(location.charAt(0).toUpperCase() + location.slice(1)) : setTab("Home");
+  }, []);
 
   useEffect(() => {
     if (userNameInput.current) userNameInput.current.value = "";
@@ -64,6 +66,7 @@ const NavMenu = () => {
     setWrongMailCode(false);
     setVisibilePass(false);
     setVisibileCodeCheck(false);
+    setIsForgotPass(false);
   }, [showModal, isOpen]);
 
   useEffect(() => {
@@ -83,6 +86,15 @@ const NavMenu = () => {
     setWrongMailCode(false);
     setVisibilePass(false);
     setVisibileCodeCheck(false);
+    setIsForgotPass(false);
+
+    if (tab === "My Account" && !localStorage.getItem("userSignedIn")) {
+      window.location.href = "/";
+      setIsOpen(false);
+      handleHomeTab();
+    } else if (tab === "Cart") {
+      window.location.reload();
+    }
   };
 
   const handleUsernameChange = (e) => {
@@ -190,8 +202,6 @@ const NavMenu = () => {
 
     try {
       if (parseInt(mailCode) === emailData.confirmation_code) {
-        setUserDisplayName("User signed up");
-
         setTimeout(() => {
           setMailCheck(
             <div className="mail_check">
@@ -200,7 +210,6 @@ const NavMenu = () => {
           );
         }, 500);
       } else {
-        setUserDisplayName("");
         setWrongMailCode(true);
         deleteUserAccount();
 
@@ -227,8 +236,6 @@ const NavMenu = () => {
     if (mail && pass) {
       try {
         const user = await passwordSignIn(mail, pass);
-
-        setUserDisplayName(user.displayName);
 
         const userData = {
           name: user.displayName,
@@ -299,7 +306,6 @@ const NavMenu = () => {
       .then((userCredential) => {
         const user = userCredential.user;
 
-        setUserDisplayName(user.displayName);
         const userData = {
           name: user.displayName,
           mail: user.email,
@@ -331,7 +337,6 @@ const NavMenu = () => {
       .then((userCredential) => {
         const user = userCredential.user;
 
-        setUserDisplayName(user.displayName);
         const userData = {
           name: user.displayName,
           mail: user.email,
@@ -357,8 +362,48 @@ const NavMenu = () => {
       });
   };
 
+  const handleForgotPassword = async () => {
+    setMailCheck(
+      <div className="mail_check">
+        <Bars height="30" width="30" color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
+      </div>
+    );
+
+    if (mail) {
+      try {
+        await forgotPassword(mail);
+
+        setIsForgotPass(true);
+        setTimeout(() => {
+          setMailCheck(
+            <div className="mail_check">
+              <span>We've sent a reset link on your e-mail.</span>
+            </div>
+          );
+        }, 500);
+      } catch (error) {
+        if (error.code === "auth/missing-email" || error.code === "auth/invalid-email" || error.code === "auth/user-not-found") {
+          setTimeout(() => {
+            setMailCheck(
+              <div className="mail_check">
+                <span>This is not an existing e-mail.</span>
+              </div>
+            );
+          }, 500);
+        }
+      }
+    } else if (mail === "") {
+      setTimeout(() => {
+        setMailCheck(
+          <div className="mail_check">
+            <span>Please fill in your e-mail.</span>
+          </div>
+        );
+      }, 500);
+    }
+  };
+
   const handleSignOut = async () => {
-    setUserDisplayName("");
     localStorage.removeItem("userSignedIn");
 
     setMailCheck(
@@ -373,13 +418,7 @@ const NavMenu = () => {
           <span>You've been successfully signed out!</span> <FontAwesomeIcon icon={faCheck} id="check_icon" />
         </div>
       );
-
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 500);
     }, 500);
-    setIsOpen(false);
-    handleHomeTab();
   };
 
   const handleDoNotSignOut = async () => {
@@ -413,6 +452,13 @@ const NavMenu = () => {
     setShowModal(true);
     setIsOpen(false);
     setLogOption(3);
+    setMailCheck("");
+  };
+
+  const handleOpenForgotPassModal = async () => {
+    setShowModal(true);
+    setIsOpen(false);
+    setLogOption(4);
     setMailCheck("");
   };
 
@@ -534,6 +580,9 @@ const NavMenu = () => {
               <button onClick={handlePasswordSignIn} disabled={localStorage.getItem("userSignedIn")} id="sign_in_button">
                 Sign In
               </button>
+              <button onClick={handleOpenForgotPassModal} disabled={localStorage.getItem("userSignedIn")} id="forgot_pass_button">
+                Forgot password?
+              </button>
               <div id="sign_up">
                 <span>- Don't have an account? </span>
                 <span
@@ -623,11 +672,38 @@ const NavMenu = () => {
               <span style={{ marginTop: 20, marginBottom: 20 }}>Are you sure you want to sign out?</span>
               <div id="signOut_confirm">
                 <button onClick={handleSignOut}>Yes</button>
-                <button onClick={handleDoNotSignOut} disabled={!userDisplayName}>
+                <button onClick={handleDoNotSignOut} disabled={!localStorage.getItem("userSignedIn")}>
                   No
                 </button>
               </div>
               {mailCheck}
+            </>
+          ) : logOption === 4 ? (
+            <>
+              <div id="log_option">
+                <span>Reset your password.</span>
+              </div>
+              <span style={{ marginTop: 20, marginBottom: 10, fontSize: 16 }}>Please type your e-mail address.</span>
+              <div id="new_pass">
+                <input type="text" onChange={handleMailChange} />
+              </div>
+              {mailCheck}
+              <div id="new_pass" style={{ marginTop: 20 }}>
+                <button onClick={handleForgotPassword} disabled={isForgotPass}>
+                  Next
+                </button>
+              </div>
+              <div id="sign_up">
+                <span>- Back to </span>
+                <span
+                  onClick={handleOpenSignInModal}
+                  disabled={localStorage.getItem("userSignedIn")}
+                  style={{ pointerEvents: wrongMailCode ? "none" : "auto" }}
+                  id="sign_up_button"
+                >
+                  sign in.
+                </span>
+              </div>
             </>
           ) : (
             ""

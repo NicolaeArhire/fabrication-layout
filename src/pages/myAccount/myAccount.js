@@ -7,7 +7,7 @@ import deleteUserAccount from "../../services/deleteAccount";
 import saveUserData from "../../services/saveUserData";
 import readUserData from "../../services/readUserData";
 import ReactModal from "react-modal";
-import { Bars, InfinitySpin } from "react-loader-spinner";
+import { Bars } from "react-loader-spinner";
 import lookup from "country-code-lookup";
 import { getCities } from "../../services/shipping";
 
@@ -38,7 +38,7 @@ const MyAccount = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 700);
   }, []);
 
   useEffect(() => {
@@ -214,7 +214,6 @@ const MyAccount = () => {
               <input
                 id="billing_address_home"
                 defaultValue={
-                  userExtraData.billingAddress &&
                   userExtraData.billingAddress
                     .split(",")
                     .map((item) => item.trim())
@@ -223,7 +222,7 @@ const MyAccount = () => {
                     .join(",")
                     .split(",")
                     .reverse()
-                    .join(", ")
+                    .join(", ") || ""
                 }
                 placeholder="Your address..."
                 onChange={handleHomeChange}
@@ -235,7 +234,7 @@ const MyAccount = () => {
         </div>
       </ReactModal>
       <div className="page_loading" style={{ display: isLoading ? "flex" : "none" }}>
-        <InfinitySpin width="200" color="#4fa94d" />{" "}
+        <Bars color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
       </div>
       <div className="account_container" style={{ display: isLoading ? "none" : "flex" }}>
         <div className="account_content">
@@ -268,8 +267,8 @@ const MyAccount = () => {
                       <input
                         ref={refInputPhone}
                         type="text"
-                        placeholder="Your number..."
-                        value={phoneNumber}
+                        placeholder="---"
+                        value={phoneNumber || ""}
                         className="user_phone"
                         style={{ pointerEvents: "none" }}
                         onChange={handlePhoneNumber}

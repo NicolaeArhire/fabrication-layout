@@ -28,10 +28,16 @@ const Cart = () => {
   const rightPanelInput2Ref = useRef(null);
   const rightPanelInput3Ref = useRef(null);
   const rightAddFileRef = useRef(null);
-  const rightReCaptchaRef = useRef(null);
   const rightPanelButtonRef = useRef(null);
 
   const photoNo = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+
+  useEffect(() => {
+    if (!window.location.hash) {
+      window.location = window.location + "#";
+      window.location.reload();
+    }
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -85,12 +91,6 @@ const Cart = () => {
     observer2.observe(rightPanelButtonRef.current);
     observer3.observe(rightEmailRef.current);
     observer3.observe(rightIconsRef.current);
-
-    rightReCaptchaRef.current.style.display = "none";
-
-    setTimeout(() => {
-      rightReCaptchaRef.current.style.display = "block";
-    }, 3000);
 
     return () => {
       observer.disconnect();
@@ -155,13 +155,15 @@ const Cart = () => {
   return (
     <div className="contact_container">
       <div className="contact_left">
-        {photoNo.map((item, index) => (
-          <div
-            key={index}
-            className={`photo ${item} ${isclicked ? "arrow" : ""} ${item === "one" ? "first" : ""} ${item === "ten" ? "last" : ""}`}
-            onClick={handlePhotoClick}
-          ></div>
-        ))}
+        <div className="photo_bucket">
+          {photoNo.map((item, index) => (
+            <div
+              key={index}
+              className={`photo ${item} ${isclicked ? "arrow" : ""} ${item === "one" ? "first" : ""} ${item === "ten" ? "last" : ""}`}
+              onClick={handlePhotoClick}
+            ></div>
+          ))}
+        </div>
         <div className="leftText_container">
           <span ref={leftTextRef} className="left_text">
             Let's get in touch and create something great together.
@@ -240,7 +242,7 @@ const Cart = () => {
         </div>
         <div className="contact_send">
           <input ref={rightAddFileRef} type="file" name="file" className="right_file" />
-          <div ref={rightReCaptchaRef}>
+          <div>
             <ReCAPTCHA sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} onChange={handleRecaptchaChange} />
           </div>
           <div>

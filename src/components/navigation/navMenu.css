@@ -147,6 +147,45 @@
   color: rgb(222, 228, 228);
 }
 
+#new_pass {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+#new_pass button {
+  width: 90px;
+  background: rgb(2, 16, 20);
+  color: white;
+  border: 1px solid cyan;
+  border-radius: 5px;
+}
+
+#new_pass button:hover:not(:disabled) {
+  background: rgb(7, 157, 202);
+  color: rgb(255, 255, 255);
+}
+
+#new_pass button:disabled {
+  background: rgb(59, 65, 66);
+  color: rgb(222, 228, 228);
+}
+
+#new_pass input {
+  width: 80%;
+  height: 40px;
+  background: rgb(9 39 48);
+  color: cyan;
+  border: 1px solid cyan;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+
+#new_pass input:focus {
+  outline: none;
+}
+
 #google_auth {
   display: flex;
   justify-content: center;
@@ -166,7 +205,8 @@
 
 #google_auth button,
 #facebook_auth button,
-#sign_in_button {
+#sign_in_button,
+#forgot_pass_button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -344,6 +384,18 @@
 }
 
 #sign_in_button:hover:not(:disabled) {
+  color: white;
+  background: rgb(3, 75, 97);
+}
+
+#forgot_pass_button {
+  color: white;
+  background: rgb(0, 0, 0);
+  margin-top: 20px;
+  border: 1px solid rgb(124, 120, 120);
+}
+
+#forgot_pass_button:hover:not(:disabled) {
   color: white;
   background: rgb(3, 75, 97);
 }

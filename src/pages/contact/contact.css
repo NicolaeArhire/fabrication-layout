@@ -8,7 +8,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  min-height: 100vh;
+  min-height: 1400px;
   overflow-y: auto;
 }
 
@@ -29,6 +29,11 @@
 
 .contact_left::-webkit-scrollbar {
   display: none;
+}
+
+.photo_bucket {
+  overflow-y: hidden;
+  min-height: 1065px;
 }
 
 .photo {
@@ -360,10 +365,6 @@ input[type="file"]::-webkit-file-upload-button {
   color: cyan;
   margin: 0 0 20px;
   text-decoration: underline;
-}
-
-.rc-anchor-light {
-  background: black !important;
 }
 
 .contact_send_button {

@@ -6,11 +6,14 @@ import { faTrashAlt, faTruck, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import { getCities, getPoints, getDistance } from "../../services/shipping";
 import { clearCart, deleteFromCart, readCart } from "../../services/storageCart";
+import readUserData from "../../services/readUserData";
+import { Bars } from "react-loader-spinner";
 
 const Cart = () => {
   const shippingRef = useRef();
   const shippingCostRef = useRef();
 
+  const [isLoading, setIsLoading] = useState(true);
   const [cartItems, setCartItems] = useState(readCart());
   const [citiesList, setCitiesList] = useState("");
   const [clientCountry, setClientCountry] = useState("");
@@ -18,6 +21,41 @@ const Cart = () => {
   const [cityPoints, setCityPoints] = useState([]);
   const [shipping, setShipping] = useState("-");
   const [arrival, setArrival] = useState("");
+
+  const userData = JSON.parse(localStorage.getItem("userSignedIn")) || "";
+
+  useEffect(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 700);
+  }, []);
+
+  useEffect(() => {
+    if (userData) {
+      readUserData(userData.userID)
+        .then((data) => {
+          setClientCountry(
+            data?.billingAddress
+              .split(",")
+              .map((item) => item.trim())
+              .reverse()[0]
+          );
+          setClientCity(
+            data?.billingAddress
+              .split(",")
+              .map((item) => item.trim())
+              .reverse()[1]
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setClientCountry("");
+      setClientCountry("");
+    }
+  }, [userData, userData.userID]);
 
   useEffect(() => {
     getCities(lookup.byCountry(clientCountry)?.iso2).then((result) =>
@@ -77,154 +115,162 @@ const Cart = () => {
   };
 
   return (
-    <div className="cart_container">
-      <div className="cart_content">
-        <div className="cart_head_plus_items">
-          <Table className="cart_table_head">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Item</th>
-                <th>Size (mm)</th>
-                <th>Length (m)</th>
-                <th>Qty (pcs)</th>
-                <th>Weight</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-          </Table>
-          <div className="cart_items">
-            <Table bordered variant="dark" className="cart_table">
-              <tbody>
-                {cartItems.length > 0 ? (
-                  cartItems.map((item, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>
-                          {index + 1}.
-                          <FontAwesomeIcon
-                            icon={faTrashAlt}
-                            onClick={() => handleDeleteItem(index)}
-                            style={{ marginLeft: 10, cursor: "pointer" }}
-                          />
-                        </td>
-                        <td>{item.description}</td>
-                        <td>{item.size}</td>
-                        <td>{item.length}</td>
-                        <td>{item.quantity}</td>
-                        <td>{item.weight} kg</td>
-                        <td>{item.price} $</td>
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <tr>
-                    <td colSpan="7" className="empty_cart" contains="Empty">
-                      Your cart is empty.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
+    <>
+      <div className="cart_loading" style={{ display: isLoading ? "flex" : "none" }}>
+        <Bars color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
+      </div>
+      <div className="cart_container" style={{ display: isLoading ? "none" : "flex" }}>
+        <div className="cart_content">
+          <div className="cart_head_plus_items">
+            <Table className="cart_table_head">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Item</th>
+                  <th>Size (mm)</th>
+                  <th>Length (m)</th>
+                  <th>Qty (pcs)</th>
+                  <th>Weight</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
             </Table>
+            <div className="cart_items">
+              <Table bordered variant="dark" className="cart_table">
+                <tbody>
+                  {cartItems.length > 0 ? (
+                    cartItems.map((item, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>
+                            {index + 1}.
+                            <FontAwesomeIcon
+                              icon={faTrashAlt}
+                              onClick={() => handleDeleteItem(index)}
+                              style={{ marginLeft: 10, cursor: "pointer" }}
+                            />
+                          </td>
+                          <td>{item.description}</td>
+                          <td>{item.size}</td>
+                          <td>{item.length}</td>
+                          <td>{item.quantity}</td>
+                          <td>{item.weight} kg</td>
+                          <td>{item.price} $</td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan="7" className="empty_cart" contains="Empty">
+                        Your cart is empty.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
+            </div>
           </div>
-        </div>
-        <div className="table_totals">
-          <div className="clear_all_items">
-            <button disabled={cartItems.length <= 0} onClick={handleClearCart}>
-              Clear Cart
+          <div className="table_totals">
+            <div className="clear_all_items">
+              <button disabled={cartItems.length <= 0} onClick={handleClearCart}>
+                Clear Cart
+              </button>
+            </div>
+            <div className="order_totals">
+              <Table bordered variant="dark" className="cart_table2">
+                <thead>
+                  <tr>
+                    <th>Total Weight</th>
+                    {cartItems.length > 0 ? (
+                      <th key="1">{cartItems.reduce((prev, item) => prev + parseFloat(item.weight), 0).toFixed(2)} kg</th>
+                    ) : (
+                      <th>-</th>
+                    )}
+                  </tr>
+                </thead>
+              </Table>
+              <Table bordered variant="dark" className="cart_table2A">
+                <thead>
+                  <tr>
+                    <th>Subtotal Cost</th>
+                    {cartItems.length > 0 ? (
+                      <th key="2">{cartItems.reduce((prev, item) => prev + parseFloat(item.price), 0).toFixed(2)} $</th>
+                    ) : (
+                      <th>-</th>
+                    )}
+                  </tr>
+                </thead>
+              </Table>
+              <Table bordered variant="dark" className="cart_table3">
+                <thead>
+                  <tr>
+                    <th
+                      onClick={handleShipping}
+                      style={{ cursor: "pointer", pointerEvents: localStorage.getItem("userSignedIn") ? "none" : "auto" }}
+                    >
+                      Shipping <FontAwesomeIcon icon={faTruck} style={{ marginLeft: 10 }} />
+                    </th>
+                    <td ref={shippingCostRef}>{cartItems.length > 0 ? shipping : "-"}</td>
+                  </tr>
+                </thead>
+              </Table>
+              <Table bordered variant="dark" className="cart_table4">
+                <thead>
+                  <tr>
+                    <th>E.T.A.</th>
+                    <th>{cartItems.length > 0 ? arrival : "See shipping"}</th>
+                  </tr>
+                </thead>
+              </Table>
+              <Table bordered variant="dark" className="cart_table5">
+                <thead>
+                  <tr>
+                    <th>Total Order</th>
+                    <th key="3">
+                      {shipping === "Sorry. We don't go there." || shipping === "-" || cartItems.length <= 0
+                        ? "See shipping"
+                        : `${(cartItems.reduce((prev, item) => prev + parseFloat(item.price), 0) + parseFloat(shipping)).toFixed(2)} $`}
+                    </th>
+                  </tr>
+                </thead>
+              </Table>
+            </div>
+          </div>
+          <div className="check_out">
+            <span>
+              <img src="/cards.png" alt="cards" />
+            </span>
+            <button className="payment_button" onClick={handleCheckOut}>
+              Check Out <FontAwesomeIcon icon={faLock} style={{ cursor: "pointer" }} />
             </button>
           </div>
-          <div className="order_totals">
-            <Table bordered variant="dark" className="cart_table2">
-              <thead>
-                <tr>
-                  <th>Total Weight</th>
-                  {cartItems.length > 0 ? (
-                    <th key="1">{cartItems.reduce((prev, item) => prev + parseFloat(item.weight), 0).toFixed(2)} kg</th>
-                  ) : (
-                    <th>-</th>
-                  )}
-                </tr>
-              </thead>
-            </Table>
-            <Table bordered variant="dark" className="cart_table2A">
-              <thead>
-                <tr>
-                  <th>Subtotal Cost</th>
-                  {cartItems.length > 0 ? (
-                    <th key="2">{cartItems.reduce((prev, item) => prev + parseFloat(item.price), 0).toFixed(2)} $</th>
-                  ) : (
-                    <th>-</th>
-                  )}
-                </tr>
-              </thead>
-            </Table>
-            <Table bordered variant="dark" className="cart_table3">
-              <thead>
-                <tr>
-                  <th onClick={handleShipping} style={{ cursor: "pointer" }}>
-                    Shipping <FontAwesomeIcon icon={faTruck} style={{ marginLeft: 10 }} />
-                  </th>
-                  <td ref={shippingCostRef}>{cartItems.length > 0 ? shipping : "-"}</td>
-                </tr>
-              </thead>
-            </Table>
-            <Table bordered variant="dark" className="cart_table4">
-              <thead>
-                <tr>
-                  <th>E.T.A.</th>
-                  <th>{cartItems.length > 0 ? arrival : "See shipping"}</th>
-                </tr>
-              </thead>
-            </Table>
-            <Table bordered variant="dark" className="cart_table5">
-              <thead>
-                <tr>
-                  <th>Total Order</th>
-                  <th key="3">
-                    {shipping === "Sorry. We don't go there." || shipping === "-" || cartItems.length <= 0
-                      ? "See shipping"
-                      : `${(cartItems.reduce((prev, item) => prev + parseFloat(item.price), 0) + parseFloat(shipping)).toFixed(2)} $`}
-                  </th>
-                </tr>
-              </thead>
-            </Table>
+          <div className="shipping_info" ref={shippingRef}>
+            <div className="address_info">
+              <select className="address_country" onChange={handleCountryChange}>
+                <option value="Your Country..." style={{ background: "#47574b", color: "white" }}>
+                  Your Country...
+                </option>
+                {lookup.countries
+                  .sort((a, b) => a.country.localeCompare(b.country))
+                  .map((item, index) => (
+                    <option key={index + 1}>{item.country}</option>
+                  ))}
+              </select>
+              <select className="address_city" onChange={handleCityChange}>
+                <option value="Your City..." style={{ background: "#47574b", color: "white" }}>
+                  Your City...
+                </option>
+                {citiesList && citiesList.map((city, index) => <option key={index + 1}>{city}</option>)}
+              </select>
+            </div>
+            <button className="shipping_done" onClick={handleDoneShipping}>
+              Done
+            </button>
           </div>
+          <div className="cart_intro"></div>
         </div>
-        <div className="check_out">
-          <span>
-            <img src="/cards.png" alt="cards" />
-          </span>
-          <button className="payment_button" onClick={handleCheckOut}>
-            Check Out <FontAwesomeIcon icon={faLock} style={{ cursor: "pointer" }} />
-          </button>
-        </div>
-        <div className="shipping_info" ref={shippingRef}>
-          <div className="address_info">
-            <select className="address_country" onChange={handleCountryChange}>
-              <option value="Your Country..." style={{ background: "#47574b", color: "white" }}>
-                Your Country...
-              </option>
-              {lookup.countries
-                .sort((a, b) => a.country.localeCompare(b.country))
-                .map((item, index) => (
-                  <option key={index + 1}>{item.country}</option>
-                ))}
-            </select>
-            <select className="address_city" onChange={handleCityChange}>
-              <option value="Your City..." style={{ background: "#47574b", color: "white" }}>
-                Your City...
-              </option>
-              {citiesList && citiesList.map((city, index) => <option key={index + 1}>{city}</option>)}
-            </select>
-          </div>
-          <button className="shipping_done" onClick={handleDoneShipping}>
-            Done
-          </button>
-        </div>
-        <div className="cart_intro"></div>
       </div>
-    </div>
+    </>
   );
 };
 
