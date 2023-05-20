@@ -49,10 +49,21 @@ const NavMenu = () => {
   const userMailInput = useRef(null);
   const userPassInput = useRef(null);
 
+  const location = window.location.href;
+
   useEffect(() => {
-    const location = window.location.href.split("/").pop() || "";
-    location ? setTab(location.charAt(0).toUpperCase() + location.slice(1)) : setTab("Home");
-  }, []);
+    if (location.includes("/my")) {
+      setTab("My Account");
+    } else if (location.includes("/calculator")) {
+      setTab("Shape Calculator");
+    } else if (location.includes("/cart")) {
+      setTab("Cart");
+    } else if (location.includes("/contact")) {
+      setTab("Contact");
+    } else {
+      setTab("Home");
+    }
+  }, [location]);
 
   useEffect(() => {
     if (userNameInput.current) userNameInput.current.value = "";
@@ -91,7 +102,6 @@ const NavMenu = () => {
     if (tab === "My Account" && !localStorage.getItem("userSignedIn")) {
       window.location.href = "/";
       setIsOpen(false);
-      handleHomeTab();
     } else if (tab === "Cart") {
       window.location.reload();
     }
@@ -466,26 +476,6 @@ const NavMenu = () => {
     setIsOpen(state.isOpen);
   };
 
-  const handleAccountTab = () => {
-    setTab("My Account");
-  };
-
-  const handleHomeTab = () => {
-    setTab("Home");
-  };
-
-  const handleCalculatorTab = () => {
-    setTab("Shape Calculator");
-  };
-
-  const handleCartTab = () => {
-    setTab("Cart");
-  };
-
-  const handleContactTab = () => {
-    setTab("Contact");
-  };
-
   return (
     <div>
       <ReactModal isOpen={showModal} onRequestClose={handleCloseModal} className="login_modal" ariaHideApp={false}>
@@ -729,7 +719,6 @@ const NavMenu = () => {
           to="/my-account"
           onClick={() => {
             setIsOpen(false);
-            handleAccountTab();
           }}
           style={{ display: localStorage.getItem("userSignedIn") ? "flex" : "none" }}
         >
@@ -739,7 +728,6 @@ const NavMenu = () => {
           to="/"
           onClick={() => {
             setIsOpen(false);
-            handleHomeTab();
           }}
           style={{ display: "flex" }}
         >
@@ -749,7 +737,6 @@ const NavMenu = () => {
           to="/calculator"
           onClick={() => {
             setIsOpen(false);
-            handleCalculatorTab();
           }}
           style={{ display: "flex" }}
         >
@@ -760,7 +747,6 @@ const NavMenu = () => {
           to="/cart"
           onClick={() => {
             setIsOpen(false);
-            handleCartTab();
           }}
           style={{ display: "flex" }}
         >
@@ -772,7 +758,6 @@ const NavMenu = () => {
           to="/contact"
           onClick={() => {
             setIsOpen(false);
-            handleContactTab();
           }}
           style={{ display: "flex" }}
         >

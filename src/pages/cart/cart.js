@@ -8,6 +8,7 @@ import { getCities, getPoints, getDistance } from "../../services/shipping";
 import { clearCart, deleteFromCart, readCart } from "../../services/storageCart";
 import readUserData from "../../services/readUserData";
 import { Bars } from "react-loader-spinner";
+import Payment from "../../services/payment";
 
 const Cart = () => {
   const shippingRef = useRef();
@@ -243,6 +244,7 @@ const Cart = () => {
             <button className="payment_button" onClick={handleCheckOut}>
               Check Out <FontAwesomeIcon icon={faLock} style={{ cursor: "pointer" }} />
             </button>
+            <Payment />
           </div>
           <div className="shipping_info" ref={shippingRef}>
             <div className="address_info">
