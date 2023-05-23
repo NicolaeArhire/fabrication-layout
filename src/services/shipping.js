@@ -21,10 +21,12 @@ const getPoints = async (clientCity) => {
   }
 };
 
+const parisCoordinates = "2.3483915,48.8534951";
+
 const getDistance = async (cityPoints) => {
   try {
     const res = await fetch(
-      `https://router.project-osrm.org/route/v1/driving/2.3483915,48.8534951;${cityPoints}?overview=false&geometries=geojson`
+      `https://router.project-osrm.org/route/v1/driving/${parisCoordinates};${cityPoints}?overview=false&geometries=geojson`
     );
     const data = await res.json();
     return data;

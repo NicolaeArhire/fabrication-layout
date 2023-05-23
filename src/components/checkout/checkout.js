@@ -31,7 +31,6 @@ export default function CheckoutForm() {
     if (error) {
       setMessage(error.message);
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
-      sessionStorage.setItem("confetti", true);
       setMessage(
         <>
           <span style={{ marginBottom: 10 }}>Payment accepted. 🎉</span> <br /> <br />

@@ -17,6 +17,7 @@ const Cart = () => {
   const shippingCostRef = useRef();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isPaymentLoading, setPaymentIsLoading] = useState(false);
   const [cartItems, setCartItems] = useState(readCart());
   const [citiesList, setCitiesList] = useState("");
   const [clientCountry, setClientCountry] = useState("");
@@ -73,6 +74,10 @@ const Cart = () => {
     }
   }, [clientCountry, clientCity]);
 
+  const pricePerKm = 0.1; //in USD
+  const estimatedSpeed = 80; // in KM/hour
+  const logisticsTime = 48; // in hours
+
   useEffect(() => {
     if (clientCountry === "" || clientCity === "") {
       setShipping("-");
@@ -80,35 +85,25 @@ const Cart = () => {
     } else if (cityPoints.length > 0) {
       getDistance(cityPoints).then((result) => {
         result.routes
-          ? setShipping(((result.routes[0].distance / 1000) * 0.1).toFixed(2) + " $")
+          ? setShipping(((result.routes[0].distance / 1000) * pricePerKm).toFixed(2) + " $")
           : setShipping("Sorry. We don't go there.");
 
-        result.routes ? setArrival((result.routes[0].distance / 1000 / 80).toFixed(0) + " hours") : setArrival("See shipping");
+        const geoDistanceInHours = (result.routes[0].distance / 1000 / estimatedSpeed).toFixed(0);
+
+        result.routes
+          ? setArrival(
+              new Date(new Date().getTime() + (parseInt(geoDistanceInHours) + logisticsTime) * 60 * 60 * 1000)
+                .toISOString()
+                .split("T")[0]
+                .replaceAll("-", "/")
+                .split("/")
+                .reverse()
+                .join("/")
+            )
+          : setArrival("See shipping");
       });
     }
   }, [clientCountry, clientCity, cityPoints]);
-
-  const sendDataToServer = async () => {
-    try {
-      const response = await fetch("/create-payment-intent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ price: 7243 }),
-      });
-
-      if (response.ok) {
-        await response.json();
-      } else {
-        throw new Error("Request failed");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  sendDataToServer();
 
   const handleCountryChange = (e) => {
     setClientCountry(e.target.value);
@@ -134,6 +129,10 @@ const Cart = () => {
 
   const handleCheckOut = () => {
     setShowModal(true);
+    setPaymentIsLoading(true);
+    setTimeout(() => {
+      setPaymentIsLoading(false);
+    }, 1500);
   };
 
   const handleDoneShipping = () => {
@@ -146,14 +145,23 @@ const Cart = () => {
 
   return (
     <>
-      <ReactModal isOpen={showModal} className="pay_modal_container" ariaHideApp={false}>
-        <div className="pay_modal_content">
-          <span>
-            <i onClick={handleCloseModal}>
-              <FontAwesomeIcon icon={faTimes} />
-            </i>
-          </span>
-          <Payment />
+      <ReactModal isOpen={showModal} className="pay_modal" ariaHideApp={false}>
+        <div className="payment_loading" style={{ display: isPaymentLoading ? "flex" : "none" }}>
+          <Bars color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
+        </div>
+        <div className="pay_modal_container">
+          <div className="pay_modal_content" style={{ display: isPaymentLoading ? "none" : "flex" }}>
+            <span>
+              <i onClick={handleCloseModal}>
+                <FontAwesomeIcon icon={faTimes} />
+              </i>
+            </span>
+            <div id="payment_details">
+              <span>Total Order: </span>
+              <span>{(cartItems.reduce((prev, item) => prev + parseFloat(item.price), 0) + parseFloat(shipping)).toFixed(2)} $</span>
+            </div>
+            <Payment amount={(cartItems.reduce((prev, item) => prev + parseFloat(item.price), 0) + parseFloat(shipping)).toFixed(2)} />
+          </div>
         </div>
       </ReactModal>
       <div className="cart_loading" style={{ display: isLoading ? "flex" : "none" }}>
@@ -280,7 +288,11 @@ const Cart = () => {
             <span>
               <img src="/cards.png" alt="cards" />
             </span>
-            <button className="payment_button" onClick={handleCheckOut}>
+            <button
+              className="payment_button"
+              disabled={shipping === "Sorry. We don't go there." || shipping === "-" || cartItems.length <= 0}
+              onClick={handleCheckOut}
+            >
               Check Out <FontAwesomeIcon icon={faLock} style={{ cursor: "pointer" }} />
             </button>
           </div>
