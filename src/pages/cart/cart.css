@@ -321,6 +321,51 @@
   border-radius: 10px;
 }
 
+.pay_modal_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+.pay_modal_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 360px;
+  height: auto;
+  background: rgb(9 39 48);
+  border-radius: 25px 0 25px 25px;
+  padding: 0 25px 25px 25px;
+  z-index: 2;
+  color: white;
+}
+
+.pay_modal_content span:first-of-type {
+  width: 115%;
+  text-align: right;
+  font-size: 20px;
+  color: white;
+  margin-bottom: 30px;
+}
+
+.pay_modal_content i {
+  padding: 0 10px 2px 10px;
+  background: red;
+}
+
+.pay_modal_content i:hover {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 500px) {
   .cart_loading svg {
     width: 50px;

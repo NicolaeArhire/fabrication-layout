@@ -8,7 +8,9 @@ import { getCities, getPoints, getDistance } from "../../services/shipping";
 import { clearCart, deleteFromCart, readCart } from "../../services/storageCart";
 import readUserData from "../../services/readUserData";
 import { Bars } from "react-loader-spinner";
+import ReactModal from "react-modal";
 import Payment from "../../services/payment";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const Cart = () => {
   const shippingRef = useRef();
@@ -22,6 +24,7 @@ const Cart = () => {
   const [cityPoints, setCityPoints] = useState([]);
   const [shipping, setShipping] = useState("-");
   const [arrival, setArrival] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const userData = JSON.parse(localStorage.getItem("userSignedIn")) || "";
 
@@ -85,6 +88,28 @@ const Cart = () => {
     }
   }, [clientCountry, clientCity, cityPoints]);
 
+  const sendDataToServer = async () => {
+    try {
+      const response = await fetch("/create-payment-intent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ price: 7243 }),
+      });
+
+      if (response.ok) {
+        await response.json();
+      } else {
+        throw new Error("Request failed");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  sendDataToServer();
+
   const handleCountryChange = (e) => {
     setClientCountry(e.target.value);
   };
@@ -108,15 +133,29 @@ const Cart = () => {
   };
 
   const handleCheckOut = () => {
-    window.alert("Relax, we'll not take your money. For now.");
+    setShowModal(true);
   };
 
   const handleDoneShipping = () => {
     shippingRef.current.style.display = "none";
   };
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <>
+      <ReactModal isOpen={showModal} className="pay_modal_container" ariaHideApp={false}>
+        <div className="pay_modal_content">
+          <span>
+            <i onClick={handleCloseModal}>
+              <FontAwesomeIcon icon={faTimes} />
+            </i>
+          </span>
+          <Payment />
+        </div>
+      </ReactModal>
       <div className="cart_loading" style={{ display: isLoading ? "flex" : "none" }}>
         <Bars color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
       </div>
@@ -244,7 +283,6 @@ const Cart = () => {
             <button className="payment_button" onClick={handleCheckOut}>
               Check Out <FontAwesomeIcon icon={faLock} style={{ cursor: "pointer" }} />
             </button>
-            <Payment />
           </div>
           <div className="shipping_info" ref={shippingRef}>
             <div className="address_info">

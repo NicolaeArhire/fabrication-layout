@@ -1,0 +1,26 @@
+#submit {
+  margin-top: 30px;
+  background: cyan;
+  border-radius: 15px;
+}
+
+#submit:disabled {
+  background: rgb(156, 226, 226);
+  cursor: auto;
+}
+
+#button-text {
+  font-size: 18px;
+  color: black;
+  padding: 10px;
+}
+
+#payment-message,
+#payment-message2 {
+  margin-top: 15px;
+}
+
+#payment-message span {
+  color: #fff;
+  font-size: 18px;
+}

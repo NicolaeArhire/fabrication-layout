@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
-import CheckoutForm from "../components/CheckoutForm";
+import CheckoutForm from "../components/checkout/checkout";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-function Payment() {
+const Payment = () => {
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5432/config").then(async (r) => {
-      const { publishableKey } = await r.json();
+    fetch("/config").then(async (res) => {
+      const { publishableKey } = await res.json();
       setStripePromise(loadStripe(publishableKey));
     });
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:5432/create-payment-intent", {
+    fetch("/create-payment-intent", {
       method: "POST",
       body: JSON.stringify({}),
     }).then(async (result) => {
@@ -33,6 +33,6 @@ function Payment() {
       )}
     </>
   );
-}
+};
 
 export default Payment;
