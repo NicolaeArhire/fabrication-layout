@@ -1,10 +1,14 @@
 {
   "builds": [
-    { "src": "server/server.js", "use": "@vercel/node" },
-    { "src": "npm run build", "use": "@vercel/static" }
+    {
+      "src": "server/server.js",
+      "use": "@vercel/node"
+    }
   ],
   "routes": [
-    { "src": "/api/.*", "dest": "server/server.js" },
-    { "src": "/(.*)", "dest": "build/$1" }
+    {
+      "src": "/(.*)",
+      "dest": "server/server.js"
+    }
   ]
 }
