@@ -619,6 +619,7 @@
   .login_modal_content {
     width: calc(100vw - 10%);
     height: auto;
+    margin-top: 70px;
   }
 
   .login_modal_content span:first-of-type {
@@ -655,6 +656,6 @@
   }
 
   #menu_footer {
-    margin-top: calc(100vh - 280%);
+    margin-top: calc(100vh - 340%);
   }
 }
