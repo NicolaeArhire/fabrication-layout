@@ -28,7 +28,7 @@ import facebookSignIn from "../../services/signInFacebook";
 import deleteUserAccount from "../../services/deleteAccount";
 import forgotPassword from "../../services/forgotPassword";
 
-const NavMenu = () => {
+const NavMenu = ({ setModalIsOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [tab, setTab] = useState(localStorage.getItem("tab") || "Home");
   const [showModal, setShowModal] = useState(false);
@@ -98,6 +98,7 @@ const NavMenu = () => {
     setVisibilePass(false);
     setVisibileCodeCheck(false);
     setIsForgotPass(false);
+    setModalIsOpen(false);
 
     if (tab === "My Account" && !localStorage.getItem("userSignedIn")) {
       window.location.href = "/";
@@ -448,14 +449,15 @@ const NavMenu = () => {
     setIsOpen(false);
     setLogOption(1);
     setMailCheck("");
+    setModalIsOpen(true);
   };
-
   const handleOpenSignUpModal = () => {
     setShowModal(true);
     setIsOpen(false);
     setLogOption(2);
     setMailCheck("");
     setSocialLoginCheck("");
+    setModalIsOpen(true);
   };
 
   const handleOpenSignOutModal = () => {
@@ -463,6 +465,7 @@ const NavMenu = () => {
     setIsOpen(false);
     setLogOption(3);
     setMailCheck("");
+    setModalIsOpen(true);
   };
 
   const handleOpenForgotPassModal = async () => {
@@ -470,6 +473,7 @@ const NavMenu = () => {
     setIsOpen(false);
     setLogOption(4);
     setMailCheck("");
+    setModalIsOpen(true);
   };
 
   const handleMenuStateChange = (state) => {

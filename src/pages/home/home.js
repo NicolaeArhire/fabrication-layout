@@ -1,18 +1,20 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./home.css";
 import LeftSideBar from "../../components/homeLeftSideBar/leftSideBar";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import ProductDetails from "../../components/homeLeftSideBar/products";
+import { MyContext } from "../../App";
 
 const Home = () => {
   const [selectedItem, setSelectedItem] = useState();
+  const { modalIsOpen } = useContext(MyContext);
 
   const handleOnSelect = (item) => {
     setSelectedItem(item);
   };
 
   return (
-    <div id="homePage_container">
+    <div id="homePage_container" style={{ display: modalIsOpen ? "none" : "flex" }}>
       <div className="content_right_mobile">
         <div className="content_mobile">
           <div className="content_header_mobile">

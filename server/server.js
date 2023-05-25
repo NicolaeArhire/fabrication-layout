@@ -15,12 +15,6 @@ const stripe = require("stripe")(process.env.REACT_APP_STRIPE_SECRET_KEY, {
 
 app.use(express.static(path.join(__dirname, "../build")));
 
-app.get("/", (req, res) => {
-  const gifPath = path.join(__dirname, "public", "homeSlider", "home.gif");
-  res.set("Content-Type", "image/gif");
-  res.sendFile(gifPath);
-});
-
 app.get("/config", (req, res) => {
   res.send({
     publishableKey: process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY,

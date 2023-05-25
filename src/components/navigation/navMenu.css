@@ -585,7 +585,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 200px;
+  margin-top: 255px;
   border-bottom: none;
   padding: 0;
 }
@@ -656,6 +656,6 @@
   }
 
   #menu_footer {
-    margin-top: calc(100vh - 340%);
+    margin-top: calc(100vh - 280%);
   }
 }
