@@ -6,14 +6,17 @@ import ConcentricFrustum from "../../components/flatteningCalculator/concentricF
 import EccentricFrustum from "../../components/flatteningCalculator/eccentricFrustum";
 import RectToRound from "../../components/flatteningCalculator/rectToRound";
 import CustomShape from "../../components/flatteningCalculator/customShape";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import ReactModal from "react-modal";
 import Typewriter from "typewriter-effect";
+import { MyContext } from "../../App";
 
 const PlateCalculator = () => {
   const [pageNo, setPageNo] = useState();
   const [currentComponent, setCurrentComponent] = useState(0);
   const [showModal, setShowModal] = useState(true);
+
+  const { modalIsOpen } = useContext(MyContext);
 
   useEffect(() => {
     setPageNo(currentComponent);
@@ -44,7 +47,11 @@ const PlateCalculator = () => {
   return (
     <>
       <div>
-        <ReactModal isOpen={showModal} className="modal_container" ariaHideApp={false}>
+        <ReactModal
+          isOpen={modalIsOpen || localStorage.getItem("userSignedIn") ? false : true}
+          className="modal_container"
+          ariaHideApp={false}
+        >
           <div className="modal_content">
             <Typewriter
               onInit={(typewriter) => {
@@ -59,7 +66,7 @@ const PlateCalculator = () => {
         </ReactModal>
       </div>
       {}
-      <div className="card_container">
+      <div className="card_container" style={{ display: modalIsOpen ? "none" : "flex" }}>
         <div className="calculator_container">
           <div className="flatten_container">{components[currentComponent]}</div>
           <div className="pagination">

@@ -1,11 +1,12 @@
 import "./contact.css";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle, faTwitter, faYoutube, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { faPaperPlane, faPhone, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import Typewriter from "typewriter-effect";
 import emailjs from "@emailjs/browser";
 import ReCAPTCHA from "react-google-recaptcha";
+import { MyContext } from "../../App";
 
 const Cart = () => {
   const [isclicked, setIsClicked] = useState(false);
@@ -29,6 +30,8 @@ const Cart = () => {
   const rightPanelInput3Ref = useRef(null);
   const rightAddFileRef = useRef(null);
   const rightPanelButtonRef = useRef(null);
+
+  const { modalIsOpen } = useContext(MyContext);
 
   const photoNo = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
 
@@ -153,7 +156,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="contact_container">
+    <div className="contact_container" style={{ display: modalIsOpen ? "none" : "grid" }}>
       <div className="contact_left">
         <div className="photo_bucket">
           {photoNo.map((item, index) => (
