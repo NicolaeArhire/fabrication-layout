@@ -530,10 +530,6 @@ const NavMenu = ({ setModalIsOpen }) => {
             <div className="social_login_checking">
               <span>{socialLoginCheck}</span>
             </div>
-            <div id="social_login_hint">
-              <span>Hint: </span>
-              <span> If you use either Google or Facebook, sign in means also sign up.</span>
-            </div>
             <div id="social_or_credentials">
               <hr />
               <span>OR</span>
