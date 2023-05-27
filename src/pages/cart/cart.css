@@ -21,15 +21,6 @@
   height: 100%;
 }
 
-.cart_intro {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-top: 50px;
-}
-
 .cart_content {
   display: flex;
   flex-direction: column;
@@ -293,41 +284,6 @@
   border: 1px solid white;
 }
 
-.shipping_info {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.address_info {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.address_country,
-.address_city {
-  font-size: 16px;
-  width: 200px;
-}
-
-.address_city {
-  margin-left: 20px;
-}
-
-.shipping_done {
-  height: 37px;
-  font-size: 20px;
-  margin-top: 20px;
-  background: #056ee6;
-  color: white;
-  border-radius: 10px;
-}
-
 .pay_modal {
   display: flex;
   flex-direction: column;
@@ -542,10 +498,6 @@
     margin-top: 50px;
   }
 
-  .shipping_done {
-    font-size: 15px;
-  }
-
   .check_out {
     justify-content: center;
     align-items: center;
@@ -555,15 +507,6 @@
   .payment_button {
     margin-right: 0px;
     font-size: 15px;
-  }
-
-  .address_country,
-  .address_city {
-    width: 150px;
-  }
-
-  .cart_intro {
-    margin-top: 20px;
   }
 
   .pay_modal_container {

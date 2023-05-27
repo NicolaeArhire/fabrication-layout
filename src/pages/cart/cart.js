@@ -2,7 +2,7 @@ import "./cart.css";
 import { Table } from "react-bootstrap";
 import lookup from "country-code-lookup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt, faTruck, faLock } from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt, faTruck, faLock, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState, useContext } from "react";
 import { getCities, getPoints, getDistance } from "../../services/shipping";
 import { clearCart, deleteFromCart, readCart } from "../../services/storageCart";
@@ -14,7 +14,6 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { MyContext } from "../../App";
 
 const Cart = () => {
-  const shippingRef = useRef();
   const shippingCostRef = useRef();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -23,10 +22,13 @@ const Cart = () => {
   const [citiesList, setCitiesList] = useState("");
   const [clientCountry, setClientCountry] = useState("");
   const [clientCity, setClientCity] = useState("");
+  const [clientHome, setClientHome] = useState("");
+  const [addressSaveCheck, setAddressSaveCheck] = useState("");
   const [cityPoints, setCityPoints] = useState([]);
   const [shipping, setShipping] = useState("-");
   const [arrival, setArrival] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showAddressModal, setShowAddressModal] = useState(false);
 
   const { modalIsOpen } = useContext(MyContext);
 
@@ -116,6 +118,10 @@ const Cart = () => {
     setClientCity(e.target.value);
   };
 
+  const handleHomeChange = (e) => {
+    setClientHome(e.target.value);
+  };
+
   const handleDeleteItem = (index) => {
     deleteFromCart(index);
     setCartItems(readCart());
@@ -127,7 +133,7 @@ const Cart = () => {
   };
 
   const handleShipping = () => {
-    shippingRef.current.style.display = "flex";
+    setShowAddressModal(true);
   };
 
   const handleCheckOut = () => {
@@ -138,12 +144,21 @@ const Cart = () => {
     }, 1500);
   };
 
-  const handleDoneShipping = () => {
-    shippingRef.current.style.display = "none";
-  };
-
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const handleSaveAddress = () => {
+    if (clientCountry === "" || clientCity === "" || clientHome === "") {
+      setAddressSaveCheck("Please fill in required fields.");
+    } else {
+      setAddressSaveCheck(<FontAwesomeIcon icon={faCheck} id="check_icon" />);
+    }
+  };
+
+  const handleCloseAddressModal = () => {
+    setShowAddressModal(false);
+    setAddressSaveCheck("");
   };
 
   return (
@@ -167,10 +182,45 @@ const Cart = () => {
           </div>
         </div>
       </ReactModal>
+      <ReactModal isOpen={showAddressModal} onRequestClose={handleCloseAddressModal} className="address_modal" ariaHideApp={false}>
+        <div className="address_modal_content">
+          <span>
+            <i onClick={handleCloseAddressModal}>
+              <FontAwesomeIcon icon={faTimes} />
+            </i>
+          </span>
+          <div id="address_title">
+            <span>Set your billing address.</span>
+          </div>
+          <div className="address_content">
+            <div className="billing_address_info">
+              <select value={clientCountry} className="billing_address_country" onChange={handleCountryChange}>
+                <option value="Your Country..." style={{ background: "#47574b", color: "white" }}>
+                  Your Country...
+                </option>
+                {lookup.countries
+                  .sort((a, b) => a.country.localeCompare(b.country))
+                  .map((item, index) => (
+                    <option key={index + 1}>{item.country}</option>
+                  ))}
+              </select>
+              <select value={clientCity} className="billing_address_city" onChange={handleCityChange}>
+                <option value="Your City..." style={{ background: "#47574b", color: "white" }}>
+                  Your City...
+                </option>
+                {citiesList && citiesList.map((city, index) => <option key={index + 1}>{city}</option>)}
+              </select>
+              <input value={clientHome} id="billing_address_home" placeholder="Your address..." onChange={handleHomeChange} />
+            </div>
+            <input id="save_billing_address" defaultValue={"Save"} readOnly onClick={handleSaveAddress} />
+            <span id="address_save_check">{addressSaveCheck}</span>
+          </div>
+        </div>
+      </ReactModal>
       <div className="cart_loading" style={{ display: isLoading ? "flex" : "none" }}>
         <Bars color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
       </div>
-      <div className="cart_container" style={{ display: isLoading || modalIsOpen ? "none" : "flex" }}>
+      <div className="cart_container" style={{ display: isLoading || modalIsOpen || showAddressModal ? "none" : "flex" }}>
         <div className="cart_content">
           <div className="cart_head_plus_items">
             <Table className="cart_table_head">
@@ -299,30 +349,6 @@ const Cart = () => {
               Check Out <FontAwesomeIcon icon={faLock} style={{ cursor: "pointer" }} />
             </button>
           </div>
-          <div className="shipping_info" ref={shippingRef}>
-            <div className="address_info">
-              <select className="address_country" onChange={handleCountryChange}>
-                <option value="Your Country..." style={{ background: "#47574b", color: "white" }}>
-                  Your Country...
-                </option>
-                {lookup.countries
-                  .sort((a, b) => a.country.localeCompare(b.country))
-                  .map((item, index) => (
-                    <option key={index + 1}>{item.country}</option>
-                  ))}
-              </select>
-              <select className="address_city" onChange={handleCityChange}>
-                <option value="Your City..." style={{ background: "#47574b", color: "white" }}>
-                  Your City...
-                </option>
-                {citiesList && citiesList.map((city, index) => <option key={index + 1}>{city}</option>)}
-              </select>
-            </div>
-            <button className="shipping_done" onClick={handleDoneShipping}>
-              Done
-            </button>
-          </div>
-          <div className="cart_intro"></div>
         </div>
       </div>
     </>
