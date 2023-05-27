@@ -607,7 +607,7 @@
 
   .login_modal_content {
     width: calc(100vw - 10%);
-    top: 40%;
+    top: 45%;
   }
 
   .login_modal_content span:first-of-type {
@@ -623,6 +623,10 @@
   }
 
   .login_modal_content label {
+    font-size: 15px;
+  }
+
+  #log_option span {
     font-size: 15px;
   }
 
