@@ -609,6 +609,7 @@
     width: calc(100vw - 10%);
     height: auto;
     margin-top: 70px;
+    margin-bottom: 150px;
   }
 
   .login_modal_content span:first-of-type {
