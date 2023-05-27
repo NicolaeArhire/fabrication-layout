@@ -3,7 +3,7 @@ import { Table } from "react-bootstrap";
 import lookup from "country-code-lookup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faTruck, faLock } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { getCities, getPoints, getDistance } from "../../services/shipping";
 import { clearCart, deleteFromCart, readCart } from "../../services/storageCart";
 import readUserData from "../../services/readUserData";
@@ -11,6 +11,7 @@ import { Bars } from "react-loader-spinner";
 import ReactModal from "react-modal";
 import Payment from "../../services/payment";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { MyContext } from "../../App";
 
 const Cart = () => {
   const shippingRef = useRef();
@@ -26,6 +27,8 @@ const Cart = () => {
   const [shipping, setShipping] = useState("-");
   const [arrival, setArrival] = useState("");
   const [showModal, setShowModal] = useState(false);
+
+  const { modalIsOpen } = useContext(MyContext);
 
   const userData = JSON.parse(localStorage.getItem("userSignedIn")) || "";
 
@@ -167,7 +170,7 @@ const Cart = () => {
       <div className="cart_loading" style={{ display: isLoading ? "flex" : "none" }}>
         <Bars color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
       </div>
-      <div className="cart_container" style={{ display: isLoading ? "none" : "flex" }}>
+      <div className="cart_container" style={{ display: isLoading || modalIsOpen ? "none" : "flex" }}>
         <div className="cart_content">
           <div className="cart_head_plus_items">
             <Table className="cart_table_head">
