@@ -2,14 +2,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./myAccount.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faThumbsUp, faTimes, faPencil } from "@fortawesome/free-solid-svg-icons";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import deleteUserAccount from "../../services/deleteAccount";
 import saveUserData from "../../services/saveUserData";
 import readUserData from "../../services/readUserData";
+import storeUserFiles from "../../services/storeUserFiles";
+import readUserFiles from "../../services/readUserFiles";
 import ReactModal from "react-modal";
 import { Bars } from "react-loader-spinner";
 import lookup from "country-code-lookup";
 import { getCities } from "../../services/shipping";
+import { MyContext } from "../../App";
 
 const MyAccount = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,6 +26,9 @@ const MyAccount = () => {
   const [clientCity, setClientCity] = useState("");
   const [clientHome, setClientHome] = useState("");
   const [addressSaveCheck, setAddressSaveCheck] = useState("");
+  const [userPhoto, setUserPhoto] = useState("");
+
+  const { modalIsOpen } = useContext(MyContext);
 
   const refInputPhone = useRef(null);
   const refSavePhone = useRef(null);
@@ -39,6 +45,19 @@ const MyAccount = () => {
     setTimeout(() => {
       setIsLoading(false);
     }, 700);
+  }, []);
+
+  useEffect(() => {
+    const fetchUserPhoto = async () => {
+      try {
+        const photoURL = await readUserFiles();
+        setUserPhoto(photoURL);
+      } catch (error) {
+        console.error("Error fetching user photo:", error);
+      }
+    };
+
+    fetchUserPhoto();
   }, []);
 
   useEffect(() => {
@@ -161,6 +180,14 @@ const MyAccount = () => {
     }
   };
 
+  const handleSelectedFile = (e) => {
+    const onFileUpload = (downloadURL) => {
+      setUserPhoto(downloadURL);
+    };
+
+    storeUserFiles(e.target.files[0], onFileUpload);
+  };
+
   return (
     <>
       <ReactModal isOpen={showModal} onRequestClose={handleCloseModal} className="login_modal" ariaHideApp={false}>
@@ -236,12 +263,19 @@ const MyAccount = () => {
       <div className="page_loading" style={{ display: isLoading ? "flex" : "none" }}>
         <Bars color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
       </div>
-      <div className="account_container" style={{ display: isLoading ? "none" : "flex" }}>
+      <div className="account_container" style={{ display: isLoading || modalIsOpen ? "none" : "flex" }}>
         <div className="account_content">
           <div className="user_details">
             <div className="user_name">
               <span>Welcome back, {userData.name || "---"}!</span>
               <span>You can manage your profile and orders from here.</span>
+            </div>
+            <div className="user_photo">
+              <img src={userPhoto || "/default_photo.png"} alt="user_photo" />
+              <div className="photo_upload">
+                <FontAwesomeIcon icon={faPencil} />
+                <input type="file" accept="image/*" onChange={handleSelectedFile} />
+              </div>
             </div>
           </div>
           <div className="user_info">
