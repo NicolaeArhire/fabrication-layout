@@ -1,12 +1,15 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./myAccount.css";
+import { auth } from "../../firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faThumbsUp, faTimes, faPencil } from "@fortawesome/free-solid-svg-icons";
 import { useState, useRef, useEffect, useContext } from "react";
 import deleteUserAccount from "../../services/deleteAccount";
 import saveUserData from "../../services/saveUserData";
 import readUserData from "../../services/readUserData";
+import deleteUserData from "../../services/deleteUserData";
 import storeUserFiles from "../../services/storeUserFiles";
+import deleteUserFiles from "../../services/deleteUserFiles";
 import readUserFiles from "../../services/readUserFiles";
 import ReactModal from "react-modal";
 import { Bars } from "react-loader-spinner";
@@ -33,7 +36,10 @@ const MyAccount = () => {
   const refInputPhone = useRef(null);
   const refSavePhone = useRef(null);
 
-  const userData = JSON.parse(localStorage.getItem("userSignedIn")) || "";
+  const loggedUserName = auth.currentUser?.displayName || "";
+  const loggedUserEmail = auth.currentUser?.email || "";
+  const loggedUserCreation = auth.currentUser?.metadata.creationTime || "";
+  const loggedUserID = auth.currentUser?.uid || "";
 
   const userExtraData = {
     phoneNumber: phoneNumber || "",
@@ -48,30 +54,34 @@ const MyAccount = () => {
   }, []);
 
   useEffect(() => {
-    const fetchUserPhoto = async () => {
-      try {
-        const photoURL = await readUserFiles();
-        setUserPhoto(photoURL);
-      } catch (error) {
-        console.error("Error fetching user photo:", error);
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        try {
+          const photoURL = await readUserFiles();
+          setUserPhoto(photoURL);
+        } catch (error) {
+          console.error("Error fetching user photo:", error);
+        }
+      } else {
+        setUserPhoto("");
       }
-    };
+    });
 
-    fetchUserPhoto();
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
-    if (localStorage.getItem("userSignedIn"))
-      readUserData(userData.userID)
+    if (loggedUserID)
+      readUserData(loggedUserID)
         .then((data) => {
-          setPhoneNumber(data?.phoneNumber);
+          setPhoneNumber(data?.info?.phoneNumber);
 
-          setBillingAddress(data?.billingAddress || "---");
+          setBillingAddress(data?.info?.billingAddress || "---");
         })
         .catch((err) => {
           console.log(err);
         });
-  }, [userData.userID]);
+  }, [loggedUserID]);
 
   useEffect(() => {
     getCities(lookup.byCountry(clientCountry)?.iso2).then((result) =>
@@ -84,8 +94,9 @@ const MyAccount = () => {
   };
 
   const handleDeleteAccount = async () => {
-    localStorage.removeItem("userSignedIn");
-    deleteUserAccount();
+    await deleteUserData();
+    await deleteUserFiles();
+    await deleteUserAccount();
 
     setMailCheck(
       <div className="mail_check">
@@ -112,6 +123,9 @@ const MyAccount = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
+    if (!loggedUserID) {
+      window.location.href = "/";
+    }
   };
 
   const handlePhoneNumber = (e) => {
@@ -126,7 +140,7 @@ const MyAccount = () => {
   };
 
   const handleSavePhoneNumber = () => {
-    if (localStorage.getItem("userSignedIn")) saveUserData(userData.userID, userExtraData);
+    if (loggedUserID) saveUserData(loggedUserID, userExtraData);
 
     refInputPhone.current.style.pointerEvents = "none";
     refInputPhone.current.style.border = "none";
@@ -156,7 +170,7 @@ const MyAccount = () => {
   const handleCloseAddressModal = () => {
     setShowAddressModal(false);
     setAddressSaveCheck("");
-    saveUserData(userData.userID, userExtraData);
+    saveUserData(loggedUserID, userExtraData);
   };
 
   const handleCountryChange = (e) => {
@@ -202,8 +216,10 @@ const MyAccount = () => {
           </div>
           <span style={{ marginTop: 20, marginBottom: 20 }}>This is a one time action. Are you sure?</span>
           <div id="signOut_confirm">
-            <button onClick={handleDeleteAccount}>Yes</button>
-            <button onClick={handleDoNotDeleteAccount} disabled={!localStorage.getItem("userSignedIn")}>
+            <button onClick={handleDeleteAccount} disabled={!loggedUserID}>
+              Yes
+            </button>
+            <button onClick={handleDoNotDeleteAccount} disabled={!loggedUserID}>
               No
             </button>
           </div>
@@ -267,7 +283,7 @@ const MyAccount = () => {
         <div className="account_content">
           <div className="user_details">
             <div className="user_name">
-              <span>Welcome back, {userData.name || "---"}!</span>
+              <span>Welcome back, {loggedUserName || "---"}!</span>
               <span>You can manage your profile and orders from here.</span>
             </div>
             <div className="user_photo">
@@ -286,18 +302,16 @@ const MyAccount = () => {
               <div className="account_info_content">
                 <div className="account_info_props">
                   <span style={{ color: "cyan" }}>E-mail:</span>
-                  <span>{userData.mail || "---"}</span>
+                  <span>{loggedUserEmail || "---"}</span>
                 </div>
                 <div className="account_info_props">
                   <span style={{ color: "cyan" }}>Created:</span>
-                  <span>
-                    {userData.dateCreated ? `${userData.dateCreated.slice(5, -13)},${userData.dateCreated.slice(16, -7)} GMT` : "---"}
-                  </span>
+                  <span>{loggedUserCreation ? `${loggedUserCreation.slice(5, -13)},${loggedUserCreation.slice(16, -7)} GMT` : "---"}</span>
                 </div>
                 <div className="account_info_props">
                   <span style={{ color: "cyan" }}>Phone Number:</span>
                   <div className="account_info_props_phone">
-                    {userData.userID ? (
+                    {loggedUserID ? (
                       <input
                         ref={refInputPhone}
                         type="text"
@@ -323,12 +337,12 @@ const MyAccount = () => {
                 <div className="account_info_props">
                   <span style={{ color: "cyan" }}>Address:</span>
                   <div className="account_info_props_address">
-                    {userData.userID ? <span className="user_address">{billingAddress}</span> : "---"}
+                    {loggedUserID ? <span className="user_address">{billingAddress}</span> : "---"}
                     <FontAwesomeIcon icon={faPencil} onClick={handleEditAddress} id="edit_address" />
                   </div>
                 </div>
                 <div className="delete_account">
-                  <button onClick={handleOpenModal} disabled={!localStorage.getItem("userSignedIn")}>
+                  <button onClick={handleOpenModal} disabled={!loggedUserID}>
                     Delete Account
                   </button>
                 </div>

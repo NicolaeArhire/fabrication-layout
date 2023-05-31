@@ -1,4 +1,5 @@
 import "./cart.css";
+import { auth } from "../../firebase";
 import { Table } from "react-bootstrap";
 import lookup from "country-code-lookup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -32,7 +33,7 @@ const Cart = () => {
 
   const { modalIsOpen } = useContext(MyContext);
 
-  const userData = JSON.parse(localStorage.getItem("userSignedIn")) || "";
+  const loggedUserID = auth.currentUser?.uid || "";
 
   useEffect(() => {
     setIsLoading(true);
@@ -42,17 +43,17 @@ const Cart = () => {
   }, []);
 
   useEffect(() => {
-    if (userData) {
-      readUserData(userData.userID)
+    if (loggedUserID) {
+      readUserData(loggedUserID)
         .then((data) => {
           setClientCountry(
-            data?.billingAddress
+            data?.info?.billingAddress
               .split(",")
               .map((item) => item.trim())
               .reverse()[0]
           );
           setClientCity(
-            data?.billingAddress
+            data?.info?.billingAddress
               .split(",")
               .map((item) => item.trim())
               .reverse()[1]
@@ -63,9 +64,8 @@ const Cart = () => {
         });
     } else {
       setClientCountry("");
-      setClientCountry("");
     }
-  }, [userData, userData.userID]);
+  }, [loggedUserID]);
 
   useEffect(() => {
     getCities(lookup.byCountry(clientCountry)?.iso2).then((result) =>
@@ -305,10 +305,7 @@ const Cart = () => {
               <Table bordered variant="dark" className="cart_table3">
                 <thead>
                   <tr>
-                    <th
-                      onClick={handleShipping}
-                      style={{ cursor: "pointer", pointerEvents: localStorage.getItem("userSignedIn") ? "none" : "auto" }}
-                    >
+                    <th onClick={handleShipping} style={{ cursor: "pointer", pointerEvents: loggedUserID ? "none" : "auto" }}>
                       Shipping <FontAwesomeIcon icon={faTruck} style={{ marginLeft: 10 }} />
                     </th>
                     <td ref={shippingCostRef}>{cartItems.length > 0 ? shipping : "-"}</td>
@@ -346,7 +343,13 @@ const Cart = () => {
               disabled={shipping === "Sorry. We don't go there." || shipping === "-" || cartItems.length <= 0}
               onClick={handleCheckOut}
             >
-              Check Out <FontAwesomeIcon icon={faLock} style={{ cursor: "pointer" }} />
+              Check Out{" "}
+              <FontAwesomeIcon
+                icon={faLock}
+                style={{
+                  cursor: shipping === "Sorry. We don't go there." || shipping === "-" || cartItems.length <= 0 ? "auto" : "pointer",
+                }}
+              />
             </button>
           </div>
         </div>

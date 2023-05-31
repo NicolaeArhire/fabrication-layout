@@ -1,4 +1,5 @@
 import "./plateCalculator.css";
+import { auth } from "../../firebase";
 import PipeByPlane from "../../components/flatteningCalculator/pipeByPlane";
 import PipeByPipe from "../../components/flatteningCalculator/pipeByPipe";
 import PipeByCone from "../../components/flatteningCalculator/pipeByCone";
@@ -18,13 +19,15 @@ const PlateCalculator = () => {
 
   const { modalIsOpen } = useContext(MyContext);
 
+  const loggedUserID = auth.currentUser?.uid || "";
+
   useEffect(() => {
     setPageNo(currentComponent);
   }, [currentComponent]);
 
   useEffect(() => {
-    if (localStorage.getItem("userSignedIn")) setShowModal(false);
-  }, []);
+    if (loggedUserID) setShowModal(false);
+  }, [loggedUserID]);
 
   const components = [
     <PipeByPlane modalStatus={showModal} />,
@@ -47,11 +50,7 @@ const PlateCalculator = () => {
   return (
     <>
       <div>
-        <ReactModal
-          isOpen={modalIsOpen || localStorage.getItem("userSignedIn") ? false : true}
-          className="modal_container"
-          ariaHideApp={false}
-        >
+        <ReactModal isOpen={modalIsOpen || loggedUserID ? false : true} className="modal_container" ariaHideApp={false}>
           <div className="modal_content">
             <Typewriter
               onInit={(typewriter) => {

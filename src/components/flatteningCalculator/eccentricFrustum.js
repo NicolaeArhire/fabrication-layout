@@ -1,5 +1,7 @@
 import "./eccentricFrustum.css";
 import { useEffect, useRef, useState } from "react";
+import { auth } from "../../firebase";
+import saveUserProducts from "../../services/saveUserProducts";
 import makerjs from "makerjs";
 import { writeCart } from "../../services/storageCart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -48,6 +50,8 @@ const EccentricFrustum = () => {
 
   const imgRef = useRef(null);
   const canvasRef = useRef(null);
+
+  const loggedUserID = auth.currentUser?.uid || "";
 
   useEffect(() => {
     function handleClickOutsideImg(event) {
@@ -609,7 +613,8 @@ const EccentricFrustum = () => {
           price
         ).toFixed(2) * 2,
     };
-    writeCart(tempObj);
+
+    loggedUserID ? saveUserProducts(loggedUserID, tempObj) : writeCart(tempObj);
   };
 
   return (

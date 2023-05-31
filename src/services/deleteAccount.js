@@ -6,8 +6,6 @@ const deleteUserAccount = async () => {
     const user = auth.currentUser;
 
     await user.delete();
-
-    console.log("Account deleted successfully");
   } catch (error) {
     console.log(error.code, error.message);
   }

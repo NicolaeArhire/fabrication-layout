@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from "react";
+import { auth } from "../../firebase";
+import saveUserProducts from "../../services/saveUserProducts";
 import { writeCart } from "../../services/storageCart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
@@ -157,6 +159,8 @@ const ProductDetails = ({ renderItem }) => {
   const [aluminiumBulbLength, setAluminiumBulbLength] = useState("");
   const [aluminiumBulbX, setAluminiumBulbX] = useState("");
   const [aluminiumBulbQty, setAluminiumBulbQty] = useState(1);
+
+  const loggedUserID = auth.currentUser?.uid || "";
 
   useEffect(() => {
     function handleClickOutsideImg(event) {
@@ -2144,7 +2148,8 @@ const ProductDetails = ({ renderItem }) => {
         weight: item.weight,
         price: item.price,
       };
-      writeCart(tempObj);
+
+      loggedUserID ? saveUserProducts(loggedUserID, tempObj) : writeCart(tempObj);
     };
 
     return {

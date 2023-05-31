@@ -11,7 +11,6 @@ const storeUserFiles = (selectedFile, onFileUpload) => {
         getDownloadURL(snapshot.ref).then((downloadURL) => {
           onFileUpload(downloadURL);
         });
-        console.log("File uploaded!");
       })
       .catch((error) => {
         console.error("Error uploading file: ", error);

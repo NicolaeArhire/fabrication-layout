@@ -2,7 +2,7 @@ import { ref, set } from "firebase/database";
 import { database } from "../firebase";
 
 const saveUserData = (userId, userData) => {
-  const userRef = ref(database, `users/${userId}`);
+  const userRef = ref(database, `users/${userId}/info`);
 
   return new Promise((resolve, reject) => {
     set(userRef, userData)

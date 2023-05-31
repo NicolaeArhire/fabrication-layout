@@ -1,4 +1,5 @@
 import "./navMenu.css";
+import { auth } from "../../firebase";
 import { stack as Menu } from "react-burger-menu";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,12 +25,14 @@ import passwordSignIn from "../../services/signInPassword";
 import passwordSignUp from "../../services/signUpPassword";
 import googleSignIn from "../../services/signInGoogle";
 import facebookSignIn from "../../services/signInFacebook";
+import signOutUser from "../../services/signOutUser";
 import deleteUserAccount from "../../services/deleteAccount";
 import forgotPassword from "../../services/forgotPassword";
+import readUserData from "../../services/readUserData";
 
 const NavMenu = ({ setModalIsOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [tab, setTab] = useState(localStorage.getItem("tab") || "Home");
+  const [tab, setTab] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [logOption, setLogOption] = useState("");
   const [username, setUserName] = useState("");
@@ -43,10 +46,13 @@ const NavMenu = ({ setModalIsOpen }) => {
   const [visiblePass, setVisibilePass] = useState(false);
   const [socialLoginCheck, setSocialLoginCheck] = useState("");
   const [isForgotPass, setIsForgotPass] = useState(false);
+  const [userCartProducts, setUserCartProducts] = useState(0);
 
   const userNameInput = useRef(null);
   const userMailInput = useRef(null);
   const userPassInput = useRef(null);
+
+  const loggedUser = auth.currentUser || "";
 
   const location = window.location.href;
 
@@ -63,6 +69,20 @@ const NavMenu = ({ setModalIsOpen }) => {
       setTab("Home");
     }
   }, [location]);
+
+  useEffect(() => {
+    if (loggedUser) {
+      readUserData(loggedUser.uid)
+        .then((data) => {
+          setUserCartProducts(data && data.products ? data.products.length : 0);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      setUserCartProducts(0);
+    }
+  }, [showModal, isOpen, loggedUser]);
 
   useEffect(() => {
     if (userNameInput.current) userNameInput.current.value = "";
@@ -99,7 +119,7 @@ const NavMenu = ({ setModalIsOpen }) => {
     setIsForgotPass(false);
     setModalIsOpen(false);
 
-    if (tab === "My Account" && !localStorage.getItem("userSignedIn")) {
+    if (tab === "My Account" && !loggedUser) {
       window.location.href = "/";
       setIsOpen(false);
     } else if (tab === "Cart") {
@@ -247,15 +267,6 @@ const NavMenu = ({ setModalIsOpen }) => {
       try {
         const user = await passwordSignIn(mail, pass);
 
-        const userData = {
-          name: user.displayName,
-          mail: user.email,
-          dateCreated: user.metadata.creationTime,
-          userID: user.uid,
-        };
-
-        localStorage.setItem("userSignedIn", JSON.stringify(userData));
-
         if (user.displayName) {
           setTimeout(() => {
             setMailCheck(
@@ -316,15 +327,6 @@ const NavMenu = ({ setModalIsOpen }) => {
       .then((userCredential) => {
         const user = userCredential.user;
 
-        const userData = {
-          name: user.displayName,
-          mail: user.email,
-          dateCreated: user.metadata.creationTime,
-          userID: user.uid,
-        };
-
-        localStorage.setItem("userSignedIn", JSON.stringify(userData));
-
         setMailCheck(
           <div className="mail_check">
             <span>Welcome back, {user.displayName}! &nbsp;</span> <FontAwesomeIcon icon={faCheck} id="check_icon" />
@@ -347,14 +349,6 @@ const NavMenu = ({ setModalIsOpen }) => {
       .then((userCredential) => {
         const user = userCredential.user;
 
-        const userData = {
-          name: user.displayName,
-          mail: user.email,
-          dateCreated: user.metadata.creationTime,
-          userID: user.uid,
-        };
-
-        localStorage.setItem("userSignedIn", JSON.stringify(userData));
         setMailCheck(
           <div className="mail_check">
             <span>Welcome back, {user.displayName}! &nbsp;</span> <FontAwesomeIcon icon={faCheck} id="check_icon" />
@@ -414,7 +408,7 @@ const NavMenu = ({ setModalIsOpen }) => {
   };
 
   const handleSignOut = async () => {
-    localStorage.removeItem("userSignedIn");
+    signOutUser();
 
     setMailCheck(
       <div className="mail_check">
@@ -496,7 +490,7 @@ const NavMenu = ({ setModalIsOpen }) => {
               <span>Sign In.</span>
             </div>
             <div id="google_auth">
-              <button onClick={handleGoogleSignIn} disabled={localStorage.getItem("userSignedIn")}>
+              <button onClick={handleGoogleSignIn} disabled={loggedUser}>
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                   <g>
                     <path
@@ -522,7 +516,7 @@ const NavMenu = ({ setModalIsOpen }) => {
               </button>
             </div>
             <div id="facebook_auth">
-              <button onClick={handleFacebookSignIn} disabled={localStorage.getItem("userSignedIn")}>
+              <button onClick={handleFacebookSignIn} disabled={loggedUser}>
                 <FontAwesomeIcon icon={faFacebook} />
                 Sign in with Facebook
               </button>
@@ -568,18 +562,18 @@ const NavMenu = ({ setModalIsOpen }) => {
               </div>
             </form>
             {mailCheck}
-            <button onClick={handlePasswordSignIn} disabled={localStorage.getItem("userSignedIn")} id="sign_in_button">
+            <button onClick={handlePasswordSignIn} disabled={loggedUser} id="sign_in_button">
               Sign In
             </button>
-            <button onClick={handleOpenForgotPassModal} disabled={localStorage.getItem("userSignedIn")} id="forgot_pass_button">
+            <button onClick={handleOpenForgotPassModal} disabled={loggedUser} id="forgot_pass_button">
               Forgot password?
             </button>
             <div id="sign_up">
               <span>- Don't have an account? </span>
               <span
-                onClick={localStorage.getItem("userSignedIn") ? () => {} : handleOpenSignUpModal}
+                onClick={loggedUser ? () => {} : handleOpenSignUpModal}
                 id="sign_up_button"
-                style={{ cursor: localStorage.getItem("userSignedIn") ? "auto" : "pointer" }}
+                style={{ cursor: loggedUser ? "auto" : "pointer" }}
               >
                 Sign up.
               </span>
@@ -636,18 +630,14 @@ const NavMenu = ({ setModalIsOpen }) => {
               </div>
             </form>
             {mailCheck}
-            <button
-              onClick={visibileCodeCheck ? handleSignUpCreate : handleSignUpChecking}
-              disabled={localStorage.getItem("userSignedIn")}
-              id="sign_in_button"
-            >
+            <button onClick={visibileCodeCheck ? handleSignUpCreate : handleSignUpChecking} disabled={loggedUser} id="sign_in_button">
               Create Account
             </button>
             <div id="sign_up">
               <span>- Back to </span>
               <span
                 onClick={handleOpenSignInModal}
-                disabled={localStorage.getItem("userSignedIn")}
+                disabled={loggedUser}
                 style={{ pointerEvents: wrongMailCode ? "none" : "auto" }}
                 id="sign_up_button"
               >
@@ -662,8 +652,10 @@ const NavMenu = ({ setModalIsOpen }) => {
             </div>
             <span style={{ marginTop: 20, marginBottom: 20 }}>Are you sure you want to sign out?</span>
             <div id="signOut_confirm">
-              <button onClick={handleSignOut}>Yes</button>
-              <button onClick={handleDoNotSignOut} disabled={!localStorage.getItem("userSignedIn")}>
+              <button onClick={handleSignOut} disabled={!loggedUser}>
+                Yes
+              </button>
+              <button onClick={handleDoNotSignOut} disabled={!loggedUser}>
                 No
               </button>
             </div>
@@ -688,7 +680,7 @@ const NavMenu = ({ setModalIsOpen }) => {
               <span>- Back to </span>
               <span
                 onClick={handleOpenSignInModal}
-                disabled={localStorage.getItem("userSignedIn")}
+                disabled={loggedUser}
                 style={{ pointerEvents: wrongMailCode ? "none" : "auto" }}
                 id="sign_up_button"
               >
@@ -705,10 +697,10 @@ const NavMenu = ({ setModalIsOpen }) => {
           <img src="/logo.png" alt="logo.png" className="img_navbar" />
         </div>
         <div id="auth_options" style={{ display: "flex" }}>
-          <button onClick={handleOpenSignInModal} disabled={localStorage.getItem("userSignedIn")}>
+          <button onClick={handleOpenSignInModal} disabled={loggedUser}>
             Sign In
           </button>
-          <button onClick={handleOpenSignOutModal} disabled={!localStorage.getItem("userSignedIn")}>
+          <button onClick={handleOpenSignOutModal} disabled={!loggedUser}>
             Sign Out
           </button>
         </div>
@@ -717,7 +709,7 @@ const NavMenu = ({ setModalIsOpen }) => {
           onClick={() => {
             setIsOpen(false);
           }}
-          style={{ display: localStorage.getItem("userSignedIn") ? "flex" : "none" }}
+          style={{ display: loggedUser ? "flex" : "none" }}
         >
           <FontAwesomeIcon icon={faUserAlt} /> <span style={{ marginLeft: 10 }}>My Account</span>
         </Link>
@@ -749,7 +741,7 @@ const NavMenu = ({ setModalIsOpen }) => {
         >
           <FontAwesomeIcon icon={faShoppingCart} />
           <span style={{ marginLeft: 10 }}>Cart</span>
-          <span className="no_of_products_in_cart">{readCart().length > 0 ? readCart().length : 0}</span>
+          <span className="no_of_products_in_cart">{loggedUser ? userCartProducts : readCart().length > 0 ? readCart().length : 0}</span>
         </Link>
         <Link
           to="/contact"
