@@ -84,15 +84,15 @@
   align-items: end;
 }
 
-.photo_upload svg {
+.photo_upload abbr svg {
   position: absolute;
   height: 20px;
   width: 20px;
-  margin-top: 100px;
+  margin-top: 7px;
   color: white;
 }
 
-.photo_upload svg:hover {
+.photo_upload abbr svg:hover {
   cursor: pointer;
 }
 

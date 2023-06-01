@@ -289,8 +289,10 @@ const MyAccount = () => {
             <div className="user_photo">
               <img src={userPhoto || "/default_photo.png"} alt="user_photo" />
               <div className="photo_upload">
-                <FontAwesomeIcon icon={faPencil} />
-                <input type="file" accept="image/*" onChange={handleSelectedFile} />
+                <abbr title="Choose Photo">
+                  <FontAwesomeIcon icon={faPencil} />
+                  <input type="file" accept="image/*" onChange={handleSelectedFile} />
+                </abbr>
               </div>
             </div>
           </div>
@@ -324,7 +326,9 @@ const MyAccount = () => {
                     ) : (
                       "---"
                     )}
-                    <FontAwesomeIcon icon={faPencil} onClick={handleEditPhoneNumber} id="edit_phone" />
+                    <abbr title="Edit Phone">
+                      <FontAwesomeIcon icon={faPencil} onClick={handleEditPhoneNumber} id="edit_phone" />
+                    </abbr>
                     <input
                       ref={refSavePhone}
                       id="save_phone"
@@ -338,7 +342,9 @@ const MyAccount = () => {
                   <span style={{ color: "cyan" }}>Address:</span>
                   <div className="account_info_props_address">
                     {loggedUserID ? <span className="user_address">{billingAddress}</span> : "---"}
-                    <FontAwesomeIcon icon={faPencil} onClick={handleEditAddress} id="edit_address" />
+                    <abbr title="Edit Address">
+                      <FontAwesomeIcon icon={faPencil} onClick={handleEditAddress} id="edit_address" />
+                    </abbr>
                   </div>
                 </div>
                 <div className="delete_account">

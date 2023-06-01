@@ -8,6 +8,8 @@ import { useEffect, useRef, useState, useContext } from "react";
 import { getCities, getPoints, getDistance } from "../../services/shipping";
 import { clearCart, deleteFromCart, readCart } from "../../services/storageCart";
 import readUserData from "../../services/readUserData";
+import deleteAllUserProducts from "../../services/deleteAllUserProducts";
+import deleteSpecificUserProducts from "../../services/deleteSpecificUserProducts";
 import { Bars } from "react-loader-spinner";
 import ReactModal from "react-modal";
 import Payment from "../../services/payment";
@@ -19,7 +21,7 @@ const Cart = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isPaymentLoading, setPaymentIsLoading] = useState(false);
-  const [cartItems, setCartItems] = useState(readCart());
+  const [cartItems, setCartItems] = useState([]);
   const [citiesList, setCitiesList] = useState("");
   const [clientCountry, setClientCountry] = useState("");
   const [clientCity, setClientCity] = useState("");
@@ -30,10 +32,11 @@ const Cart = () => {
   const [arrival, setArrival] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
+  const [userProductRemoved, setUserProductRemoved] = useState(false);
 
   const { modalIsOpen } = useContext(MyContext);
 
-  const loggedUserID = auth.currentUser?.uid || "";
+  const loggedUser = auth.currentUser || "";
 
   useEffect(() => {
     setIsLoading(true);
@@ -43,8 +46,8 @@ const Cart = () => {
   }, []);
 
   useEffect(() => {
-    if (loggedUserID) {
-      readUserData(loggedUserID)
+    if (loggedUser) {
+      readUserData(loggedUser.uid)
         .then((data) => {
           setClientCountry(
             data?.info?.billingAddress
@@ -65,7 +68,23 @@ const Cart = () => {
     } else {
       setClientCountry("");
     }
-  }, [loggedUserID]);
+  }, [loggedUser]);
+
+  useEffect(() => {
+    if (loggedUser) {
+      readUserData(loggedUser.uid)
+        .then((data) => {
+          setCartItems(data && data.products ? data.products : []);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      setCartItems(readCart());
+    }
+
+    setUserProductRemoved(false);
+  }, [showModal, loggedUser, userProductRemoved]);
 
   useEffect(() => {
     getCities(lookup.byCountry(clientCountry)?.iso2).then((result) =>
@@ -123,13 +142,23 @@ const Cart = () => {
   };
 
   const handleDeleteItem = (index) => {
-    deleteFromCart(index);
-    setCartItems(readCart());
+    if (loggedUser) {
+      deleteSpecificUserProducts(index);
+      setUserProductRemoved(true);
+    } else {
+      deleteFromCart(index);
+      setCartItems(readCart());
+    }
   };
 
   const handleClearCart = () => {
-    clearCart();
-    setCartItems(readCart());
+    if (loggedUser) {
+      deleteAllUserProducts();
+      setCartItems([]);
+    } else {
+      clearCart();
+      setCartItems(readCart());
+    }
   };
 
   const handleShipping = () => {
@@ -245,11 +274,13 @@ const Cart = () => {
                         <tr key={index}>
                           <td>
                             {index + 1}.
-                            <FontAwesomeIcon
-                              icon={faTrashAlt}
-                              onClick={() => handleDeleteItem(index)}
-                              style={{ marginLeft: 10, cursor: "pointer" }}
-                            />
+                            <abbr title="Delete Item">
+                              <FontAwesomeIcon
+                                icon={faTrashAlt}
+                                onClick={() => handleDeleteItem(index)}
+                                style={{ marginLeft: 10, cursor: "pointer" }}
+                              />
+                            </abbr>
                           </td>
                           <td>{item.description}</td>
                           <td>{item.size}</td>
@@ -305,7 +336,7 @@ const Cart = () => {
               <Table bordered variant="dark" className="cart_table3">
                 <thead>
                   <tr>
-                    <th onClick={handleShipping} style={{ cursor: "pointer", pointerEvents: loggedUserID ? "none" : "auto" }}>
+                    <th onClick={handleShipping} style={{ cursor: "pointer", pointerEvents: loggedUser ? "none" : "auto" }}>
                       Shipping <FontAwesomeIcon icon={faTruck} style={{ marginLeft: 10 }} />
                     </th>
                     <td ref={shippingCostRef}>{cartItems.length > 0 ? shipping : "-"}</td>
