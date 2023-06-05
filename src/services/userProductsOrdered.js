@@ -17,8 +17,8 @@ const userProductsOrdered = () => {
         orderDate[1] = orderDate[2];
         orderDate[2] = temp;
         const orderTime = new Date().toLocaleString("en-US", { timeZone: "Europe/Bucharest", hour12: false }).slice(10, 15);
-        const orderWeight = (154635.58 * 100).toFixed(0); //Firebase does not accept dots in folder name (logic)
-        const orderCost = (154635.58 * 100).toFixed(0); //Firebase does not accept dots in folder name (logic)
+        const orderWeight = (sessionStorage.getItem("orderWeight") * 100).toFixed(0); //Firebase does not accept dots in folder name (logic)
+        const orderCost = (sessionStorage.getItem("orderCost") * 100).toFixed(0); //Firebase does not accept dots in folder name (logic)
 
         const data = snapshot.val();
         const copiedUserRef = ref(

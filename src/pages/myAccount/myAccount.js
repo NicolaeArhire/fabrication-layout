@@ -371,45 +371,51 @@ const MyAccount = () => {
                       <th>Time</th>
                       <th>Weight</th>
                       <th>Cost</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                 </Table>
-                <Table bordered variant="dark">
-                  <tbody>
-                    {orders.length > 0 ? (
-                      orders.map((item, index) => (
-                        <tr key={item} className="orders_main">
-                          <td>{index + 1}</td>
-                          {item.split("_").map((element, elementIndex) => {
-                            if (elementIndex === 0) {
-                              return (
-                                <td key={element} style={{ display: "none" }}>
-                                  {element}
-                                </td>
-                              );
-                            } else if (elementIndex === 1) {
-                              return <td key={element}>{element.replaceAll("~", "-")}</td>;
-                            } else if (elementIndex === 2) {
-                              return <td key={element}>{element}</td>;
-                            } else if (elementIndex === 3) {
-                              return <td key={element}>{Number(element) / 100} kg</td>;
-                            } else if (elementIndex === 4) {
-                              return <td key={element}>{Number(element) / 100} $</td>;
-                            } else {
-                              return null;
-                            }
-                          })}
+                <div className="orders_body">
+                  <Table bordered variant="dark">
+                    <tbody>
+                      {orders.length > 0 ? (
+                        orders.map((item, index) => (
+                          <tr key={item} className="orders_main">
+                            <td>{index + 1}</td>
+                            {item.split("_").map((element, elementIndex) => {
+                              if (elementIndex === 0) {
+                                return (
+                                  <td key={element} style={{ display: "none" }}>
+                                    {element}
+                                  </td>
+                                );
+                              } else if (elementIndex === 1) {
+                                return <td key={element}>{element.replaceAll("~", "-")}</td>;
+                              } else if (elementIndex === 2) {
+                                return <td key={element}>{element}</td>;
+                              } else if (elementIndex === 3) {
+                                return <td key={element}>{Number(element) / 100} kg</td>;
+                              } else if (elementIndex === 4) {
+                                return <td key={element}>{Number(element) / 100} $</td>;
+                              } else {
+                                return null;
+                              }
+                            })}
+                            <td>
+                              Delivered <FontAwesomeIcon icon={faCheck} className="product_delivered" />
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="5" className="no_previous_order" contains="Empty">
+                            No previous orders.
+                          </td>
                         </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan="5" className="empty_cart" contains="Empty">
-                          No previous orders.
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </Table>
+                      )}
+                    </tbody>
+                  </Table>
+                </div>
               </div>
             </div>
           </div>

@@ -39,6 +39,15 @@ const Cart = () => {
   const loggedUser = auth.currentUser || "";
 
   useEffect(() => {
+    const orderWeight = cartItems.length > 0 ? cartItems.reduce((prev, item) => prev + parseFloat(item.weight), 0).toFixed(2) : 0;
+    const orderCost =
+      cartItems.length > 0 ? (cartItems.reduce((prev, item) => prev + parseFloat(item.price), 0) + parseFloat(shipping)).toFixed(2) : 0;
+
+    sessionStorage.setItem("orderWeight", orderWeight);
+    sessionStorage.setItem("orderCost", orderCost);
+  }, [cartItems, shipping]);
+
+  useEffect(() => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);

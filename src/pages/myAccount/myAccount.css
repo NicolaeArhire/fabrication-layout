@@ -132,7 +132,6 @@
 }
 
 .account_info_title span {
-  font-size: 18px;
   color: white;
 }
 
@@ -467,10 +466,10 @@
 .account_orders_content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 95%;
-  height: fit-content;
+  height: 330px;
   padding-top: 20px;
 }
 
@@ -485,29 +484,83 @@
   padding-bottom: 2px;
 }
 
+.orders_head th:nth-of-type(1) {
+  width: 55px;
+}
+
+.orders_head th:nth-of-type(2) {
+  width: 90px;
+}
+
+.orders_head th:nth-of-type(3) {
+  width: 70px;
+}
+
+.orders_head th:nth-of-type(4) {
+  width: 110px;
+}
+
+.orders_head th:nth-of-type(5) {
+  width: 105px;
+}
+
+.orders_head th:nth-of-type(6) {
+  width: 110px;
+}
+
+.orders_body {
+  width: 100%;
+  max-height: 330px;
+  overflow-y: auto;
+}
+
+.orders_body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.orders_body::-webkit-scrollbar-track {
+  background-color: #d9e2e6;
+}
+
+.orders_body::-webkit-scrollbar-thumb {
+  background-color: #0daad1;
+  border-radius: 4px;
+}
+
 .orders_main {
   width: 100%;
   font-size: 14px;
 }
 
 .orders_main td:nth-of-type(1) {
-  width: 59.22px;
+  width: 60px;
 }
 
 .orders_main td:nth-of-type(3) {
-  width: 116.67px;
+  width: 96px;
 }
 
 .orders_main td:nth-of-type(4) {
-  width: 121.17px;
+  width: 74px;
 }
 
 .orders_main td:nth-of-type(5) {
-  width: 159.95px;
+  width: 115px;
 }
 
 .orders_main td:nth-of-type(6) {
-  width: 111.8px;
+  width: 112px;
+}
+
+.product_delivered {
+  color: green;
+  height: 20px;
+  width: 20px;
+}
+
+.no_previous_order {
+  font-size: 14px;
+  text-align: center;
 }
 
 .table-dark {
@@ -599,7 +652,37 @@
     width: 40%;
   }
 
+  .orders_body {
+    max-height: 250px;
+  }
+
   .orders_main {
-    font-size: 10px;
+    font-size: 12px;
+  }
+
+  .orders_head th:nth-of-type(3),
+  .orders_head th:nth-of-type(4) {
+    display: none;
+  }
+
+  .orders_head th:nth-of-type(6) {
+    width: 110px;
+  }
+
+  .orders_main td:nth-of-type(3) {
+    width: 92px;
+  }
+
+  .orders_main td:nth-of-type(4),
+  .orders_main td:nth-of-type(5) {
+    display: none;
+  }
+
+  .orders_main td:nth-of-type(6) {
+    width: 108px;
+  }
+
+  .no_previous_order {
+    font-size: 12px;
   }
 }
