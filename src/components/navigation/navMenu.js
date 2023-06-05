@@ -74,7 +74,7 @@ const NavMenu = ({ setModalIsOpen }) => {
     if (loggedUser) {
       readUserData(loggedUser.uid)
         .then((data) => {
-          setUserCartProducts(data && data.products ? data.products.length : 0);
+          setUserCartProducts(data && data.productsInCart ? data.productsInCart.length : 0);
         })
         .catch((error) => {
           console.error(error);

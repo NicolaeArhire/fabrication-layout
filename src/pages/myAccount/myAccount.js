@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./myAccount.css";
+import { Table } from "react-bootstrap";
 import { auth } from "../../firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faThumbsUp, faTimes, faPencil } from "@fortawesome/free-solid-svg-icons";
@@ -24,6 +25,7 @@ const MyAccount = () => {
   const [mailCheck, setMailCheck] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [billingAddress, setBillingAddress] = useState("");
+  const [orders, setOrders] = useState([]);
   const [citiesList, setCitiesList] = useState("");
   const [clientCountry, setClientCountry] = useState("");
   const [clientCity, setClientCity] = useState("");
@@ -75,6 +77,7 @@ const MyAccount = () => {
       readUserData(loggedUserID)
         .then((data) => {
           setPhoneNumber(data?.info?.phoneNumber);
+          setOrders(Object.keys(data).filter((item) => item.includes("Order")));
 
           setBillingAddress(data?.info?.billingAddress || "---");
         })
@@ -126,6 +129,7 @@ const MyAccount = () => {
     if (!loggedUserID) {
       window.location.href = "/";
     }
+    setMailCheck("");
   };
 
   const handlePhoneNumber = (e) => {
@@ -359,7 +363,53 @@ const MyAccount = () => {
                 <span>My Orders</span>
               </div>
               <div className="account_orders_content">
-                <span>No previous orders.</span>
+                <Table className="orders_head">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Weight</th>
+                      <th>Cost</th>
+                    </tr>
+                  </thead>
+                </Table>
+                <Table bordered variant="dark">
+                  <tbody>
+                    {orders.length > 0 ? (
+                      orders.map((item, index) => (
+                        <tr key={item} className="orders_main">
+                          <td>{index + 1}</td>
+                          {item.split("_").map((element, elementIndex) => {
+                            if (elementIndex === 0) {
+                              return (
+                                <td key={element} style={{ display: "none" }}>
+                                  {element}
+                                </td>
+                              );
+                            } else if (elementIndex === 1) {
+                              return <td key={element}>{element.replaceAll("~", "-")}</td>;
+                            } else if (elementIndex === 2) {
+                              return <td key={element}>{element}</td>;
+                            } else if (elementIndex === 3) {
+                              return <td key={element}>{Number(element) / 100} kg</td>;
+                            } else if (elementIndex === 4) {
+                              return <td key={element}>{Number(element) / 100} $</td>;
+                            } else {
+                              return null;
+                            }
+                          })}
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="5" className="empty_cart" contains="Empty">
+                          No previous orders.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </Table>
               </div>
             </div>
           </div>

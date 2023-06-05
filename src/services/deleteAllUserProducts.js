@@ -3,7 +3,7 @@ import { database } from "../firebase";
 import { auth } from "../../src/firebase";
 
 const deleteAllUserProducts = () => {
-  const userRef = ref(database, `users/${auth.currentUser.uid}/products`);
+  const userRef = ref(database, `users/${auth.currentUser.uid}/productsInCart`);
 
   return new Promise((resolve, reject) => {
     remove(userRef)

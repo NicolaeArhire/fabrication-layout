@@ -2,6 +2,8 @@ import "./checkout.css";
 import { PaymentElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
+import { auth } from "../../firebase";
+import userProductsOrdered from "../../services/userProductsOrdered";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -10,6 +12,8 @@ export default function CheckoutForm() {
   const [message, setMessage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentCompleted, setPaymentCompleted] = useState(false);
+
+  const loggedUser = auth.currentUser || "";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +42,8 @@ export default function CheckoutForm() {
         </>
       );
       setPaymentCompleted(true);
+
+      if (loggedUser) userProductsOrdered();
     } else {
       setMessage("Unexpected error");
     }

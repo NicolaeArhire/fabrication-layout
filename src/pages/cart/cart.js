@@ -74,7 +74,7 @@ const Cart = () => {
     if (loggedUser) {
       readUserData(loggedUser.uid)
         .then((data) => {
-          setCartItems(data && data.products ? data.products : []);
+          setCartItems(data && data.productsInCart ? data.productsInCart : []);
         })
         .catch((error) => {
           console.error(error);
@@ -175,6 +175,10 @@ const Cart = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 700);
   };
 
   const handleSaveAddress = () => {
@@ -374,11 +378,12 @@ const Cart = () => {
               disabled={shipping === "Sorry. We don't go there." || shipping === "-" || cartItems.length <= 0}
               onClick={handleCheckOut}
             >
-              Check Out{" "}
+              Check Out
               <FontAwesomeIcon
                 icon={faLock}
                 style={{
                   cursor: shipping === "Sorry. We don't go there." || shipping === "-" || cartItems.length <= 0 ? "auto" : "pointer",
+                  paddingLeft: 5,
                 }}
               />
             </button>

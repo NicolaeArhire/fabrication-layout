@@ -2,10 +2,10 @@ import { ref, set, get } from "firebase/database";
 import { database } from "../firebase";
 
 const saveUserProducts = (userId, userData) => {
-  const userRef = ref(database, `users/${userId}/products`);
+  const userRef = ref(database, `users/${userId}/productsInCart`);
 
   return new Promise((resolve, reject) => {
-    const userProductsRef = ref(database, `users/${userId}/products`);
+    const userProductsRef = userRef;
     get(userProductsRef)
       .then((snapshot) => {
         const userProducts = snapshot.val() || [];

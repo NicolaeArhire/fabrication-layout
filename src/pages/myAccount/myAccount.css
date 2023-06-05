@@ -474,6 +474,47 @@
   padding-top: 20px;
 }
 
+.orders_head {
+  width: 100%;
+  color: cyan;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.orders_head th {
+  padding-bottom: 2px;
+}
+
+.orders_main {
+  width: 100%;
+  font-size: 14px;
+}
+
+.orders_main td:nth-of-type(1) {
+  width: 59.22px;
+}
+
+.orders_main td:nth-of-type(3) {
+  width: 116.67px;
+}
+
+.orders_main td:nth-of-type(4) {
+  width: 121.17px;
+}
+
+.orders_main td:nth-of-type(5) {
+  width: 159.95px;
+}
+
+.orders_main td:nth-of-type(6) {
+  width: 111.8px;
+}
+
+.table-dark {
+  --bs-table-bg: #021527;
+  --bs-table-border-color: #22b4a8;
+}
+
 @media screen and (max-width: 500px) {
   .page_loading svg {
     width: 50px;
@@ -556,5 +597,9 @@
 
   .delete_account button {
     width: 40%;
+  }
+
+  .orders_main {
+    font-size: 10px;
   }
 }
