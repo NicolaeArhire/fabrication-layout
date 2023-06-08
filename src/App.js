@@ -1,6 +1,7 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import { auth } from "./firebase";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/home/home";
 import PlateCalculator from "./pages/plateCalculator/plateCalculator";
@@ -13,10 +14,19 @@ export const MyContext = createContext();
 
 function App() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [displayCartProducts, setDisplayCartProducts] = useState(0);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setDisplayCartProducts(user ? localStorage.getItem("display_cart_user") || 0 : localStorage.getItem("display_cart_guest") || 0);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div className="app">
-      <MyContext.Provider value={{ modalIsOpen, setModalIsOpen }}>
+      <MyContext.Provider value={{ modalIsOpen, setModalIsOpen, displayCartProducts, setDisplayCartProducts }}>
         <Router>
           <div className="fixed-nav">
             <NavMenu setModalIsOpen={setModalIsOpen} />

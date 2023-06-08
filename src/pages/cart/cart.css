@@ -144,11 +144,24 @@
 
 .clear_all_items {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin-top: 20px;
 }
 
+.clear_all_items span {
+  font-size: 18px;
+  height: 30px;
+  width: 130px;
+  text-align: center;
+  color: white;
+  text-decoration: underline;
+  margin-right: 10px;
+  background: rgba(44, 40, 40, 0.7);
+  border-radius: 10px;
+}
+
 .clear_all_items button {
+  height: 30px;
   width: 100px;
   font-size: 17px;
   border-radius: 10px;
@@ -475,7 +488,13 @@
   }
 
   .clear_all_items button {
+    font-size: 14px;
     width: 120px;
+  }
+
+  .clear_all_items span {
+    font-size: 15px;
+    width: 110px;
   }
 
   .empty_cart {

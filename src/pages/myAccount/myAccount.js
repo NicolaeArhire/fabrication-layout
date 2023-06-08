@@ -322,6 +322,7 @@ const MyAccount = () => {
                         ref={refInputPhone}
                         type="text"
                         placeholder="---"
+                        name="phone-input"
                         value={phoneNumber || ""}
                         className="user_phone"
                         style={{ pointerEvents: "none" }}

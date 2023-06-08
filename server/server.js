@@ -13,6 +13,15 @@ const stripe = require("stripe")(process.env.REACT_APP_STRIPE_SECRET_KEY, {
   apiVersion: "2022-08-01",
 });
 
+// To be handled in the  near future. PS: Strict CSP is safer than allowlist CSP
+// app.use((req, res, next) => {
+//   res.setHeader(
+//     "Content-Security-Policy",
+//     "script-src 'self' https://apis.google.com https://js.stripe.com https://www.googletagmanager.com;"
+//   );
+//   next();
+// });
+
 app.use(express.static(path.join(__dirname, "../build")));
 
 app.get("/config", (req, res) => {

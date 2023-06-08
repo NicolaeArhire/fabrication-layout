@@ -1,11 +1,13 @@
 import "./eccentricFrustum.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { auth } from "../../firebase";
 import saveUserProducts from "../../services/saveUserProducts";
+import readUserData from "../../services/readUserData";
 import makerjs from "makerjs";
 import { writeCart } from "../../services/storageCart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { MyContext } from "../../App";
 
 const EccentricFrustum = () => {
   const [addToCartAnimation, setAddToCartAnimation] = useState(false);
@@ -51,7 +53,24 @@ const EccentricFrustum = () => {
   const imgRef = useRef(null);
   const canvasRef = useRef(null);
 
+  const { setDisplayCartProducts } = useContext(MyContext);
+
   const loggedUserID = auth.currentUser?.uid || "";
+
+  useEffect(() => {
+    if (loggedUserID) {
+      readUserData(loggedUserID)
+        .then((data) => {
+          localStorage.setItem("display_cart_user", data && data.productsInCart ? data.productsInCart.length : 0);
+          setDisplayCartProducts(localStorage.getItem("display_cart_user"));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      setDisplayCartProducts(localStorage.getItem("display_cart_guest"));
+    }
+  }, [loggedUserID, setDisplayCartProducts, cartItemsNo]);
 
   useEffect(() => {
     function handleClickOutsideImg(event) {
@@ -794,7 +813,17 @@ const EccentricFrustum = () => {
           </button>
           <button
             className={`${addToCartAnimation ? "geometryToCart animate_cart_EccentricFrustum" : "geometryToCart"}`}
-            disabled={diam1 === "" || diam2 === "" || height === "" || thickness === "" || material === "---"}
+            disabled={
+              diam1 === "" ||
+              diam2 === "" ||
+              height === "" ||
+              thickness === "" ||
+              /\D/.test(diam1) ||
+              /\D/.test(diam2) ||
+              /\D/.test(height) ||
+              /\D/.test(thickness) ||
+              material === "---"
+            }
             onClick={handleAddProducts}
           >
             {addToCartAnimation ? (

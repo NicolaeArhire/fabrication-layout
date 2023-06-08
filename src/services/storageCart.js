@@ -3,6 +3,7 @@ const writeCart = (data) => {
   const storedCart = storedCartStr ? JSON.parse(storedCartStr) : [];
   storedCart.push(data);
   localStorage.setItem("products_no_user", JSON.stringify(storedCart));
+  localStorage.setItem("display_cart_guest", JSON.stringify(storedCart.length));
 };
 
 const readCart = () => {
@@ -15,6 +16,7 @@ const deleteFromCart = (index) => {
   const storedCart = storedCartStr ? JSON.parse(storedCartStr) : [];
   storedCart.splice(index, 1);
   localStorage.setItem("products_no_user", JSON.stringify(storedCart));
+  localStorage.setItem("display_cart_guest", JSON.stringify(storedCart.length));
 };
 
 const clearCart = () => {
@@ -22,6 +24,7 @@ const clearCart = () => {
   const storedCart = storedCartStr ? JSON.parse(storedCartStr) : [];
   storedCart.splice(0, storedCart.length);
   localStorage.setItem("products_no_user", JSON.stringify(storedCart));
+  localStorage.setItem("display_cart_guest", 0);
 };
 
 export { writeCart, deleteFromCart, clearCart, readCart };

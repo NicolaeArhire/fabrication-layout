@@ -1,12 +1,14 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./customShape.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { auth } from "../../firebase";
 import saveUserProducts from "../../services/saveUserProducts";
+import readUserData from "../../services/readUserData";
 import makerjs from "makerjs";
 import { writeCart } from "../../services/storageCart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { MyContext } from "../../App";
 
 const CustomShape = () => {
   const [addToCartAnimation, setAddToCartAnimation] = useState(false);
@@ -28,7 +30,24 @@ const CustomShape = () => {
   const imgRef = useRef(null);
   const canvasRef = useRef(null);
 
+  const { setDisplayCartProducts } = useContext(MyContext);
+
   const loggedUserID = auth.currentUser?.uid || "";
+
+  useEffect(() => {
+    if (loggedUserID) {
+      readUserData(loggedUserID)
+        .then((data) => {
+          localStorage.setItem("display_cart_user", data && data.productsInCart ? data.productsInCart.length : 0);
+          setDisplayCartProducts(localStorage.getItem("display_cart_user"));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      setDisplayCartProducts(localStorage.getItem("display_cart_guest"));
+    }
+  }, [loggedUserID, setDisplayCartProducts, cartItemsNo]);
 
   useEffect(() => {
     function handleClickOutsideImg(event) {
@@ -704,13 +723,33 @@ const CustomShape = () => {
             onClick={handleAddProducts}
             disabled={
               shape === "Disc"
-                ? diam1 === "" || thickness === "" || material === "---"
+                ? diam1 === "" || thickness === "" || /\D/.test(diam1) || /\D/.test(thickness) || material === "---"
                 : shape === "Ring"
-                ? diam1 === "" || diam2 === "" || thickness === "" || material === "---"
+                ? diam1 === "" ||
+                  diam2 === "" ||
+                  thickness === "" ||
+                  /\D/.test(diam1) ||
+                  /\D/.test(diam2) ||
+                  /\D/.test(thickness) ||
+                  material === "---"
                 : shape === "Gusset"
-                ? length1 === "" || length2 === "" || thickness === "" || material === "---"
+                ? length1 === "" ||
+                  length2 === "" ||
+                  thickness === "" ||
+                  /\D/.test(length1) ||
+                  /\D/.test(length2) ||
+                  /\D/.test(thickness) ||
+                  material === "---"
                 : shape === "Star"
-                ? diam1 === "" || diam2 === "" || sideNo === "" || thickness === "" || material === "---"
+                ? diam1 === "" ||
+                  diam2 === "" ||
+                  sideNo === "" ||
+                  thickness === "" ||
+                  /\D/.test(diam1) ||
+                  /\D/.test(diam2) ||
+                  /\D/.test(sideNo) ||
+                  /\D/.test(thickness) ||
+                  material === "---"
                 : ""
             }
           >

@@ -17,7 +17,7 @@ import {
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle, faTwitter, faYoutube, faLinkedin, faFacebook } from "@fortawesome/free-brands-svg-icons";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { readCart } from "../../services/storageCart";
 import { Bars } from "react-loader-spinner";
 import emailjs from "@emailjs/browser";
@@ -29,6 +29,7 @@ import signOutUser from "../../services/signOutUser";
 import deleteUserAccount from "../../services/deleteAccount";
 import forgotPassword from "../../services/forgotPassword";
 import readUserData from "../../services/readUserData";
+import { MyContext } from "../../App";
 
 const NavMenu = ({ setModalIsOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,10 +48,13 @@ const NavMenu = ({ setModalIsOpen }) => {
   const [socialLoginCheck, setSocialLoginCheck] = useState("");
   const [isForgotPass, setIsForgotPass] = useState(false);
   const [userCartProducts, setUserCartProducts] = useState(0);
+  const [displayCartLoading, setDisplayCartLoading] = useState(true);
 
   const userNameInput = useRef(null);
   const userMailInput = useRef(null);
   const userPassInput = useRef(null);
+
+  const { displayCartProducts } = useContext(MyContext);
 
   const loggedUser = auth.currentUser || "";
 
@@ -69,6 +73,13 @@ const NavMenu = ({ setModalIsOpen }) => {
       setTab("Home");
     }
   }, [location]);
+
+  useEffect(() => {
+    setDisplayCartLoading(true);
+    setTimeout(() => {
+      setDisplayCartLoading(false);
+    }, 500);
+  }, [displayCartProducts]);
 
   useEffect(() => {
     if (loggedUser) {
@@ -473,10 +484,22 @@ const NavMenu = ({ setModalIsOpen }) => {
     setIsOpen(state.isOpen);
   };
 
+  const handleGoToCart = () => {
+    window.location.href = "/cart";
+  };
+
   return (
     <div>
       <div className="menu_tab">
         <span className="chosen_tab">{tab}</span>
+        <div className="display_products " onClick={handleGoToCart}>
+          <FontAwesomeIcon icon={faShoppingCart} className="display_cart_icon" />
+          {displayCartLoading ? (
+            <Bars height="25" width="25" color="#FF0000" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
+          ) : (
+            <span style={{ color: "cyan" }}>{displayCartProducts}</span>
+          )}
+        </div>
       </div>
       <div className="login_modal_content" style={{ display: showModal ? "flex" : "none" }}>
         <span>

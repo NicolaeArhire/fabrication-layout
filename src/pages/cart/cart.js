@@ -33,8 +33,9 @@ const Cart = () => {
   const [showModal, setShowModal] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [userProductRemoved, setUserProductRemoved] = useState(false);
+  const [showClearCartConfirmation, setShowClearCartConfirmation] = useState(false);
 
-  const { modalIsOpen } = useContext(MyContext);
+  const { modalIsOpen, setDisplayCartProducts } = useContext(MyContext);
 
   const loggedUser = auth.currentUser || "";
 
@@ -53,6 +54,21 @@ const Cart = () => {
       setIsLoading(false);
     }, 700);
   }, []);
+
+  useEffect(() => {
+    if (loggedUser) {
+      readUserData(loggedUser.uid)
+        .then((data) => {
+          localStorage.setItem("display_cart_user", data && data.productsInCart ? data.productsInCart.length : 0);
+          setDisplayCartProducts(localStorage.getItem("display_cart_user"));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      setDisplayCartProducts(localStorage.getItem("display_cart_guest"));
+    }
+  }, [loggedUser, setDisplayCartProducts, cartItems]);
 
   useEffect(() => {
     if (loggedUser) {
@@ -161,6 +177,8 @@ const Cart = () => {
   };
 
   const handleClearCart = () => {
+    setShowClearCartConfirmation(false);
+
     if (loggedUser) {
       deleteAllUserProducts();
       setCartItems([]);
@@ -317,9 +335,31 @@ const Cart = () => {
           </div>
           <div className="table_totals">
             <div className="clear_all_items">
-              <button disabled={cartItems.length <= 0} onClick={handleClearCart}>
-                Clear Cart
-              </button>
+              {showClearCartConfirmation ? (
+                <>
+                  <span>Are you sure?</span>{" "}
+                  <button onClick={handleClearCart} style={{ width: 60, marginRight: 20 }}>
+                    Yes
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowClearCartConfirmation(false);
+                    }}
+                    style={{ width: 60 }}
+                  >
+                    No
+                  </button>
+                </>
+              ) : (
+                <button
+                  disabled={cartItems.length <= 0}
+                  onClick={() => {
+                    setShowClearCartConfirmation(true);
+                  }}
+                >
+                  Clear Cart
+                </button>
+              )}
             </div>
             <div className="order_totals">
               <Table bordered variant="dark" className="cart_table2">

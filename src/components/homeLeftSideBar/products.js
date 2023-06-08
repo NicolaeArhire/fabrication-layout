@@ -1,9 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { auth } from "../../firebase";
 import saveUserProducts from "../../services/saveUserProducts";
 import { writeCart } from "../../services/storageCart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import readUserData from "../../services/readUserData";
+import { MyContext } from "../../App";
 
 const ProductDetails = ({ renderItem }) => {
   const imgRef = useRef(null);
@@ -159,8 +161,26 @@ const ProductDetails = ({ renderItem }) => {
   const [aluminiumBulbLength, setAluminiumBulbLength] = useState("");
   const [aluminiumBulbX, setAluminiumBulbX] = useState("");
   const [aluminiumBulbQty, setAluminiumBulbQty] = useState(1);
+  const [productAddedToCart, setProductAddedToCart] = useState(false);
+
+  const { setDisplayCartProducts } = useContext(MyContext);
 
   const loggedUserID = auth.currentUser?.uid || "";
+
+  useEffect(() => {
+    if (loggedUserID) {
+      readUserData(loggedUserID)
+        .then((data) => {
+          localStorage.setItem("display_cart_user", data && data.productsInCart ? data.productsInCart.length : 0);
+          setDisplayCartProducts(localStorage.getItem("display_cart_user"));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      setDisplayCartProducts(localStorage.getItem("display_cart_guest"));
+    }
+  }, [loggedUserID, setDisplayCartProducts, productAddedToCart]);
 
   useEffect(() => {
     function handleClickOutsideImg(event) {
@@ -2103,10 +2123,12 @@ const ProductDetails = ({ renderItem }) => {
 
   const products = prodInfo.map((item, index) => {
     const handleAddProducts = () => {
+      setProductAddedToCart(true);
       setAddToCartAnimation(true);
       cartButton.current.disabled = true;
       setCartItemsNo((prev) => prev + 1);
       setTimeout(() => {
+        setProductAddedToCart(false);
         setAddToCartAnimation(false);
         cartButton.current.disabled = false;
       }, 1700);
@@ -2316,8 +2338,15 @@ const ProductDetails = ({ renderItem }) => {
                 onClick={handleAddProducts}
                 disabled={
                   item.roundBar || item.bulb
-                    ? item.dims[0] === "" || item.dims[1] === ""
-                    : item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === "" || item.dims[4] === ""
+                    ? item.dims[0] === "" || item.dims[1] === "" || /\D/.test(item.dims[0]) || /\D/.test(item.dims[1])
+                    : item.dims[0] === "" ||
+                      item.dims[1] === "" ||
+                      item.dims[2] === "" ||
+                      item.dims[4] === "" ||
+                      /\D/.test(item.dims[0]) ||
+                      /\D/.test(item.dims[1]) ||
+                      /\D/.test(item.dims[2]) ||
+                      /\D/.test(item.dims[3])
                 }
               >
                 Add to Cart
@@ -2328,15 +2357,22 @@ const ProductDetails = ({ renderItem }) => {
                 style={{
                   display:
                     item.roundBar || item.bulb
-                      ? item.dims[0] === "" || item.dims[1] === ""
+                      ? item.dims[0] === "" || item.dims[1] === "" || /\D/.test(item.dims[0]) || /\D/.test(item.dims[1])
                         ? "block"
                         : "none"
-                      : item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === "" || item.dims[4] === ""
+                      : item.dims[0] === "" ||
+                        item.dims[1] === "" ||
+                        item.dims[2] === "" ||
+                        item.dims[4] === "" ||
+                        /\D/.test(item.dims[0]) ||
+                        /\D/.test(item.dims[1]) ||
+                        /\D/.test(item.dims[2]) ||
+                        /\D/.test(item.dims[3])
                       ? "block"
                       : "none",
                 }}
               >
-                Please fill in required fields.
+                Please correct the input fields.
               </span>
               <span className={`${addToCartAnimation ? "animate_cart" : ""}`} style={{ display: addToCartAnimation ? "block" : "none" }}>
                 <FontAwesomeIcon icon={faShoppingCart} /> {cartItemsNo}

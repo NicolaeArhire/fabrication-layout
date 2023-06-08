@@ -442,6 +442,29 @@
   background: rgba(2, 59, 59, 0.5);
 }
 
+.display_products {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  margin-left: 30px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  background: rgba(2, 59, 59, 0.5);
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 38px;
+}
+
+.display_products:hover {
+  cursor: pointer;
+}
+
+.display_cart_icon {
+  height: 25px;
+  padding-right: 20px;
+}
+
 .no_of_products_in_cart {
   font-size: 15px;
   min-width: 20px;
@@ -626,6 +649,16 @@
 
   .chosen_tab {
     font-size: 18px;
+  }
+
+  .display_products {
+    font-size: 18px;
+    height: 29px;
+    margin-left: 15px;
+  }
+
+  .display_cart_icon {
+    height: 19px;
   }
 
   .no_of_products_in_cart {

@@ -21,13 +21,26 @@ const PlateCalculator = () => {
 
   const loggedUserID = auth.currentUser?.uid || "";
 
+  // logic added to keep showing the page if user is logged after refresh
+  window.addEventListener("beforeunload", () => {
+    if (localStorage.getItem("isUserLogged")) {
+      localStorage.setItem("loggedUserIDafterRefresh", true);
+    }
+  });
+
+  // useEffect only works when the page is first loaded, not for reloading/ refreshing
+  useEffect(() => {
+    if (loggedUserID) {
+      setShowModal(false);
+      localStorage.setItem("isUserLogged", true);
+    } else {
+      setShowModal(true);
+    }
+  }, [loggedUserID]);
+
   useEffect(() => {
     setPageNo(currentComponent);
   }, [currentComponent]);
-
-  useEffect(() => {
-    if (loggedUserID) setShowModal(false);
-  }, [loggedUserID]);
 
   const components = [
     <PipeByPlane modalStatus={showModal} />,
@@ -50,7 +63,11 @@ const PlateCalculator = () => {
   return (
     <>
       <div>
-        <ReactModal isOpen={modalIsOpen || loggedUserID ? false : true} className="modal_container" ariaHideApp={false}>
+        <ReactModal
+          isOpen={modalIsOpen || loggedUserID || localStorage.getItem("loggedUserIDafterRefresh") ? false : true}
+          className="modal_container"
+          ariaHideApp={false}
+        >
           <div className="modal_content">
             <Typewriter
               onInit={(typewriter) => {
