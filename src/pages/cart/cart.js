@@ -45,6 +45,7 @@ const Cart = () => {
       cartItems.length > 0 ? (cartItems.reduce((prev, item) => prev + parseFloat(item.price), 0) + parseFloat(shipping)).toFixed(2) : 0;
 
     sessionStorage.setItem("orderWeight", orderWeight);
+    sessionStorage.setItem("orderShipping", shipping);
     sessionStorage.setItem("orderCost", orderCost);
   }, [cartItems, shipping]);
 
@@ -337,7 +338,7 @@ const Cart = () => {
             <div className="clear_all_items">
               {showClearCartConfirmation ? (
                 <>
-                  <span>Are you sure?</span>{" "}
+                  <span>Are you sure?</span>
                   <button onClick={handleClearCart} style={{ width: 60, marginRight: 20 }}>
                     Yes
                   </button>

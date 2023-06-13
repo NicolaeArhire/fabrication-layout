@@ -6,11 +6,96 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import readUserData from "../../services/readUserData";
 import { MyContext } from "../../App";
+import CountUp from "react-countup";
 
 const ProductDetails = ({ renderItem }) => {
   const imgRef = useRef(null);
   const imgRef2 = useRef(null);
   const cartButton = useRef(null);
+
+  const bulbTypes = {
+    "60x4": 2.81,
+    "60x5": 3.28,
+    "60x6": 3.75,
+    "80x5": 4.25,
+    "80x6": 4.88,
+    "100x6": 6.06,
+    "100x7": 6.86,
+    "100x8": 7.65,
+    "120x6": 7.32,
+    "120x7": 8.26,
+    "120x8": 9.2,
+    "140x7": 9.75,
+    "140x8": 10.85,
+    "140x9": 11.93,
+    "140x10": 13.05,
+    "160x7": 11.46,
+    "160x8": 12.72,
+    "160x9": 13.97,
+    "160x10": 15.3,
+    "160x11": 16.49,
+    "160x11.5": 17.3,
+    "180x8": 14.8,
+    "180x9": 16.22,
+    "180x10": 17.63,
+    "180x11": 19.04,
+    "180x11.5": 19.7,
+    "200x8.5": 17.8,
+    "200x9": 18.57,
+    "200x10": 20.14,
+    "200x11": 21.71,
+    "200x11.5": 22.5,
+    "200x12": 23.28,
+    "220x9": 21,
+    "220x10": 22.77,
+    "220x11": 24.5,
+    "220x11.5": 25.3,
+    "220x12": 26.22,
+    "230x11": 25.06,
+    "240x9.5": 24.4,
+    "240x10": 25.5,
+    "240x10.5": 26.4,
+    "240x11": 27.39,
+    "240x11.5": 28.3,
+    "240x12": 29.27,
+    "260x10": 28.35,
+    "260x11": 30.39,
+    "260x12": 32.43,
+    "260x13": 34.4,
+    "280x10.5": 32.4,
+    "280x11": 33.5,
+    "280x12": 35.7,
+    "280x13": 37.9,
+    "300x11": 36.7,
+    "300x12": 39.09,
+    "300x13": 41.44,
+    "320x11.5": 41.2,
+    "320x12": 42.6,
+    "320x12.5": 43.8,
+    "320x13": 45.09,
+    "320x13.5": 46.3,
+    "320x14": 47.6,
+    "340x12": 46.2,
+    "340x12.5": 47.5,
+    "340x13": 48.86,
+    "340x14": 51.5,
+    "340x15": 54.2,
+    "370x12.5": 53.1,
+    "370x13": 54.7,
+    "370x14": 57.6,
+    "370x15": 60.5,
+    "370x16": 63.5,
+    "400x13": 60.8,
+    "400x14": 63.96,
+    "400x15": 67.1,
+    "400x16": 70.2,
+    "430x14": 70.6,
+    "430x15": 73.9,
+    "430x17": 80.7,
+    "430x18": 83.9,
+    "430x19": 87.4,
+    "430x20": 90.8,
+  };
 
   const [addToCartAnimation, setAddToCartAnimation] = useState(false);
   const [cartItemsNo, setCartItemsNo] = useState(0);
@@ -365,90 +450,6 @@ const ProductDetails = ({ renderItem }) => {
     if (event.target === imgRef2.current) {
       setIsImg2Scaled(!isImg2Scaled);
     }
-  };
-
-  const bulbTypes = {
-    "60x4": 2.81,
-    "60x5": 3.28,
-    "60x6": 3.75,
-    "80x5": 4.25,
-    "80x6": 4.88,
-    "100x6": 6.06,
-    "100x7": 6.86,
-    "100x8": 7.65,
-    "120x6": 7.32,
-    "120x7": 8.26,
-    "120x8": 9.2,
-    "140x7": 9.75,
-    "140x8": 10.85,
-    "140x9": 11.93,
-    "140x10": 13.05,
-    "160x7": 11.46,
-    "160x8": 12.72,
-    "160x9": 13.97,
-    "160x10": 15.3,
-    "160x11": 16.49,
-    "160x11.5": 17.3,
-    "180x8": 14.8,
-    "180x9": 16.22,
-    "180x10": 17.63,
-    "180x11": 19.04,
-    "180x11.5": 19.7,
-    "200x8.5": 17.8,
-    "200x9": 18.57,
-    "200x10": 20.14,
-    "200x11": 21.71,
-    "200x11.5": 22.5,
-    "200x12": 23.28,
-    "220x9": 21,
-    "220x10": 22.77,
-    "220x11": 24.5,
-    "220x11.5": 25.3,
-    "220x12": 26.22,
-    "230x11": 25.06,
-    "240x9.5": 24.4,
-    "240x10": 25.5,
-    "240x10.5": 26.4,
-    "240x11": 27.39,
-    "240x11.5": 28.3,
-    "240x12": 29.27,
-    "260x10": 28.35,
-    "260x11": 30.39,
-    "260x12": 32.43,
-    "260x13": 34.4,
-    "280x10.5": 32.4,
-    "280x11": 33.5,
-    "280x12": 35.7,
-    "280x13": 37.9,
-    "300x11": 36.7,
-    "300x12": 39.09,
-    "300x13": 41.44,
-    "320x11.5": 41.2,
-    "320x12": 42.6,
-    "320x12.5": 43.8,
-    "320x13": 45.09,
-    "320x13.5": 46.3,
-    "320x14": 47.6,
-    "340x12": 46.2,
-    "340x12.5": 47.5,
-    "340x13": 48.86,
-    "340x14": 51.5,
-    "340x15": 54.2,
-    "370x12.5": 53.1,
-    "370x13": 54.7,
-    "370x14": 57.6,
-    "370x15": 60.5,
-    "370x16": 63.5,
-    "400x13": 60.8,
-    "400x14": 63.96,
-    "400x15": 67.1,
-    "400x16": 70.2,
-    "430x14": 70.6,
-    "430x15": 73.9,
-    "430x17": 80.7,
-    "430x18": 83.9,
-    "430x19": 87.4,
-    "430x20": 90.8,
   };
 
   const prices = {
@@ -2284,50 +2285,23 @@ const ProductDetails = ({ renderItem }) => {
                 />
                 <br />
                 <span style={{ marginRight: 38 }}>Weight (kg):</span>
-                <input
-                  type="text"
-                  readOnly
-                  value={
-                    item.roundBar || item.bulb
-                      ? item.dims[0] === "" || item.dims[1] === ""
-                        ? ""
-                        : item.weight
-                      : item.rectTube || item.angleBar || item.channel || item.beam
-                      ? item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === "" || item.dims[4] === ""
-                        ? ""
-                        : item.weight
-                      : item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === ""
-                      ? ""
-                      : item.weight
-                  }
-                  style={{
-                    background: "black",
-                    color: "white",
-                  }}
+                <CountUp
+                  start={Number(item.weight) - 1}
+                  end={Number(item.weight)}
+                  duration={1.5}
+                  decimals={2}
+                  className="countUp_weight"
                   key={index}
                 />
                 <br />
                 <span style={{ marginRight: 63 }}>Price ($):</span>
-                <input
-                  type="text"
-                  readOnly
-                  value={
-                    item.roundBar || item.bulb
-                      ? item.dims[0] === "" || item.dims[1] === ""
-                        ? ""
-                        : item.price
-                      : item.rectTube || item.angleBar || item.channel || item.beam
-                      ? item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === "" || item.dims[4] === ""
-                        ? ""
-                        : item.price
-                      : item.dims[0] === "" || item.dims[1] === "" || item.dims[2] === ""
-                      ? ""
-                      : item.price
-                  }
-                  style={{
-                    background: "black",
-                    color: "white",
-                  }}
+                <CountUp
+                  start={Number(item.price) - 1}
+                  end={Number(item.price)}
+                  duration={1.5}
+                  decimals={2}
+                  className="countUp_price"
+                  key={index}
                 />
               </div>
             </div>
@@ -2338,15 +2312,8 @@ const ProductDetails = ({ renderItem }) => {
                 onClick={handleAddProducts}
                 disabled={
                   item.roundBar || item.bulb
-                    ? item.dims[0] === "" || item.dims[1] === "" || /\D/.test(item.dims[0]) || /\D/.test(item.dims[1])
-                    : item.dims[0] === "" ||
-                      item.dims[1] === "" ||
-                      item.dims[2] === "" ||
-                      item.dims[4] === "" ||
-                      /\D/.test(item.dims[0]) ||
-                      /\D/.test(item.dims[1]) ||
-                      /\D/.test(item.dims[2]) ||
-                      /\D/.test(item.dims[3])
+                    ? item.dims.slice(0, 2).some((dim) => dim === "" || dim <= 0 || /^[^\dx.]$/i.test(dim))
+                    : item.dims.slice(0, 5).some((dim) => dim === "" || dim <= 0 || /^[^\dx.]$/i.test(dim)) //regex checks if dim contains chars other than digits, "x", or dot (.)
                 }
               >
                 Add to Cart
@@ -2357,17 +2324,10 @@ const ProductDetails = ({ renderItem }) => {
                 style={{
                   display:
                     item.roundBar || item.bulb
-                      ? item.dims[0] === "" || item.dims[1] === "" || /\D/.test(item.dims[0]) || /\D/.test(item.dims[1])
+                      ? item.dims.slice(0, 2).some((dim) => dim === "" || dim <= 0 || /^[^\dx.]$/i.test(dim))
                         ? "block"
                         : "none"
-                      : item.dims[0] === "" ||
-                        item.dims[1] === "" ||
-                        item.dims[2] === "" ||
-                        item.dims[4] === "" ||
-                        /\D/.test(item.dims[0]) ||
-                        /\D/.test(item.dims[1]) ||
-                        /\D/.test(item.dims[2]) ||
-                        /\D/.test(item.dims[3])
+                      : item.dims.slice(0, 5).some((dim) => dim === "" || dim <= 0 || /^[^\dx.]$/i.test(dim))
                       ? "block"
                       : "none",
                 }}

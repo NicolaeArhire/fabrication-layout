@@ -54,7 +54,7 @@ const NavMenu = ({ setModalIsOpen }) => {
   const userMailInput = useRef(null);
   const userPassInput = useRef(null);
 
-  const { displayCartProducts } = useContext(MyContext);
+  const { displayCartProducts, setDisplayCartProducts } = useContext(MyContext);
 
   const loggedUser = auth.currentUser || "";
 
@@ -80,6 +80,21 @@ const NavMenu = ({ setModalIsOpen }) => {
       setDisplayCartLoading(false);
     }, 500);
   }, [displayCartProducts]);
+
+  useEffect(() => {
+    if (loggedUser) {
+      readUserData(loggedUser.uid)
+        .then((data) => {
+          localStorage.setItem("display_cart_user", data && data.productsInCart ? data.productsInCart.length : 0);
+          setDisplayCartProducts(localStorage.getItem("display_cart_user"));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      setDisplayCartProducts(localStorage.getItem("display_cart_guest"));
+    }
+  }, [loggedUser, setDisplayCartProducts]);
 
   useEffect(() => {
     if (loggedUser) {
@@ -439,7 +454,7 @@ const NavMenu = ({ setModalIsOpen }) => {
   const handleDoNotSignOut = async () => {
     setMailCheck(
       <div className="mail_check">
-        <span>Smart choice not to sign out!</span> <FontAwesomeIcon icon={faThumbsUp} id="check_icon" />
+        <span>Smart choice!</span> <FontAwesomeIcon icon={faThumbsUp} id="check_icon" />
       </div>
     );
   };
@@ -784,16 +799,16 @@ const NavMenu = ({ setModalIsOpen }) => {
           </div>
           <div className="footer_icons">
             <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faGoogle} className="icon_google" />
+              <FontAwesomeIcon icon={faGoogle} className="icon_menu_google" />
             </a>
             <a href="https://twitter.com/freeCodeCamp" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faTwitter} className="icon_twitter" />
+              <FontAwesomeIcon icon={faTwitter} className="icon_menu_twitter" />
             </a>
             <a href="https://www.youtube.com/c/Freecodecamp" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faYoutube} className="icon_youtube" />
+              <FontAwesomeIcon icon={faYoutube} className="icon_menu_youtube" />
             </a>
             <a href="https://www.linkedin.com/school/free-code-camp" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faLinkedin} className="icon_linkedIn" />
+              <FontAwesomeIcon icon={faLinkedin} className="icon_menu_linkedIn" />
             </a>
             <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">
               <span className="google"></span>

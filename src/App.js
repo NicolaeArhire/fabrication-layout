@@ -1,14 +1,15 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, lazy, Suspense } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { auth } from "./firebase";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/home/home";
-import PlateCalculator from "./pages/plateCalculator/plateCalculator";
-import Cart from "./pages/cart/cart";
-import Contact from "./pages/contact/contact";
 import NavMenu from "./components/navigation/navMenu";
-import MyAccount from "./pages/myAccount/myAccount";
+
+const Home = lazy(() => import("./pages/home/home"));
+const PlateCalculator = lazy(() => import("./pages/plateCalculator/plateCalculator"));
+const Cart = lazy(() => import("./pages/cart/cart"));
+const Contact = lazy(() => import("./pages/contact/contact"));
+const MyAccount = lazy(() => import("./pages/myAccount/myAccount"));
 
 export const MyContext = createContext();
 
@@ -31,13 +32,15 @@ function App() {
           <div className="fixed-nav">
             <NavMenu setModalIsOpen={setModalIsOpen} />
           </div>
-          <Routes>
-            <Route path="/my-account" element={<MyAccount />} className="page_account" />
-            <Route index element={<Home />} className="page_home" />
-            <Route path="/calculator" element={<PlateCalculator />} className="page_calculator" />
-            <Route path="/cart" element={<Cart />} className="page_cart" />
-            <Route path="/contact" element={<Contact />} className="page_contact" />
-          </Routes>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Routes>
+              <Route path="/my-account" element={<MyAccount />} className="page_account" />
+              <Route index element={<Home />} className="page_home" />
+              <Route path="/calculator" element={<PlateCalculator />} className="page_calculator" />
+              <Route path="/cart" element={<Cart />} className="page_cart" />
+              <Route path="/contact" element={<Contact />} className="page_contact" />
+            </Routes>
+          </Suspense>
         </Router>
       </MyContext.Provider>
     </div>

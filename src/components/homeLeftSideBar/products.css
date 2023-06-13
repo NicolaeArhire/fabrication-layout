@@ -65,6 +65,19 @@
   text-align: center;
 }
 
+.countUp_weight,
+.countUp_price {
+  display: inline-block;
+  background: black;
+  color: yellow;
+  border-radius: 7px;
+  border: 1px solid white;
+  margin-bottom: 15px;
+  margin-right: 10px;
+  text-align: center;
+  width: 130px;
+}
+
 .product_cart {
   display: flex;
   flex-direction: row;

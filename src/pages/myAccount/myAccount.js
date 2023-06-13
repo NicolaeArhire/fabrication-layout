@@ -3,7 +3,7 @@ import "./myAccount.css";
 import { Table } from "react-bootstrap";
 import { auth } from "../../firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faThumbsUp, faTimes, faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faThumbsUp, faTimes, faPencil, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { useState, useRef, useEffect, useContext } from "react";
 import deleteUserAccount from "../../services/deleteAccount";
 import saveUserData from "../../services/saveUserData";
@@ -17,6 +17,7 @@ import { Bars } from "react-loader-spinner";
 import lookup from "country-code-lookup";
 import { getCities } from "../../services/shipping";
 import { MyContext } from "../../App";
+import generateInvoice from "../../services/generateInvoice";
 
 const MyAccount = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -206,6 +207,16 @@ const MyAccount = () => {
     storeUserFiles(e.target.files[0], onFileUpload);
   };
 
+  const handleInvoice = (index) => {
+    const invoiceDate = `${new Date()
+      .toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" })
+      .split("/")
+      .reverse()
+      .join("/")} ${new Date().toLocaleString("en-US", { timeZone: "Europe/Bucharest", hour12: false }).slice(11, 16)}`;
+
+    generateInvoice(index, invoiceDate);
+  };
+
   return (
     <>
       <ReactModal isOpen={showModal} onRequestClose={handleCloseModal} className="login_modal" ariaHideApp={false}>
@@ -382,7 +393,12 @@ const MyAccount = () => {
                       {orders.length > 0 ? (
                         orders.map((item, index) => (
                           <tr key={item} className="orders_main">
-                            <td>{index + 1}</td>
+                            <td>
+                              {index + 1}
+                              <abbr title="Download Invoice">
+                                <FontAwesomeIcon icon={faDownload} onClick={() => handleInvoice(index)} />
+                              </abbr>
+                            </td>
                             {item.split("_").map((element, elementIndex) => {
                               if (elementIndex === 0) {
                                 return (
@@ -397,14 +413,18 @@ const MyAccount = () => {
                               } else if (elementIndex === 3) {
                                 return <td key={element}>{Number(element) / 100} kg</td>;
                               } else if (elementIndex === 4) {
+                                return (
+                                  <td key={element} style={{ display: "none" }}>
+                                    {element}
+                                  </td>
+                                );
+                              } else if (elementIndex === 5) {
                                 return <td key={element}>{Number(element) / 100} $</td>;
                               } else {
                                 return null;
                               }
                             })}
-                            <td>
-                              Delivered <FontAwesomeIcon icon={faCheck} className="product_delivered" />
-                            </td>
+                            <td>Delivered</td>
                           </tr>
                         ))
                       ) : (

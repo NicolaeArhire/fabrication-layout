@@ -532,6 +532,14 @@
   font-size: 14px;
 }
 
+.orders_main abbr {
+  margin-left: 5px;
+}
+
+.orders_main abbr:hover {
+  cursor: pointer;
+}
+
 .orders_main td:nth-of-type(1) {
   width: 60px;
 }
@@ -550,12 +558,6 @@
 
 .orders_main td:nth-of-type(6) {
   width: 112px;
-}
-
-.product_delivered {
-  color: green;
-  height: 20px;
-  width: 20px;
 }
 
 .no_previous_order {

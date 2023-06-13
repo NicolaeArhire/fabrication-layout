@@ -8,8 +8,7 @@ import emailjs from "@emailjs/browser";
 import ReCAPTCHA from "react-google-recaptcha";
 import { MyContext } from "../../App";
 
-const Cart = () => {
-  const [isclicked, setIsClicked] = useState(false);
+const Contact = () => {
   const [showMessageConfirmation, setShowMessageConfirmation] = useState(false);
   const [userName, setUserName] = useState("");
   const [userMail, setUserMail] = useState("");
@@ -32,8 +31,6 @@ const Cart = () => {
   const rightPanelButtonRef = useRef(null);
 
   const { modalIsOpen } = useContext(MyContext);
-
-  const photoNo = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
 
   useEffect(() => {
     if (!window.location.hash) {
@@ -102,10 +99,6 @@ const Cart = () => {
     };
   }, []);
 
-  const handlePhotoClick = () => {
-    setIsClicked(!isclicked);
-  };
-
   const handleUserName = (e) => {
     setUserName(e.target.value);
   };
@@ -157,106 +150,72 @@ const Cart = () => {
 
   return (
     <div className="contact_container" style={{ display: modalIsOpen ? "none" : "grid" }}>
-      <div className="contact_left">
-        <div className="photo_bucket">
-          {photoNo.map((item, index) => (
-            <div
-              key={index}
-              className={`photo ${item} ${isclicked ? "arrow" : ""} ${item === "one" ? "first" : ""} ${item === "ten" ? "last" : ""}`}
-              onClick={handlePhotoClick}
-            ></div>
-          ))}
-        </div>
-        <div className="leftText_container">
-          <span ref={leftTextRef} className="left_text">
-            Let's get in touch and create something great together.
-          </span>
-          <span ref={iconsRef} className="left_icons">
-            <FontAwesomeIcon icon={faPhone} style={{ color: "white", width: 20, marginRight: 5 }} />
-            <span style={{ fontSize: 20, color: "white", marginRight: 15, textDecoration: "underline" }}>0712345678</span>
-            <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faGoogle} className="icon_google" />
-            </a>
-            <a href="https://twitter.com/freeCodeCamp" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faTwitter} className="icon_twitter" />
-            </a>
-            <a href="https://www.youtube.com/c/Freecodecamp" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faYoutube} className="icon_youtube" />
-            </a>
-            <a href="https://www.linkedin.com/school/free-code-camp" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faLinkedin} className="icon_linkedIn" />
-            </a>
-            <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">
-              <span className="google"></span>
-            </a>
-            <span style={{ fontSize: 20, color: "white", marginRight: 0, textDecoration: "underline" }}>nicolae.arhire10@gmail.com</span>
-          </span>
-        </div>
-      </div>
       <div className="contact_right">
-        <div className="contact_text">
-          <Typewriter
-            onInit={(typewriter) => {
-              typewriter
-                .pauseFor(2500)
-                .typeString(
-                  `Let's discuss how we can create your project at a competitive pricing and a timely delivery. No strings attached.`
-                )
-                .pauseFor(2000)
-                .changeDeleteSpeed(10)
-                .deleteChars(20)
-                .pauseFor(1000)
-                .typeString('<span style="color: cyan;">Maybe one.')
-                .pauseFor(1000)
-                .deleteChars(10)
-                .pauseFor(1000)
-                .typeString('<span style="color: cyan;"> Our word.</span>')
-                .pauseFor(1000)
-                .deleteChars(10)
-                .pauseFor(1000)
-                .typeString('<span style="color: cyan;"> A welldone job.</span>')
-                .start();
-            }}
-            options={{
-              delay: 30,
-              cursor: "",
-            }}
-          />
-        </div>
-        <div className="right_floating_content" ref={rightPanelInput1Ref} style={{ marginTop: 30 }}>
-          <input type="text" className="right_floating_input" placeholder=" " required onChange={handleUserName} ref={userNameInput} />
-          <label className="right_floating_label">Your Name</label>
-        </div>
-        <div className="right_floating_content" ref={rightPanelInput2Ref}>
-          <input type="text" className="right_floating_input" placeholder=" " required onChange={handleUserMail} ref={userMailInput} />
-          <label className="right_floating_label">Your E-mail</label>
-        </div>
-        <div className="right_floating_content" ref={rightPanelInput3Ref} style={{ height: 200 }}>
-          <textarea
-            type="text"
-            className="right_floating_input"
-            placeholder=" "
-            required
-            style={{ height: 200, resize: "none" }}
-            onChange={handleUserMessage}
-            ref={userMessageInput}
-          />
-          <label className="right_floating_label">Your Message</label>
-        </div>
-        <div className="contact_send">
-          <input ref={rightAddFileRef} type="file" name="file" className="right_file" />
-          <div>
-            <ReCAPTCHA sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} onChange={handleRecaptchaChange} />
+        <div className="contact_form">
+          <div className="contact_text">
+            <Typewriter
+              onInit={(typewriter) => {
+                typewriter
+                  .pauseFor(2500)
+                  .typeString(
+                    `Let's discuss how we can create your project at a competitive pricing and a timely delivery. No strings attached.`
+                  )
+                  .pauseFor(2000)
+                  .changeDeleteSpeed(10)
+                  .deleteChars(20)
+                  .pauseFor(1000)
+                  .typeString('<span style="color: cyan;">Maybe one.')
+                  .pauseFor(1000)
+                  .deleteChars(10)
+                  .pauseFor(1000)
+                  .typeString('<span style="color: cyan;"> Our word.</span>')
+                  .pauseFor(1000)
+                  .deleteChars(10)
+                  .pauseFor(1000)
+                  .typeString('<span style="color: cyan;"> A welldone job.</span>')
+                  .start();
+              }}
+              options={{
+                delay: 30,
+                cursor: "",
+              }}
+            />
           </div>
-          <div>
-            <button ref={rightPanelButtonRef} className="contact_send_button" onClick={handleSendMessage}>
-              Send <FontAwesomeIcon icon={faPaperPlane} className="icon_send" />
-            </button>
-            <span
-              ref={messageConfirmation}
-              className="message_confirmation"
-              style={{ display: showMessageConfirmation ? "inline" : "none" }}
-            ></span>
+          <div className="right_floating_content" ref={rightPanelInput1Ref} style={{ marginTop: 30 }}>
+            <input type="text" className="right_floating_input" placeholder=" " required onChange={handleUserName} ref={userNameInput} />
+            <label className="right_floating_label">Your Name</label>
+          </div>
+          <div className="right_floating_content" ref={rightPanelInput2Ref}>
+            <input type="text" className="right_floating_input" placeholder=" " required onChange={handleUserMail} ref={userMailInput} />
+            <label className="right_floating_label">Your E-mail</label>
+          </div>
+          <div className="right_floating_content" ref={rightPanelInput3Ref} style={{ height: 200 }}>
+            <textarea
+              type="text"
+              className="right_floating_input"
+              placeholder=" "
+              required
+              style={{ height: 200, resize: "none" }}
+              onChange={handleUserMessage}
+              ref={userMessageInput}
+            />
+            <label className="right_floating_label">Your Message</label>
+          </div>
+          <div className="contact_send">
+            <input ref={rightAddFileRef} type="file" name="file" className="right_file" />
+            <div>
+              <ReCAPTCHA sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} onChange={handleRecaptchaChange} />
+            </div>
+            <div>
+              <button ref={rightPanelButtonRef} className="contact_send_button" onClick={handleSendMessage}>
+                Send <FontAwesomeIcon icon={faPaperPlane} className="icon_send" />
+              </button>
+              <span
+                ref={messageConfirmation}
+                className="message_confirmation"
+                style={{ display: showMessageConfirmation ? "inline" : "none" }}
+              ></span>
+            </div>
           </div>
         </div>
         <div className="contact_address">
@@ -291,9 +250,36 @@ const Cart = () => {
             </a>
           </div>
         </div>
+      </div>{" "}
+      <div className="contact_left">
+        <div className="leftText_container">
+          <span ref={leftTextRef} className="left_text">
+            Let's get in touch and create something great together.
+          </span>
+          <span ref={iconsRef} className="left_icons">
+            <FontAwesomeIcon icon={faPhone} style={{ color: "white", width: 20, marginRight: 5 }} />
+            <span style={{ fontSize: 20, color: "white", marginRight: 15, textDecoration: "underline" }}>0712345678</span>
+            <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faGoogle} className="icon_google" />
+            </a>
+            <a href="https://twitter.com/freeCodeCamp" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faTwitter} className="icon_twitter" />
+            </a>
+            <a href="https://www.youtube.com/c/Freecodecamp" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faYoutube} className="icon_youtube" />
+            </a>
+            <a href="https://www.linkedin.com/school/free-code-camp" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faLinkedin} className="icon_linkedIn" />
+            </a>
+            <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">
+              <span className="google"></span>
+            </a>
+            <span style={{ fontSize: 20, color: "white", marginRight: 0, textDecoration: "underline" }}>nicolae.arhire10@gmail.com</span>
+          </span>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Cart;
+export default Contact;

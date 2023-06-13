@@ -602,6 +602,45 @@
   color: white;
 }
 
+.icon_menu_google,
+.icon_menu_twitter,
+.icon_menu_youtube,
+.icon_menu_linkedIn {
+  margin-right: 15px;
+}
+
+.icon_menu_google {
+  color: green;
+}
+
+.icon_menu_google:hover {
+  transform: scale(1.35);
+}
+
+.icon_menu_twitter {
+  color: rgb(52, 219, 231);
+}
+
+.icon_menu_twitter:hover {
+  transform: scale(1.35);
+}
+
+.icon_menu_youtube {
+  color: rgb(238, 48, 48);
+}
+
+.icon_menu_youtube:hover {
+  transform: scale(1.35);
+}
+
+.icon_menu_linkedIn {
+  color: rgb(20, 110, 228);
+}
+
+.icon_menu_linkedIn:hover {
+  transform: scale(1.35);
+}
+
 @media screen and (max-width: 500px) {
   .menu_tab {
     margin-top: 15px;

@@ -1,127 +1,39 @@
 .contact_container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: 1400px;
+  grid-template-rows: 1fr 1fr;
+  height: 100vh;
+  background: rgba(20, 65, 77, 0.8);
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .contact_left {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  min-height: 1400px;
-  overflow-y: auto;
+  height: 100px;
 }
 
 .contact_right {
-  min-height: 1400px;
+  height: 800px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.contact_form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(20, 65, 77, 0.8);
-  overflow-x: hidden;
-  overflow-y: visible;
-}
-
-.contact_container::-webkit-scrollbar {
-  display: none;
-}
-
-.contact_left::-webkit-scrollbar {
-  display: none;
-}
-
-.photo_bucket {
-  overflow-y: hidden;
-  min-height: 1065px;
-}
-
-.photo {
-  cursor: pointer;
-  width: 100%;
-  height: 700px;
-  margin-bottom: -200px;
-  padding: 0;
-  background-size: cover, auto;
-  background-attachment: fixed;
-  background-position: center center;
-  clip-path: polygon(50% 25%, 100% 0%, 100% 50%, 50% 75%, 0% 100%, 0% 50%);
-  transition: all 0.9s ease-in-out;
-  background-blend-mode: lighten;
-  z-index: 1;
-}
-
-.photo.first {
-  clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 50% 75%, 0% 100%, 0% 0%);
-}
-
-.photo.last {
-  clip-path: polygon(50% 25%, 100% 0%, 100% 100%, 50% 100%, 0% 100%, 0% 50%);
-}
-
-.arrow {
-  clip-path: polygon(50% 25%, 100% 50%, 100% 100%, 50% 75%, 0% 50%, 0% 0%);
-}
-
-.arrow.one {
-  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 75%, 0% 50%, 0% 0%);
-}
-
-.arrow.ten {
-  clip-path: polygon(50% 25%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 0%);
-}
-
-.one {
-  background-image: url(../../../public/contactPage/1.jpg);
-}
-
-.two {
-  background-image: url(../../../public/contactPage/2.jpg);
-}
-
-.three {
-  background-image: url(../../../public/contactPage/3.jpg);
-}
-
-.four {
-  background-image: url(../../../public/contactPage/4.jpg);
-}
-
-.five {
-  background-image: url(../../../public/contactPage/5.jpg);
-}
-
-.six {
-  background-image: url(../../../public/contactPage/6.jpg);
-}
-
-.seven {
-  background-image: url(../../../public/contactPage/7.jpg);
-}
-
-.eight {
-  background-image: url(../../../public/contactPage/8.jpg);
-}
-
-.nine {
-  background-image: url(../../../public/contactPage/9.jpg);
-}
-
-.ten {
-  background-image: url(../../../public/contactPage/10.jpg);
-  margin-bottom: 0px;
 }
 
 .leftText_container {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: "center";
-  margin-bottom: 150px;
-  margin-top: 150px;
-  z-index: 0;
-  padding-left: 180px;
-  padding-right: 180px;
+  align-items: center;
 }
 
 .rightText_container {
@@ -442,6 +354,7 @@ input[type="file"]::-webkit-file-upload-button {
   }
 
   .contact_right {
+    flex-direction: column;
     padding-top: 20px;
     min-height: 1300px;
   }

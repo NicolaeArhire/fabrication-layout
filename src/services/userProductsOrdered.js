@@ -16,14 +16,15 @@ const userProductsOrdered = () => {
         const temp = orderDate[1];
         orderDate[1] = orderDate[2];
         orderDate[2] = temp;
-        const orderTime = new Date().toLocaleString("en-US", { timeZone: "Europe/Bucharest", hour12: false }).slice(10, 15);
+        const orderTime = new Date().toLocaleString("en-US", { timeZone: "Europe/Bucharest", hour12: false }).slice(11, 16);
         const orderWeight = (sessionStorage.getItem("orderWeight") * 100).toFixed(0); //Firebase does not accept dots in folder name (logic)
+        const orderShipping = (sessionStorage.getItem("orderShipping").slice(0, -2) * 100).toFixed(0); //Firebase does not accept dots in folder name (logic)
         const orderCost = (sessionStorage.getItem("orderCost") * 100).toFixed(0); //Firebase does not accept dots in folder name (logic)
 
         const data = snapshot.val();
         const copiedUserRef = ref(
           database,
-          `users/${auth.currentUser.uid}/productsOrdered_${orderDate.join("~")}_${orderTime}_${orderWeight}_${orderCost}`
+          `users/${auth.currentUser.uid}/productsOrdered_${orderDate.join("~")}_${orderTime}_${orderWeight}_${orderShipping}_${orderCost}`
         );
 
         set(copiedUserRef, data)
