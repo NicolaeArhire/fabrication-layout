@@ -7,11 +7,13 @@ import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import readUserData from "../../services/readUserData";
 import { MyContext } from "../../App";
 import CountUp from "react-countup";
+import anime from "animejs";
 
 const ProductDetails = ({ renderItem }) => {
   const imgRef = useRef(null);
   const imgRef2 = useRef(null);
   const cartButton = useRef(null);
+  const cartAnimationRef = useRef(null);
 
   const bulbTypes = {
     "60x4": 2.81,
@@ -248,7 +250,7 @@ const ProductDetails = ({ renderItem }) => {
   const [aluminiumBulbQty, setAluminiumBulbQty] = useState(1);
   const [productAddedToCart, setProductAddedToCart] = useState(false);
 
-  const { setDisplayCartProducts } = useContext(MyContext);
+  const { setDisplayCartProducts, cartCoordinates } = useContext(MyContext);
 
   const loggedUserID = auth.currentUser?.uid || "";
 
@@ -290,6 +292,24 @@ const ProductDetails = ({ renderItem }) => {
       window.removeEventListener("click", handleClickOutsideImg2);
     };
   }, [imgRef2]);
+
+  useEffect(() => {
+    const animatedElement = cartAnimationRef.current;
+
+    const animation = anime({
+      targets: animatedElement,
+      duration: 1500,
+      delay: 400,
+      translateX: [0, -(window.innerWidth - cartCoordinates.x - (window.innerWidth - animatedElement.getBoundingClientRect().left))],
+      translateY: [0, -(window.innerHeight - cartCoordinates.y - (window.innerHeight - animatedElement.getBoundingClientRect().top))],
+      scale: [1, 0.2],
+      easing: "easeInOutQuad",
+    });
+
+    return () => {
+      animation.pause();
+    };
+  }, [cartCoordinates, addToCartAnimation]);
 
   useEffect(() => {
     setCartItemsNo(0);
@@ -2132,7 +2152,7 @@ const ProductDetails = ({ renderItem }) => {
         setProductAddedToCart(false);
         setAddToCartAnimation(false);
         cartButton.current.disabled = false;
-      }, 1700);
+      }, 1900);
 
       const tempObj = {
         description: item.title.slice(0, -1),
@@ -2334,7 +2354,7 @@ const ProductDetails = ({ renderItem }) => {
               >
                 Please correct the input fields.
               </span>
-              <span className={`${addToCartAnimation ? "animate_cart" : ""}`} style={{ display: addToCartAnimation ? "block" : "none" }}>
+              <span ref={cartAnimationRef} className="animate_cart" style={{ display: addToCartAnimation ? "block" : "none" }}>
                 <FontAwesomeIcon icon={faShoppingCart} /> {cartItemsNo}
               </span>
             </div>

@@ -255,21 +255,6 @@ select.floating_select {
   border-radius: 10px;
   font-size: 18px;
   color: white;
-  animation: moveShapeCart 1.7s ease-in-out;
-}
-
-@keyframes moveShapeCart {
-  0% {
-    transform: translate(0, 0);
-  }
-  30% {
-    transform: translate(0, 0);
-    width: 135.53px;
-  }
-  100% {
-    transform: translate(-1030px, -810px);
-    width: 75px;
-  }
 }
 
 @media screen and (max-width: 500px) {
@@ -292,21 +277,6 @@ select.floating_select {
   }
 
   .animate_cart_pipeByPlane {
-    animation: moveShapeCart 1.7s ease-in-out;
     z-index: 2;
-  }
-
-  @keyframes moveShapeCart {
-    0% {
-      transform: translate(0, 0);
-    }
-    30% {
-      transform: translate(0, 0);
-      width: 135.53px;
-    }
-    100% {
-      transform: translate(calc(-65.2vw), calc(-75.6vh));
-      width: 75px;
-    }
   }
 }

@@ -8,6 +8,7 @@ import { writeCart } from "../../services/storageCart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { MyContext } from "../../App";
+import anime from "animejs";
 
 const RectToRound = () => {
   const [addToCartAnimation, setAddToCartAnimation] = useState(false);
@@ -43,8 +44,9 @@ const RectToRound = () => {
 
   const imgRef = useRef(null);
   const canvasRef = useRef(null);
+  const cartAnimationRef = useRef(null);
 
-  const { setDisplayCartProducts } = useContext(MyContext);
+  const { setDisplayCartProducts, cartCoordinates } = useContext(MyContext);
 
   const loggedUserID = auth.currentUser?.uid || "";
 
@@ -86,6 +88,24 @@ const RectToRound = () => {
       window.removeEventListener("click", handleClickOutside);
     };
   }, [canvasRef]);
+
+  useEffect(() => {
+    const animatedElement = cartAnimationRef.current;
+
+    const animation = anime({
+      targets: animatedElement,
+      duration: 1500,
+      delay: 400,
+      translateX: [0, -(window.innerWidth - cartCoordinates.x - (window.innerWidth - animatedElement.getBoundingClientRect().left))],
+      translateY: [0, -(window.innerHeight - cartCoordinates.y - (window.innerHeight - animatedElement.getBoundingClientRect().top))],
+      scale: [1, 0.2],
+      easing: "easeInOutQuad",
+    });
+
+    return () => {
+      animation.pause();
+    };
+  }, [cartCoordinates, addToCartAnimation]);
 
   useEffect(() => {
     const arcLength = (Math.PI * diam) / 24;
@@ -249,7 +269,7 @@ const RectToRound = () => {
     setCartItemsNo((prev) => prev + 1);
     setTimeout(() => {
       setAddToCartAnimation(false);
-    }, 1700);
+    }, 1900);
 
     const tempObj = {
       description: material === "Inox" ? `Stainless Steel Shape_RectToRound` : `${material} Shape_RectToRound`,
@@ -518,6 +538,7 @@ const RectToRound = () => {
           </button>
           <button
             className={`${addToCartAnimation ? "geometryToCart animate_cart_rectToRound" : "geometryToCart"}`}
+            ref={cartAnimationRef}
             disabled={
               diam === "" ||
               height === "" ||

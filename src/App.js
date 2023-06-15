@@ -16,6 +16,7 @@ export const MyContext = createContext();
 function App() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [displayCartProducts, setDisplayCartProducts] = useState(0);
+  const [cartCoordinates, setCartCoordinates] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -27,7 +28,9 @@ function App() {
 
   return (
     <div className="app">
-      <MyContext.Provider value={{ modalIsOpen, setModalIsOpen, displayCartProducts, setDisplayCartProducts }}>
+      <MyContext.Provider
+        value={{ modalIsOpen, setModalIsOpen, displayCartProducts, setDisplayCartProducts, cartCoordinates, setCartCoordinates }}
+      >
         <Router>
           <div className="fixed-nav">
             <NavMenu setModalIsOpen={setModalIsOpen} />

@@ -150,19 +150,6 @@
   padding-right: 10px;
   border-radius: 10px;
   font-size: 18px;
-  animation: moveCart 1.7s ease-in-out;
-}
-
-@keyframes moveCart {
-  0% {
-    transform: translate(0, 0);
-  }
-  30% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(-1060px, -680px);
-  }
 }
 
 @media screen and (max-width: 500px) {
@@ -201,21 +188,5 @@
 
   .complete_params {
     margin-bottom: 50px;
-  }
-
-  .animate_cart {
-    animation: moveCart 1.7s ease-in-out;
-  }
-
-  @keyframes moveCart {
-    0% {
-      transform: translate(0, 0);
-    }
-    30% {
-      transform: translate(0, 0);
-    }
-    100% {
-      transform: translate(calc(-38.6vw), calc(-75.4vh));
-    }
   }
 }

@@ -53,8 +53,9 @@ const NavMenu = ({ setModalIsOpen }) => {
   const userNameInput = useRef(null);
   const userMailInput = useRef(null);
   const userPassInput = useRef(null);
+  const displayCartRef = useRef(null);
 
-  const { displayCartProducts, setDisplayCartProducts } = useContext(MyContext);
+  const { displayCartProducts, setDisplayCartProducts, setCartCoordinates } = useContext(MyContext);
 
   const loggedUser = auth.currentUser || "";
 
@@ -75,10 +76,18 @@ const NavMenu = ({ setModalIsOpen }) => {
   }, [location]);
 
   useEffect(() => {
+    const targetRect = displayCartRef.current.getBoundingClientRect();
+    setCartCoordinates({
+      x: targetRect.left,
+      y: targetRect.top,
+    });
+  }, [displayCartProducts, setCartCoordinates]); // pass the cart coordinates with a context and use it in the products.js component
+
+  useEffect(() => {
     setDisplayCartLoading(true);
     setTimeout(() => {
       setDisplayCartLoading(false);
-    }, 500);
+    }, 1600);
   }, [displayCartProducts]);
 
   useEffect(() => {
@@ -507,7 +516,7 @@ const NavMenu = ({ setModalIsOpen }) => {
     <div>
       <div className="menu_tab">
         <span className="chosen_tab">{tab}</span>
-        <div className="display_products " onClick={handleGoToCart}>
+        <div className="display_products " ref={displayCartRef} onClick={handleGoToCart}>
           <FontAwesomeIcon icon={faShoppingCart} className="display_cart_icon" />
           {displayCartLoading ? (
             <Bars height="25" width="25" color="#FF0000" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />

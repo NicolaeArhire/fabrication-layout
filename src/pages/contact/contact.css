@@ -20,6 +20,7 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  margin-top: 30px;
 }
 
 .contact_form {
@@ -72,7 +73,7 @@
 .left_text {
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 24px;
+  font-size: 20px;
   color: white;
   border-bottom: 3px solid cyan;
   margin-bottom: 15px;
@@ -166,6 +167,19 @@
 }
 
 .contact_text span {
+  display: inline-block;
+  text-align: center;
+  font-size: 19px;
+  color: white;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.address_text {
+  width: 700px;
+}
+
+.address_text span {
   display: inline-block;
   text-align: center;
   font-size: 19px;
@@ -310,9 +324,8 @@ input[type="file"]::-webkit-file-upload-button {
 
 .contact_address {
   width: 700px;
-  height: 600px;
+  height: 500px;
   border: 0;
-  margin-top: 40px;
 }
 
 .contact_address_map {
@@ -346,7 +359,7 @@ input[type="file"]::-webkit-file-upload-button {
   .contact_container {
     display: grid;
     grid-template-columns: 1fr;
-    height: 100%;
+    min-height: 1675px;
   }
 
   .contact_left {
@@ -354,9 +367,10 @@ input[type="file"]::-webkit-file-upload-button {
   }
 
   .contact_right {
+    justify-content: center;
     flex-direction: column;
-    padding-top: 20px;
-    min-height: 1300px;
+    padding-top: 80px;
+    height: 1630px;
   }
 
   .right_floating_content.animate {
@@ -372,9 +386,23 @@ input[type="file"]::-webkit-file-upload-button {
   }
 
   .contact_text {
-    margin-top: 70px;
+    margin-top: 0;
     font-size: 16px;
     width: calc(100vw - 10%);
+  }
+
+  .contact_text span {
+    font-size: 17px;
+  }
+
+  .address_text {
+    margin-top: 10px;
+    font-size: 16px;
+    width: calc(100vw - 10%);
+  }
+
+  .address_text span {
+    font-size: 17px;
   }
 
   .right_floating_content {
@@ -408,12 +436,12 @@ input[type="file"]::-webkit-file-upload-button {
 
   .contact_address {
     width: calc(100vw - 10%);
-    height: 500px;
-    margin-top: 30px;
+    height: 750px;
+    margin-top: 40px;
   }
 
   .rightText_container {
     display: block;
-    margin: 20px 0 20px 0;
+    margin: 60px 0 30px 0;
   }
 }

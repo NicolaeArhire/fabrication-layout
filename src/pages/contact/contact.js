@@ -32,12 +32,12 @@ const Contact = () => {
 
   const { modalIsOpen } = useContext(MyContext);
 
-  useEffect(() => {
-    if (!window.location.hash) {
-      window.location = window.location + "#";
-      window.location.reload();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!window.location.hash) {
+  //     window.location = window.location + "#";
+  //     window.location.reload(); // Reload needed because reCAPTCHA is not showing when first loading the page
+  //   }
+  // }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -182,11 +182,27 @@ const Contact = () => {
             />
           </div>
           <div className="right_floating_content" ref={rightPanelInput1Ref} style={{ marginTop: 30 }}>
-            <input type="text" className="right_floating_input" placeholder=" " required onChange={handleUserName} ref={userNameInput} />
+            <input
+              type="text"
+              className="right_floating_input"
+              placeholder=" "
+              required
+              onChange={handleUserName}
+              ref={userNameInput}
+              name="userNameInput"
+            />
             <label className="right_floating_label">Your Name</label>
           </div>
           <div className="right_floating_content" ref={rightPanelInput2Ref}>
-            <input type="text" className="right_floating_input" placeholder=" " required onChange={handleUserMail} ref={userMailInput} />
+            <input
+              type="text"
+              className="right_floating_input"
+              placeholder=" "
+              required
+              onChange={handleUserMail}
+              ref={userMailInput}
+              name="userMailInput"
+            />
             <label className="right_floating_label">Your E-mail</label>
           </div>
           <div className="right_floating_content" ref={rightPanelInput3Ref} style={{ height: 200 }}>
@@ -198,6 +214,7 @@ const Contact = () => {
               style={{ height: 200, resize: "none" }}
               onChange={handleUserMessage}
               ref={userMessageInput}
+              name="userMessageInput"
             />
             <label className="right_floating_label">Your Message</label>
           </div>
@@ -219,6 +236,17 @@ const Contact = () => {
           </div>
         </div>
         <div className="contact_address">
+          <div className="address_text">
+            <Typewriter
+              onInit={(typewriter) => {
+                typewriter.pauseFor(500).typeString(`Easy to find us. Just follow the <span style="color: cyan;">Eiffel.`).start();
+              }}
+              options={{
+                delay: 30,
+                cursor: "",
+              }}
+            />
+          </div>
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d104881.09486118425!2d2.277020427765447!3d48.85883760918865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis%2C%20France!5e0!3m2!1sen!2sus!4v1553497921355"
             title="Google Maps Embed"

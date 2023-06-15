@@ -6,9 +6,7 @@
   align-items: center;
   width: fit-content;
   height: fit-content;
-  margin-left: 100px;
-  margin-top: 10px;
-  border-radius: 10px;
+  padding: 10px 0 10px 100px;
   z-index: 1;
   color: white;
 }
@@ -643,7 +641,9 @@
 
 @media screen and (max-width: 500px) {
   .menu_tab {
-    margin-top: 15px;
+    padding-top: 15px;
+    width: 100vw;
+    background-image: linear-gradient(to bottom, #01101e, #46516e);
   }
 
   #username,
