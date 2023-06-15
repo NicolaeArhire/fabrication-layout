@@ -438,18 +438,20 @@ const CustomShape = () => {
             </select>
             <label className="floating_label">Your shape</label>
           </div>
-          <img
-            src={`shapeCalculator/shape_${shape.includes(" ") ? shape.toLowerCase().split(" ")[0] : shape.toLowerCase()}.png`}
-            alt="customShape"
-            style={{
-              width: 210,
-              height: 186,
-              marginTop: 10,
-            }}
-            className={`img_PipeByPlane ${isScaledImg ? "scaleImg" : ""}`}
-            ref={imgRef}
-            onClick={handleClickImg}
-          />
+          <abbr title="Click to Zoom!">
+            <img
+              src={`shapeCalculator/shape_${shape.includes(" ") ? shape.toLowerCase().split(" ")[0] : shape.toLowerCase()}.png`}
+              alt="customShape"
+              style={{
+                width: 210,
+                height: 186,
+                marginTop: 10,
+              }}
+              className={`img_PipeByPlane ${isScaledImg ? "scaleImg" : ""}`}
+              ref={imgRef}
+              onClick={handleClickImg}
+            />
+          </abbr>
         </div>
         <div className="input_output">
           <span>INPUT(mm)</span>
@@ -728,20 +730,17 @@ const CustomShape = () => {
             </div>
           </div>
         </div>
-        <canvas
-          className={`canvas_container ${isScaled ? "scaleCanvasShape" : ""}`}
-          style={{ height: 302 }}
-          onClick={handleClick}
-          ref={canvasRef}
-        />
+        <abbr title="Click to Zoom!">
+          <canvas
+            className={`canvas_container ${isScaled ? "scaleCanvasShape" : ""}`}
+            style={{ height: 302 }}
+            onClick={handleClick}
+            ref={canvasRef}
+          />
+        </abbr>
         <div className="menu_button">
-          <button className="download_file" onClick={handleDownload}>
-            Download custom shape
-          </button>
+          <button onClick={handleDownload}>Download custom shape</button>
           <button
-            className={`${addToCartAnimation ? "geometryToCart animate_cart_customShape" : "geometryToCart"}`}
-            ref={cartAnimationRef}
-            onClick={handleAddProducts}
             disabled={
               shape === "Disc"
                 ? diam1 === "" || thickness === "" || /\D/.test(diam1) || /\D/.test(thickness) || material === "---"
@@ -773,15 +772,14 @@ const CustomShape = () => {
                   material === "---"
                 : ""
             }
+            style={{ display: addToCartAnimation ? "none" : "block" }}
+            onClick={handleAddProducts}
           >
-            {addToCartAnimation ? (
-              <>
-                <FontAwesomeIcon icon={faShoppingCart} /> {cartItemsNo}
-              </>
-            ) : (
-              "Add plate to cart"
-            )}
+            Add plate to cart
           </button>
+          <span ref={cartAnimationRef} className="animate_cart_customShape" style={{ display: addToCartAnimation ? "flex" : "none" }}>
+            <FontAwesomeIcon icon={faShoppingCart} style={{ paddingRight: 7 }} /> {cartItemsNo}
+          </span>
         </div>
       </div>
     </div>

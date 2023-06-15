@@ -146,14 +146,15 @@
   background-color: #0366e7;
   padding-bottom: 5px;
   padding-top: 5px;
-}
-
-.download_file {
   font-size: 15px;
 }
 
-.geometryToCart {
-  font-size: 15px;
+.menu_button button:disabled {
+  cursor: not-allowed;
+}
+
+.menu_button button:hover(:not(:disabled)) {
+  cursor: pointer;
 }
 
 .floating_content {
@@ -247,14 +248,17 @@ select.floating_select {
 }
 
 .animate_cart_pipeByPlane {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 135.53px;
   background: red !important;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 10px;
-  font-size: 18px;
+  font-size: 15px;
   color: white;
+  z-index: 2;
 }
 
 @media screen and (max-width: 500px) {
@@ -268,15 +272,13 @@ select.floating_select {
     margin-bottom: 0.05px;
   }
 
-  .download_file {
-    font-size: 12px;
-  }
-
-  .geometryToCart {
+  .menu_button button {
     font-size: 12px;
   }
 
   .animate_cart_pipeByPlane {
+    width: 111px;
+    font-size: 12px;
     z-index: 2;
   }
 }

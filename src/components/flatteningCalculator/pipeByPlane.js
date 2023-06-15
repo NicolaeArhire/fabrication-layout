@@ -95,7 +95,7 @@ const PipeByPlane = ({ modalStatus }) => {
       targets: animatedElement,
       duration: 1500,
       delay: 400,
-      translateX: [0, -(window.innerWidth - cartCoordinates.x - (window.innerWidth - animatedElement.getBoundingClientRect().left)) + 300],
+      translateX: [0, -(window.innerWidth - cartCoordinates.x - (window.innerWidth - animatedElement.getBoundingClientRect().left))],
       translateY: [0, -(window.innerHeight - cartCoordinates.y - (window.innerHeight - animatedElement.getBoundingClientRect().top))],
       scale: [1, 0.2],
       easing: "easeInOutQuad",
@@ -301,18 +301,20 @@ const PipeByPlane = ({ modalStatus }) => {
           <span>PIPE INTERSECTION BY PLANE</span>
         </div>
         <div className="img_container">
-          <img
-            src="shapeCalculator/pipeByPlane.png"
-            alt="pipeByPlane"
-            style={{
-              width: 270,
-              height: 235,
-              zIndex: modalStatus === true ? 0 : 1,
-            }}
-            className={`img_PipeByPlane ${isScaledImg ? "scaleImg" : ""}`}
-            ref={imgRef}
-            onClick={handleClickImg}
-          />
+          <abbr title="Click to Zoom!">
+            <img
+              src="shapeCalculator/pipeByPlane.png"
+              alt="pipeByPlane"
+              style={{
+                width: 270,
+                height: 235,
+                zIndex: modalStatus === true ? 0 : 1,
+              }}
+              className={`img_PipeByPlane ${isScaledImg ? "scaleImg" : ""}`}
+              ref={imgRef}
+              onClick={handleClickImg}
+            />
+          </abbr>
         </div>
         <div className="input_output">
           <span>INPUT(mm)</span>
@@ -432,14 +434,12 @@ const PipeByPlane = ({ modalStatus }) => {
             </div>
           </div>
         </div>
-        <canvas className={`canvas_container ${isScaled ? "scale" : ""}`} onClick={handleClick} ref={canvasRef} />
+        <abbr title="Click to Zoom!">
+          <canvas className={`canvas_container ${isScaled ? "scale" : ""}`} onClick={handleClick} ref={canvasRef} />
+        </abbr>
         <div className="menu_button">
-          <button className="download_file" onClick={handleDownload}>
-            Download file (1/2 of shape)
-          </button>
+          <button onClick={handleDownload}>Download file (1/2 of shape)</button>
           <button
-            className={`${addToCartAnimation ? "geometryToCart animate_cart_pipeByPlane" : "geometryToCart"}`}
-            ref={cartAnimationRef}
             disabled={
               diam === "" ||
               length === "" ||
@@ -449,16 +449,14 @@ const PipeByPlane = ({ modalStatus }) => {
               /\D/.test(thickness) ||
               material === "---"
             }
+            style={{ display: addToCartAnimation ? "none" : "block" }}
             onClick={handleAddProducts}
           >
-            {addToCartAnimation ? (
-              <>
-                <FontAwesomeIcon icon={faShoppingCart} /> {cartItemsNo}
-              </>
-            ) : (
-              "Add plate to cart"
-            )}
+            Add plate to cart
           </button>
+          <span ref={cartAnimationRef} className="animate_cart_pipeByPlane" style={{ display: addToCartAnimation ? "flex" : "none" }}>
+            <FontAwesomeIcon icon={faShoppingCart} style={{ paddingRight: 7 }} /> {cartItemsNo}
+          </span>
         </div>
       </div>
     </div>

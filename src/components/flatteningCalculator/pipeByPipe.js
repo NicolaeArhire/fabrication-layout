@@ -309,17 +309,19 @@ const PipeByPipe = () => {
           <span>PIPE INTERSECTION BY PIPE</span>
         </div>
         <div className="img_container">
-          <img
-            src="shapeCalculator/pipeByPipe.png"
-            alt="pipeByPipe"
-            style={{
-              width: 300,
-              height: 235,
-            }}
-            className={`img_PipeByPipe ${isScaledImg ? "scaleImg" : ""}`}
-            ref={imgRef}
-            onClick={handleClickImg}
-          />
+          <abbr title="Click to Zoom!">
+            <img
+              src="shapeCalculator/pipeByPipe.png"
+              alt="pipeByPipe"
+              style={{
+                width: 300,
+                height: 235,
+              }}
+              className={`img_PipeByPipe ${isScaledImg ? "scaleImg" : ""}`}
+              ref={imgRef}
+              onClick={handleClickImg}
+            />
+          </abbr>
         </div>
         <div className="input_output">
           <span>INPUT(mm)</span>
@@ -453,14 +455,12 @@ const PipeByPipe = () => {
             </div>
           </div>
         </div>
-        <canvas className={`canvas_container ${isScaled ? "scale" : ""}`} ref={canvasRef} onClick={handleClick} />
+        <abbr title="Click to Zoom!">
+          <canvas className={`canvas_container ${isScaled ? "scale" : ""}`} ref={canvasRef} onClick={handleClick} />
+        </abbr>
         <div className="menu_button">
-          <button className="download_file" onClick={handleDownload}>
-            Download file (1/2 of shape)
-          </button>
+          <button onClick={handleDownload}>Download file (1/2 of shape)</button>
           <button
-            className={`${addToCartAnimation ? "geometryToCart animate_cart_pipeByPipe" : "geometryToCart"}`}
-            ref={cartAnimationRef}
             disabled={
               diam1 === "" ||
               length === "" ||
@@ -470,16 +470,14 @@ const PipeByPipe = () => {
               /\D/.test(thickness) ||
               material === "---"
             }
+            style={{ display: addToCartAnimation ? "none" : "block" }}
             onClick={handleAddProducts}
           >
-            {addToCartAnimation ? (
-              <>
-                <FontAwesomeIcon icon={faShoppingCart} /> {cartItemsNo}
-              </>
-            ) : (
-              "Add plate to cart"
-            )}
+            Add plate to cart
           </button>
+          <span ref={cartAnimationRef} className="animate_cart_pipeByPipe" style={{ display: addToCartAnimation ? "flex" : "none" }}>
+            <FontAwesomeIcon icon={faShoppingCart} style={{ paddingRight: 7 }} /> {cartItemsNo}
+          </span>
         </div>
       </div>
     </div>

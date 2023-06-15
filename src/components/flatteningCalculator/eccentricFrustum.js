@@ -663,17 +663,19 @@ const EccentricFrustum = () => {
           <span>ECCENTRIC CONE FRUSTUM</span>
         </div>
         <div className="img_container">
-          <img
-            src="shapeCalculator/eccentricFrustum.png"
-            alt="EccentricFrustum"
-            style={{
-              width: 270,
-              height: 235,
-            }}
-            className={`img_EccentricFrustum ${isScaledImg ? "scaleImg" : ""}`}
-            ref={imgRef}
-            onClick={handleClickImg}
-          />
+          <abbr title="Click to Zoom!">
+            <img
+              src="shapeCalculator/eccentricFrustum.png"
+              alt="EccentricFrustum"
+              style={{
+                width: 270,
+                height: 235,
+              }}
+              className={`img_EccentricFrustum ${isScaledImg ? "scaleImg" : ""}`}
+              ref={imgRef}
+              onClick={handleClickImg}
+            />
+          </abbr>
         </div>
         <div className="input_output">
           <span>INPUT(mm)</span>
@@ -826,14 +828,12 @@ const EccentricFrustum = () => {
             </div>
           </div>
         </div>
-        <canvas className={`canvas_container ${isScaled ? "scale" : ""}`} ref={canvasRef} onClick={handleClick} />
+        <abbr title="Click to Zoom!">
+          <canvas className={`canvas_container ${isScaled ? "scale" : ""}`} ref={canvasRef} onClick={handleClick} />
+        </abbr>
         <div className="menu_button">
-          <button className="download_file" onClick={handleDownload}>
-            Download file (1/2 of shape)
-          </button>
+          <button onClick={handleDownload}>Download file (1/2 of shape)</button>
           <button
-            className={`${addToCartAnimation ? "geometryToCart animate_cart_EccentricFrustum" : "geometryToCart"}`}
-            ref={cartAnimationRef}
             disabled={
               diam1 === "" ||
               diam2 === "" ||
@@ -845,16 +845,14 @@ const EccentricFrustum = () => {
               /\D/.test(thickness) ||
               material === "---"
             }
+            style={{ display: addToCartAnimation ? "none" : "block" }}
             onClick={handleAddProducts}
           >
-            {addToCartAnimation ? (
-              <>
-                <FontAwesomeIcon icon={faShoppingCart} /> {cartItemsNo}
-              </>
-            ) : (
-              "Add plate to cart"
-            )}
+            Add plate to cart
           </button>
+          <span ref={cartAnimationRef} className="animate_cart_EccentricFrustum" style={{ display: addToCartAnimation ? "flex" : "none" }}>
+            <FontAwesomeIcon icon={faShoppingCart} style={{ paddingRight: 7 }} /> {cartItemsNo}
+          </span>
         </div>
       </div>
     </div>
