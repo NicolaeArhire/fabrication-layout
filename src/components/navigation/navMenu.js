@@ -740,66 +740,73 @@ const NavMenu = ({ setModalIsOpen }) => {
         )}
       </div>
       <Menu className={"my-custom-menu"} animation={"stack"} isOpen={isOpen} onStateChange={handleMenuStateChange}>
-        <div className="menu_img" style={{ display: "flex" }}>
-          <img src="/logo.png" alt="logo.png" className="img_navbar" />
+        <div id="menu_pages" style={{ paddingLeft: 5, borderBottom: "none" }}>
+          <div className="menu_img" style={{ display: "flex" }}>
+            <img src="/logo.png" alt="logo.png" className="img_navbar" />
+          </div>
+          <div id="auth_options" style={{ display: "flex" }}>
+            <button onClick={handleOpenSignInModal} disabled={loggedUser}>
+              Sign In
+            </button>
+            <button onClick={handleOpenSignOutModal} disabled={!loggedUser}>
+              Sign Out
+            </button>
+          </div>
+          <Link
+            className="bm-item"
+            to="/my-account"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+            style={{ display: loggedUser ? "flex" : "none" }}
+          >
+            <FontAwesomeIcon icon={faUserAlt} /> <span style={{ marginLeft: 10 }}>My Account</span>
+          </Link>
+          <Link
+            className="bm-item"
+            to="/"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+            style={{ display: "flex" }}
+          >
+            <FontAwesomeIcon icon={faHome} /> <span style={{ marginLeft: 10 }}>Home</span>
+          </Link>
+          <Link
+            className="bm-item"
+            to="/calculator"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+            style={{ display: "flex" }}
+          >
+            <FontAwesomeIcon icon={faSquareRootAlt} />
+            <span style={{ marginLeft: 10 }}>Shape Calculator</span>
+          </Link>
+          <Link
+            className="bm-item"
+            to="/cart"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+            style={{ display: "flex" }}
+          >
+            <FontAwesomeIcon icon={faShoppingCart} />
+            <span style={{ marginLeft: 10 }}>Cart</span>
+            <span className="no_of_products_in_cart">{loggedUser ? userCartProducts : readCart().length > 0 ? readCart().length : 0}</span>
+          </Link>
+          <Link
+            className="bm-item"
+            to="/contact"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+            style={{ display: "flex" }}
+          >
+            <FontAwesomeIcon icon={faPhone} />
+            <span style={{ marginLeft: 10 }}>Contact</span>
+          </Link>
         </div>
-        <div id="auth_options" style={{ display: "flex" }}>
-          <button onClick={handleOpenSignInModal} disabled={loggedUser}>
-            Sign In
-          </button>
-          <button onClick={handleOpenSignOutModal} disabled={!loggedUser}>
-            Sign Out
-          </button>
-        </div>
-        <Link
-          to="/my-account"
-          onClick={() => {
-            setIsOpen(false);
-          }}
-          style={{ display: loggedUser ? "flex" : "none" }}
-        >
-          <FontAwesomeIcon icon={faUserAlt} /> <span style={{ marginLeft: 10 }}>My Account</span>
-        </Link>
-        <Link
-          to="/"
-          onClick={() => {
-            setIsOpen(false);
-          }}
-          style={{ display: "flex" }}
-        >
-          <FontAwesomeIcon icon={faHome} /> <span style={{ marginLeft: 10 }}>Home</span>
-        </Link>
-        <Link
-          to="/calculator"
-          onClick={() => {
-            setIsOpen(false);
-          }}
-          style={{ display: "flex" }}
-        >
-          <FontAwesomeIcon icon={faSquareRootAlt} />
-          <span style={{ marginLeft: 10 }}>Shape Calculator</span>
-        </Link>
-        <Link
-          to="/cart"
-          onClick={() => {
-            setIsOpen(false);
-          }}
-          style={{ display: "flex" }}
-        >
-          <FontAwesomeIcon icon={faShoppingCart} />
-          <span style={{ marginLeft: 10 }}>Cart</span>
-          <span className="no_of_products_in_cart">{loggedUser ? userCartProducts : readCart().length > 0 ? readCart().length : 0}</span>
-        </Link>
-        <Link
-          to="/contact"
-          onClick={() => {
-            setIsOpen(false);
-          }}
-          style={{ display: "flex" }}
-        >
-          <FontAwesomeIcon icon={faPhone} />
-          <span style={{ marginLeft: 10 }}>Contact</span>
-        </Link>
         <div id="menu_footer" style={{ display: "flex" }}>
           <span style={{ fontSize: 16, color: "white", marginRight: 0, textDecoration: "underline" }}>nicolae.arhire10@gmail.com</span>
           <div>

@@ -1,5 +1,5 @@
 import "./contact.css";
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useRef, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle, faTwitter, faYoutube, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { faPaperPlane, faPhone, faEnvelope } from "@fortawesome/free-solid-svg-icons";
@@ -20,84 +20,7 @@ const Contact = () => {
   const userMessageInput = useRef(null);
   const messageConfirmation = useRef(null);
 
-  const leftTextRef = useRef(null);
-  const iconsRef = useRef(null);
-  const rightEmailRef = useRef(null);
-  const rightIconsRef = useRef(null);
-  const rightPanelInput1Ref = useRef(null);
-  const rightPanelInput2Ref = useRef(null);
-  const rightPanelInput3Ref = useRef(null);
-  const rightAddFileRef = useRef(null);
-  const rightPanelButtonRef = useRef(null);
-
   const { modalIsOpen } = useContext(MyContext);
-
-  // useEffect(() => {
-  //   if (!window.location.hash) {
-  //     window.location = window.location + "#";
-  //     window.location.reload(); // Reload was needed because reCAPTCHA was not showing when first loading the page
-  //   }
-  // }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          leftTextRef.current.classList.add("animate");
-          iconsRef.current.classList.add("animate");
-        } else {
-          leftTextRef.current.classList.remove("animate");
-          iconsRef.current.classList.remove("animate");
-        }
-      });
-    });
-
-    const observer2 = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          rightPanelInput1Ref.current.classList.add("animate");
-          rightPanelInput2Ref.current.classList.add("animate");
-          rightPanelInput3Ref.current.classList.add("animate");
-          rightAddFileRef.current.classList.add("animate");
-          rightPanelButtonRef.current.classList.add("animate");
-        } else {
-          rightPanelInput1Ref.current.classList.remove("animate");
-          rightPanelInput2Ref.current.classList.remove("animate");
-          rightPanelInput3Ref.current.classList.remove("animate");
-          rightAddFileRef.current.classList.remove("animate");
-          rightPanelButtonRef.current.classList.remove("animate");
-        }
-      });
-    });
-
-    const observer3 = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          rightEmailRef.current.classList.add("animate");
-          rightIconsRef.current.classList.add("animate");
-        } else {
-          rightEmailRef.current.classList.remove("animate");
-          rightIconsRef.current.classList.remove("animate");
-        }
-      });
-    });
-
-    observer.observe(leftTextRef.current);
-    observer.observe(iconsRef.current);
-    observer2.observe(rightPanelInput1Ref.current);
-    observer2.observe(rightPanelInput2Ref.current);
-    observer2.observe(rightPanelInput3Ref.current);
-    observer2.observe(rightAddFileRef.current);
-    observer2.observe(rightPanelButtonRef.current);
-    observer3.observe(rightEmailRef.current);
-    observer3.observe(rightIconsRef.current);
-
-    return () => {
-      observer.disconnect();
-      observer2.disconnect();
-      observer3.disconnect();
-    };
-  }, []); // animation used to dynamically add a classname to an element if it is visible
 
   const handleUserName = (e) => {
     setUserName(e.target.value);
@@ -149,7 +72,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="contact_container" style={{ display: modalIsOpen ? "none" : "grid" }}>
+    <div className="contact_container" style={{ display: modalIsOpen ? "none" : "flex" }}>
       <div className="contact_right">
         <div className="contact_form">
           <div className="contact_text">
@@ -181,7 +104,7 @@ const Contact = () => {
               }}
             />
           </div>
-          <div className="right_floating_content" ref={rightPanelInput1Ref} style={{ marginTop: 30 }}>
+          <div className="right_floating_content" style={{ marginTop: 30 }}>
             <input
               type="text"
               className="right_floating_input"
@@ -193,7 +116,7 @@ const Contact = () => {
             />
             <label className="right_floating_label">Your Name</label>
           </div>
-          <div className="right_floating_content" ref={rightPanelInput2Ref}>
+          <div className="right_floating_content">
             <input
               type="text"
               className="right_floating_input"
@@ -205,7 +128,7 @@ const Contact = () => {
             />
             <label className="right_floating_label">Your E-mail</label>
           </div>
-          <div className="right_floating_content" ref={rightPanelInput3Ref} style={{ height: 200 }}>
+          <div className="right_floating_content" style={{ height: 200 }}>
             <textarea
               type="text"
               className="right_floating_input"
@@ -219,12 +142,12 @@ const Contact = () => {
             <label className="right_floating_label">Your Message</label>
           </div>
           <div className="contact_send">
-            <input ref={rightAddFileRef} type="file" name="file" className="right_file" />
+            <input type="file" name="file" className="right_file" />
             <div>
               <ReCAPTCHA sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} onChange={handleRecaptchaChange} />
             </div>
             <div>
-              <button ref={rightPanelButtonRef} className="contact_send_button" onClick={handleSendMessage}>
+              <button className="contact_send_button" onClick={handleSendMessage}>
                 Send <FontAwesomeIcon icon={faPaperPlane} className="icon_send" />
               </button>
               <span
@@ -254,11 +177,11 @@ const Contact = () => {
           ></iframe>
         </div>
         <div className="rightText_container">
-          <div ref={rightEmailRef} className="right_mail">
+          <div className="right_mail">
             <FontAwesomeIcon icon={faEnvelope} style={{ color: "white", width: 20, marginRight: 5 }} />
             <span>nicolae.arhire10@gmail.com</span>
           </div>
-          <div ref={rightIconsRef} className="right_icons">
+          <div className="right_icons">
             <FontAwesomeIcon icon={faPhone} style={{ color: "white", width: 20, marginRight: 5 }} />
             <span className="right_phone">0712345678</span>
             <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">
@@ -278,33 +201,29 @@ const Contact = () => {
             </a>
           </div>
         </div>
-      </div>{" "}
+      </div>
       <div className="contact_left">
-        <div className="leftText_container">
-          <span ref={leftTextRef} className="left_text">
-            Let's get in touch and create something great together.
-          </span>
-          <span ref={iconsRef} className="left_icons">
-            <FontAwesomeIcon icon={faPhone} style={{ color: "white", width: 20, marginRight: 5 }} />
-            <span style={{ fontSize: 20, color: "white", marginRight: 15, textDecoration: "underline" }}>0712345678</span>
-            <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faGoogle} className="icon_google" />
-            </a>
-            <a href="https://twitter.com/freeCodeCamp" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faTwitter} className="icon_twitter" />
-            </a>
-            <a href="https://www.youtube.com/c/Freecodecamp" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faYoutube} className="icon_youtube" />
-            </a>
-            <a href="https://www.linkedin.com/school/free-code-camp" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faLinkedin} className="icon_linkedIn" />
-            </a>
-            <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">
-              <span className="google"></span>
-            </a>
-            <span style={{ fontSize: 20, color: "white", marginRight: 0, textDecoration: "underline" }}>nicolae.arhire10@gmail.com</span>
-          </span>
-        </div>
+        <span className="left_text">Let's get in touch and create something great together.</span>
+        <span className="left_icons">
+          <FontAwesomeIcon icon={faPhone} style={{ color: "white", width: 20, marginRight: 5 }} />
+          <span style={{ fontSize: 20, color: "white", marginRight: 15, textDecoration: "underline" }}>0712345678</span>
+          <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">
+            <FontAwesomeIcon icon={faGoogle} className="icon_google" />
+          </a>
+          <a href="https://twitter.com/freeCodeCamp" target="_blank" rel="noopener noreferrer">
+            <FontAwesomeIcon icon={faTwitter} className="icon_twitter" />
+          </a>
+          <a href="https://www.youtube.com/c/Freecodecamp" target="_blank" rel="noopener noreferrer">
+            <FontAwesomeIcon icon={faYoutube} className="icon_youtube" />
+          </a>
+          <a href="https://www.linkedin.com/school/free-code-camp" target="_blank" rel="noopener noreferrer">
+            <FontAwesomeIcon icon={faLinkedin} className="icon_linkedIn" />
+          </a>
+          <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">
+            <span className="google"></span>
+          </a>
+          <span style={{ fontSize: 20, color: "white", marginRight: 0, textDecoration: "underline" }}>nicolae.arhire10@gmail.com</span>
+        </span>
       </div>
     </div>
   );

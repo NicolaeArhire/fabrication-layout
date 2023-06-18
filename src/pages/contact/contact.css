@@ -1,38 +1,31 @@
 .contact_container {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  height: fit-content;
   overflow-x: hidden;
   overflow-y: hidden;
 }
 
 .contact_left {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  height: 100px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .contact_right {
-  height: 800px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 100px;
+  margin-bottom: 50px;
 }
 
 .contact_form {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-}
-
-.leftText_container {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
   align-items: center;
 }
 
@@ -53,9 +46,6 @@
   text-decoration: underline;
   font-size: 16px;
   margin-bottom: 7px;
-}
-
-.right_mail.animate {
   animation-name: backInLeft;
   animation-duration: 2.5s;
   animation-timing-function: ease;
@@ -76,16 +66,13 @@
   color: white;
   border-bottom: 3px solid cyan;
   margin-bottom: 15px;
-}
-
-.left_text.animate {
   animation-name: backInLeft;
   animation-duration: 2.5s;
   animation-timing-function: ease;
   animation-fill-mode: both;
 }
 
-.right_text.animate {
+.right_text {
   animation-name: backInLeft;
   animation-duration: 2.5s;
   animation-timing-function: ease;
@@ -100,7 +87,7 @@
   font-size: 30px;
 }
 
-.left_icons.animate {
+.left_icons {
   animation-name: backInRight;
   animation-duration: 2.5s;
   animation-timing-function: ease;
@@ -113,9 +100,6 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-}
-
-.right_icons.animate {
   animation-name: backInLeft;
   animation-duration: 2.5s;
   animation-timing-function: ease;
@@ -187,7 +171,7 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.contact_right_text.animate {
+.contact_right_text {
   animation-name: backInRight;
   animation-duration: 2.5s;
   animation-timing-function: ease;
@@ -199,9 +183,6 @@
   background: rgb(41, 44, 44);
   margin-top: 40px;
   width: 550px;
-}
-
-.right_floating_content.animate {
   animation-name: backInRight;
   animation-duration: 2.5s;
   animation-timing-function: ease;
@@ -278,7 +259,7 @@ input[type="file"]::-webkit-file-upload-button {
   margin-right: 20px;
 }
 
-.right_file.animate {
+.right_file {
   animation-name: backInRight;
   animation-duration: 2.5s;
   animation-timing-function: ease;
@@ -299,17 +280,14 @@ input[type="file"]::-webkit-file-upload-button {
   border: 1px solid white;
   border-radius: 4px;
   margin-top: 20px;
-}
-
-.contact_send_button:not(:disabled):hover {
-  background: rgb(0, 0, 0);
-}
-
-.contact_send_button.animate {
   animation-name: backInRight;
   animation-duration: 2.5s;
   animation-timing-function: ease;
   animation-fill-mode: both;
+}
+
+.contact_send_button:not(:disabled):hover {
+  background: rgb(0, 0, 0);
 }
 
 .message_confirmation {
@@ -355,12 +333,6 @@ input[type="file"]::-webkit-file-upload-button {
 }
 
 @media screen and (max-width: 500px) {
-  .contact_container {
-    display: grid;
-    grid-template-columns: 1fr;
-    min-height: 1675px;
-  }
-
   .contact_left {
     display: none;
   }
@@ -368,19 +340,18 @@ input[type="file"]::-webkit-file-upload-button {
   .contact_right {
     justify-content: center;
     flex-direction: column;
-    padding-top: 80px;
-    height: 1630px;
+    margin-bottom: 5px;
   }
 
-  .right_floating_content.animate {
+  .right_floating_content {
     animation-name: none;
   }
 
-  .right_file.animate {
+  .right_file {
     animation-name: none;
   }
 
-  .contact_send_button.animate {
+  .contact_send_button {
     animation-name: none;
   }
 
