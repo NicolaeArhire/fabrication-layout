@@ -266,6 +266,10 @@
   background: rgb(2, 29, 48);
 }
 
+.ReactModal__Overlay {
+  background-color: transparent !important;
+}
+
 .address_modal {
   display: flex;
   flex-direction: column;

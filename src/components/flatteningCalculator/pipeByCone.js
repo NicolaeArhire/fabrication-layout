@@ -590,15 +590,7 @@ const PipeByCone = () => {
         <div className="menu_button">
           <button onClick={handleDownload}>Download file (1/2 of shape)</button>
           <button
-            disabled={
-              diam1 === "" ||
-              length1 === "" ||
-              thickness === "" ||
-              /\D/.test(diam1) ||
-              /\D/.test(length1) ||
-              /\D/.test(thickness) ||
-              material === "---"
-            }
+            disabled={[diam1, length1, thickness].some((dim) => dim <= 0 || /[^\d.]/i.test(dim)) || material === "---"}
             style={{ display: addToCartAnimation ? "none" : "block" }}
             onClick={handleAddProducts}
           >

@@ -2,7 +2,6 @@
   display: grid;
   grid-template-rows: 1fr 1fr;
   height: 100vh;
-  background: rgba(20, 65, 77, 0.8);
   overflow-x: hidden;
   overflow-y: hidden;
 }

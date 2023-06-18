@@ -34,6 +34,7 @@ const Cart = () => {
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [userProductRemoved, setUserProductRemoved] = useState(false);
   const [showClearCartConfirmation, setShowClearCartConfirmation] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const { modalIsOpen, setDisplayCartProducts } = useContext(MyContext);
 
@@ -47,7 +48,7 @@ const Cart = () => {
     sessionStorage.setItem("orderWeight", orderWeight);
     sessionStorage.setItem("orderShipping", shipping);
     sessionStorage.setItem("orderCost", orderCost);
-  }, [cartItems, shipping]);
+  }, [cartItems, shipping]); // set order details in session storage and fetched further to create the orders/ invoice in /My Account
 
   useEffect(() => {
     setIsLoading(true);
@@ -55,6 +56,18 @@ const Cart = () => {
       setIsLoading(false);
     }, 700);
   }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // use window width as a state and conditionally set certain elements; you cannot use window.innerWidth directly in the JSX!
 
   useEffect(() => {
     if (loggedUser) {
@@ -69,7 +82,7 @@ const Cart = () => {
     } else {
       setDisplayCartProducts(localStorage.getItem("display_cart_guest"));
     }
-  }, [loggedUser, setDisplayCartProducts, cartItems]);
+  }, [loggedUser, setDisplayCartProducts, cartItems]); //check if user is logged in and synchronize the number of products displayed in the icon
 
   useEffect(() => {
     if (loggedUser) {
@@ -94,7 +107,7 @@ const Cart = () => {
     } else {
       setClientCountry("");
     }
-  }, [loggedUser]);
+  }, [loggedUser]); // set billing address based on logged in user;
 
   useEffect(() => {
     if (loggedUser) {
@@ -110,7 +123,7 @@ const Cart = () => {
     }
 
     setUserProductRemoved(false);
-  }, [showModal, loggedUser, userProductRemoved]);
+  }, [showModal, loggedUser, userProductRemoved]); //check if user is logged in and display the correspoding products
 
   useEffect(() => {
     getCities(lookup.byCountry(clientCountry)?.iso2).then((result) =>
@@ -122,7 +135,7 @@ const Cart = () => {
         setCityPoints([result[0].lon, result[0].lat]);
       });
     }
-  }, [clientCountry, clientCity]);
+  }, [clientCountry, clientCity]); // fetch countries list followed by cities based on chosen country; valid only for not-logged users
 
   const pricePerKm = 0.1; //in USD
   const estimatedSpeed = 80; // in KM/hour
@@ -153,19 +166,7 @@ const Cart = () => {
           : setArrival("See shipping");
       });
     }
-  }, [clientCountry, clientCity, cityPoints]);
-
-  const handleCountryChange = (e) => {
-    setClientCountry(e.target.value);
-  };
-
-  const handleCityChange = (e) => {
-    setClientCity(e.target.value);
-  };
-
-  const handleHomeChange = (e) => {
-    setClientHome(e.target.value);
-  };
+  }, [clientCountry, clientCity, cityPoints]); // calculate shipping cost and ETA based on selected country/ city
 
   const handleDeleteItem = (index) => {
     if (loggedUser) {
@@ -255,7 +256,13 @@ const Cart = () => {
           </div>
           <div className="address_content">
             <div className="billing_address_info">
-              <select value={clientCountry} className="billing_address_country" onChange={handleCountryChange}>
+              <select
+                value={clientCountry}
+                className="billing_address_country"
+                onChange={(e) => {
+                  setClientCountry(e.target.value);
+                }}
+              >
                 <option value="Your Country..." style={{ background: "#47574b", color: "white" }}>
                   Your Country...
                 </option>
@@ -265,13 +272,26 @@ const Cart = () => {
                     <option key={index + 1}>{item.country}</option>
                   ))}
               </select>
-              <select value={clientCity} className="billing_address_city" onChange={handleCityChange}>
+              <select
+                value={clientCity}
+                className="billing_address_city"
+                onChange={(e) => {
+                  setClientCity(e.target.value);
+                }}
+              >
                 <option value="Your City..." style={{ background: "#47574b", color: "white" }}>
                   Your City...
                 </option>
                 {citiesList && citiesList.map((city, index) => <option key={index + 1}>{city}</option>)}
               </select>
-              <input value={clientHome} id="billing_address_home" placeholder="Your address..." onChange={handleHomeChange} />
+              <input
+                value={clientHome}
+                id="billing_address_home"
+                placeholder="Your address..."
+                onChange={(e) => {
+                  setClientHome(e.target.value);
+                }}
+              />
             </div>
             <input id="save_billing_address" defaultValue={"Save"} readOnly onClick={handleSaveAddress} />
             <span id="address_save_check">{addressSaveCheck}</span>
@@ -281,7 +301,7 @@ const Cart = () => {
       <div className="cart_loading" style={{ display: isLoading ? "flex" : "none" }}>
         <Bars color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
       </div>
-      <div className="cart_container" style={{ display: isLoading || modalIsOpen || showAddressModal ? "none" : "flex" }}>
+      <div className="cart_container" style={{ display: isLoading || modalIsOpen || showAddressModal || showModal ? "none" : "flex" }}>
         <div className="cart_content">
           <div className="cart_head_plus_items">
             <Table className="cart_table_head">
@@ -326,7 +346,11 @@ const Cart = () => {
                   ) : (
                     <tr>
                       <td colSpan="7" className="empty_cart" contains="Empty">
-                        Your cart is empty.
+                        Your cart is empty. {windowWidth <= 500 ? <br /> : ""}
+                        Let's do some{" "}
+                        <a href="/" style={{ color: "cyan" }}>
+                          shopping!
+                        </a>
                       </td>
                     </tr>
                   )}

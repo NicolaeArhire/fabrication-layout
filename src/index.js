@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-// document.addEventListener("contextmenu", (e) => e.preventDefault());
+document.addEventListener("contextmenu", (e) => e.preventDefault());
 
 // document.addEventListener("keydown", (e) => {
 //   if (e.key === "F12" || e.key === "i" || e.key === "I") {

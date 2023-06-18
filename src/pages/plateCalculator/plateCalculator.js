@@ -21,14 +21,12 @@ const PlateCalculator = () => {
 
   const loggedUserID = auth.currentUser?.uid || "";
 
-  // logic added to keep showing the page if user is logged after refresh
   window.addEventListener("beforeunload", () => {
     if (localStorage.getItem("isUserLogged")) {
       localStorage.setItem("loggedUserIDafterRefresh", true);
     }
-  });
+  }); // logic added to keep showing the page if user is logged after refresh
 
-  // useEffect only works when the page is first loaded, not for reloading/ refreshing
   useEffect(() => {
     if (loggedUserID) {
       setShowModal(false);
@@ -36,11 +34,11 @@ const PlateCalculator = () => {
     } else {
       setShowModal(true);
     }
-  }, [loggedUserID]);
+  }, [loggedUserID]); // if user logged in, show the shape calculator page, otherwise display a modal message
 
   useEffect(() => {
     setPageNo(currentComponent);
-  }, [currentComponent]);
+  }, [currentComponent]); // set shapes page number
 
   const components = [
     <PipeByPlane modalStatus={showModal} />,
@@ -82,7 +80,7 @@ const PlateCalculator = () => {
         </ReactModal>
       </div>
       {}
-      <div className="card_container" style={{ display: modalIsOpen ? "none" : "flex" }}>
+      <div className="card_container" style={{ display: modalIsOpen || showModal ? "none" : "flex" }}>
         <div className="calculator_container">
           <div className="flatten_container">{components[currentComponent]}</div>
           <div className="pagination">

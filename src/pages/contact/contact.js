@@ -35,7 +35,7 @@ const Contact = () => {
   // useEffect(() => {
   //   if (!window.location.hash) {
   //     window.location = window.location + "#";
-  //     window.location.reload(); // Reload needed because reCAPTCHA is not showing when first loading the page
+  //     window.location.reload(); // Reload was needed because reCAPTCHA was not showing when first loading the page
   //   }
   // }, []);
 
@@ -97,7 +97,7 @@ const Contact = () => {
       observer2.disconnect();
       observer3.disconnect();
     };
-  }, []);
+  }, []); // animation used to dynamically add a classname to an element if it is visible
 
   const handleUserName = (e) => {
     setUserName(e.target.value);

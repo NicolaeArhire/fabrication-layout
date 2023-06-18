@@ -439,17 +439,7 @@ const ConcentricFrustum = () => {
         <div className="menu_button">
           <button onClick={handleDownload}>Download file (1/2 of shape)</button>
           <button
-            disabled={
-              diam1 === "" ||
-              diam2 === "" ||
-              height === "" ||
-              thickness === "" ||
-              /\D/.test(diam1) ||
-              /\D/.test(diam2) ||
-              /\D/.test(height) ||
-              /\D/.test(thickness) ||
-              material === "---"
-            }
+            disabled={[diam1, diam2, height, thickness].some((dim) => dim <= 0 || /[^\d.]/i.test(dim)) || material === "---"}
             style={{ display: addToCartAnimation ? "none" : "block" }}
             onClick={handleAddProducts}
           >

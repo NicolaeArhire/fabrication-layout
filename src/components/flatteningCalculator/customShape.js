@@ -743,33 +743,13 @@ const CustomShape = () => {
           <button
             disabled={
               shape === "Disc"
-                ? diam1 === "" || thickness === "" || /\D/.test(diam1) || /\D/.test(thickness) || material === "---"
+                ? [diam1, thickness].some((dim) => dim <= 0 || /[^\d.]/i.test(dim)) || material === "---"
                 : shape === "Ring"
-                ? diam1 === "" ||
-                  diam2 === "" ||
-                  thickness === "" ||
-                  /\D/.test(diam1) ||
-                  /\D/.test(diam2) ||
-                  /\D/.test(thickness) ||
-                  material === "---"
+                ? [diam1, diam2, thickness].some((dim) => dim <= 0 || /[^\d.]/i.test(dim)) || material === "---"
                 : shape === "Gusset"
-                ? length1 === "" ||
-                  length2 === "" ||
-                  thickness === "" ||
-                  /\D/.test(length1) ||
-                  /\D/.test(length2) ||
-                  /\D/.test(thickness) ||
-                  material === "---"
+                ? [length1, length2, thickness].some((dim) => dim <= 0 || /[^\d.]/i.test(dim)) || material === "---"
                 : shape === "Star"
-                ? diam1 === "" ||
-                  diam2 === "" ||
-                  sideNo === "" ||
-                  thickness === "" ||
-                  /\D/.test(diam1) ||
-                  /\D/.test(diam2) ||
-                  /\D/.test(sideNo) ||
-                  /\D/.test(thickness) ||
-                  material === "---"
+                ? [diam1, diam2, sideNo, thickness].some((dim) => dim <= 0 || /[^\d.]/i.test(dim)) || material === "---"
                 : ""
             }
             style={{ display: addToCartAnimation ? "none" : "block" }}

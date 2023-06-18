@@ -33,6 +33,8 @@ const MyAccount = () => {
   const [clientHome, setClientHome] = useState("");
   const [addressSaveCheck, setAddressSaveCheck] = useState("");
   const [userPhoto, setUserPhoto] = useState("");
+  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const { modalIsOpen } = useContext(MyContext);
 
@@ -54,7 +56,19 @@ const MyAccount = () => {
     setTimeout(() => {
       setIsLoading(false);
     }, 700);
-  }, []);
+  }, []); // when loading/ refreshing, display a modal with a loading spinner
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // set window width to a state and use it in JSX
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -71,7 +85,7 @@ const MyAccount = () => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, []); // fetch user photo with the specified service
 
   useEffect(() => {
     if (loggedUserID)
@@ -85,16 +99,17 @@ const MyAccount = () => {
         .catch((err) => {
           console.log(err);
         });
-  }, [loggedUserID]);
+  }, [loggedUserID]); // fetch user phone/ address with the specified service
 
   useEffect(() => {
     getCities(lookup.byCountry(clientCountry)?.iso2).then((result) =>
       setCitiesList(result.sort((a, b) => a.name.localeCompare(b.name)).map((city) => city.name))
     );
-  }, [clientCountry]);
+  }, [clientCountry]); // fetch cities for the chosen country with the specified service
 
   const handleOpenModal = () => {
     setShowModal(true);
+    setDeleteModalIsOpen(true);
   };
 
   const handleDeleteAccount = async () => {
@@ -131,6 +146,7 @@ const MyAccount = () => {
       window.location.href = "/";
     }
     setMailCheck("");
+    setDeleteModalIsOpen(false);
   };
 
   const handlePhoneNumber = (e) => {
@@ -294,7 +310,10 @@ const MyAccount = () => {
       <div className="page_loading" style={{ display: isLoading ? "flex" : "none" }}>
         <Bars color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
       </div>
-      <div className="account_container" style={{ display: isLoading || modalIsOpen ? "none" : "flex" }}>
+      <div
+        className="account_container"
+        style={{ display: isLoading || modalIsOpen || deleteModalIsOpen || showAddressModal ? "none" : "flex" }}
+      >
         <div className="account_content">
           <div className="user_details">
             <div className="user_name">
@@ -326,7 +345,7 @@ const MyAccount = () => {
                   <span>{loggedUserCreation ? `${loggedUserCreation.slice(5, -13)},${loggedUserCreation.slice(16, -7)} GMT` : "---"}</span>
                 </div>
                 <div className="account_info_props">
-                  <span style={{ color: "cyan" }}>Phone Number:</span>
+                  <span style={{ color: "cyan" }}>Phone:</span>
                   <div className="account_info_props_phone">
                     {loggedUserID ? (
                       <input
@@ -357,7 +376,15 @@ const MyAccount = () => {
                 <div className="account_info_props">
                   <span style={{ color: "cyan" }}>Address:</span>
                   <div className="account_info_props_address">
-                    {loggedUserID ? <span className="user_address">{billingAddress}</span> : "---"}
+                    {loggedUserID ? (
+                      windowWidth <= 400 ? (
+                        <span onClick={handleEditAddress}>Edit Address...</span>
+                      ) : (
+                        <span className="user_address">{billingAddress}</span>
+                      )
+                    ) : (
+                      <span>---</span>
+                    )}
                     <abbr title="Edit Address">
                       <FontAwesomeIcon icon={faPencil} onClick={handleEditAddress} id="edit_address" />
                     </abbr>

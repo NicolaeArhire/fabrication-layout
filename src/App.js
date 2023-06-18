@@ -4,6 +4,7 @@ import "./App.css";
 import { auth } from "./firebase";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavMenu from "./components/navigation/navMenu";
+import ParticlesBackground from "./services/particles";
 
 const Home = lazy(() => import("./pages/home/home"));
 const PlateCalculator = lazy(() => import("./pages/plateCalculator/plateCalculator"));
@@ -24,10 +25,11 @@ function App() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, []); // display cart products based on logged in status
 
   return (
     <div className="app">
+      <ParticlesBackground />
       <MyContext.Provider
         value={{ modalIsOpen, setModalIsOpen, displayCartProducts, setDisplayCartProducts, cartCoordinates, setCartCoordinates }}
       >

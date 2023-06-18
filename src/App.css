@@ -1,9 +1,4 @@
 body {
-  background-color: #282c34;
-  background-image: url("../public/background.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
   min-height: 100vh;
 }
 

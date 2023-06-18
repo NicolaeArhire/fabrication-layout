@@ -645,7 +645,7 @@
   .empty_cart {
     width: 256px !important;
     height: 270px;
-    padding: 125px 0 0 0 !important;
+    padding: 115px 0 0 0 !important;
   }
 
   .empty_cart:hover {

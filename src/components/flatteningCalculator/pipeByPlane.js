@@ -62,7 +62,7 @@ const PipeByPlane = ({ modalStatus }) => {
     } else {
       setDisplayCartProducts(localStorage.getItem("display_cart_guest"));
     }
-  }, [loggedUserID, setDisplayCartProducts, cartItemsNo]);
+  }, [loggedUserID, setDisplayCartProducts, cartItemsNo]); //check if user is logged in and synchronize the number of products displayed in the icon
 
   useEffect(() => {
     function handleClickOutsideImg(event) {
@@ -74,7 +74,7 @@ const PipeByPlane = ({ modalStatus }) => {
     return () => {
       window.removeEventListener("click", handleClickOutsideImg);
     };
-  }, [imgRef]);
+  }, [imgRef]); // scale profile pics on click
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -86,7 +86,7 @@ const PipeByPlane = ({ modalStatus }) => {
     return () => {
       window.removeEventListener("click", handleClickOutside);
     };
-  }, [canvasRef]);
+  }, [canvasRef]); // scale profile pics on click
 
   useEffect(() => {
     const animatedElement = cartAnimationRef.current;
@@ -104,7 +104,7 @@ const PipeByPlane = ({ modalStatus }) => {
     return () => {
       animation.pause();
     };
-  }, [cartCoordinates, addToCartAnimation]);
+  }, [cartCoordinates, addToCartAnimation]); // calculate "Add To Cart" button window location and "Display Cart Products" button and dynamically create the animation, fully responsive
 
   useEffect(() => {
     const newPoints = [
@@ -440,15 +440,7 @@ const PipeByPlane = ({ modalStatus }) => {
         <div className="menu_button">
           <button onClick={handleDownload}>Download file (1/2 of shape)</button>
           <button
-            disabled={
-              diam === "" ||
-              length === "" ||
-              thickness === "" ||
-              /\D/.test(diam) ||
-              /\D/.test(length) ||
-              /\D/.test(thickness) ||
-              material === "---"
-            }
+            disabled={[diam, length, angle, thickness].some((dim) => dim <= 0 || /[^\d.]/i.test(dim)) || material === "---"}
             style={{ display: addToCartAnimation ? "none" : "block" }}
             onClick={handleAddProducts}
           >

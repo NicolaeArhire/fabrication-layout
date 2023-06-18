@@ -423,12 +423,11 @@
 }
 
 .ReactModal__Overlay {
-  background-image: url("../../../public/background.jpg");
-  background-color: rgba(5, 67, 95, 0.95) !important;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   min-height: 100vh;
+  background-color: transparent !important;
 }
 
 .chosen_tab {

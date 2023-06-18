@@ -267,7 +267,7 @@ const ProductDetails = ({ renderItem }) => {
     } else {
       setDisplayCartProducts(localStorage.getItem("display_cart_guest"));
     }
-  }, [loggedUserID, setDisplayCartProducts, productAddedToCart]);
+  }, [loggedUserID, setDisplayCartProducts, productAddedToCart]); //check if user is logged in and synchronize the number of products displayed in the icon
 
   useEffect(() => {
     function handleClickOutsideImg(event) {
@@ -279,7 +279,7 @@ const ProductDetails = ({ renderItem }) => {
     return () => {
       window.removeEventListener("click", handleClickOutsideImg);
     };
-  }, [imgRef]);
+  }, [imgRef]); // scale profile pics on click
 
   useEffect(() => {
     function handleClickOutsideImg2(event) {
@@ -291,7 +291,7 @@ const ProductDetails = ({ renderItem }) => {
     return () => {
       window.removeEventListener("click", handleClickOutsideImg2);
     };
-  }, [imgRef2]);
+  }, [imgRef2]); // scale profile pics on click
 
   useEffect(() => {
     const animatedElement = cartAnimationRef.current;
@@ -309,7 +309,7 @@ const ProductDetails = ({ renderItem }) => {
     return () => {
       animation.pause();
     };
-  }, [cartCoordinates, addToCartAnimation]);
+  }, [cartCoordinates, addToCartAnimation]); // calculate "Add To Cart" button window location and "Display Cart Products" button and dynamically create the animation, fully responsive
 
   useEffect(() => {
     setCartItemsNo(0);
@@ -458,7 +458,7 @@ const ProductDetails = ({ renderItem }) => {
     setAluminiumBulbLength("");
     setAluminiumBulbX("");
     setAluminiumBulbQty(1);
-  }, [renderItem]);
+  }, [renderItem]); // set various states when the selected profile changes
 
   const handleClickImg = (event) => {
     if (event.target === imgRef.current) {
@@ -2332,8 +2332,8 @@ const ProductDetails = ({ renderItem }) => {
                 onClick={handleAddProducts}
                 disabled={
                   item.roundBar || item.bulb
-                    ? item.dims.slice(0, 2).some((dim) => dim === "" || dim <= 0 || /^[^\dx.]$/i.test(dim))
-                    : item.dims.slice(0, 5).some((dim) => dim === "" || dim <= 0 || /^[^\dx.]$/i.test(dim)) //regex checks if dim contains chars other than digits, "x", or dot (.)
+                    ? item.dims.slice(0, 2).some((dim) => dim <= 0 || /[^\dx.]/i.test(dim))
+                    : item.dims.slice(0, 5).some((dim) => dim <= 0 || /[^\dx.]/i.test(dim)) //regex checks if dim contains chars other than digits, "x", or dot (.)
                 }
               >
                 Add to Cart
@@ -2344,10 +2344,10 @@ const ProductDetails = ({ renderItem }) => {
                 style={{
                   display:
                     item.roundBar || item.bulb
-                      ? item.dims.slice(0, 2).some((dim) => dim === "" || dim <= 0 || /^[^\dx.]$/i.test(dim))
+                      ? item.dims.slice(0, 2).some((dim) => dim <= 0 || /[^\dx.]/i.test(dim))
                         ? "block"
                         : "none"
-                      : item.dims.slice(0, 5).some((dim) => dim === "" || dim <= 0 || /^[^\dx.]$/i.test(dim))
+                      : item.dims.slice(0, 5).some((dim) => dim <= 0 || /[^\dx.]/i.test(dim))
                       ? "block"
                       : "none",
                 }}

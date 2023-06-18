@@ -73,7 +73,7 @@ const NavMenu = ({ setModalIsOpen }) => {
     } else {
       setTab("Home");
     }
-  }, [location]);
+  }, [location]); // set displayed tab based on the location
 
   useEffect(() => {
     const targetRect = displayCartRef.current.getBoundingClientRect();
@@ -88,7 +88,7 @@ const NavMenu = ({ setModalIsOpen }) => {
     setTimeout(() => {
       setDisplayCartLoading(false);
     }, 1600);
-  }, [displayCartProducts]);
+  }, [displayCartProducts]); // show loading spinner when modifying cart content
 
   useEffect(() => {
     if (loggedUser) {
@@ -103,7 +103,7 @@ const NavMenu = ({ setModalIsOpen }) => {
     } else {
       setDisplayCartProducts(localStorage.getItem("display_cart_guest"));
     }
-  }, [loggedUser, setDisplayCartProducts]);
+  }, [loggedUser, setDisplayCartProducts]); // show number of products in cart on based on logged status
 
   useEffect(() => {
     if (loggedUser) {
@@ -117,7 +117,7 @@ const NavMenu = ({ setModalIsOpen }) => {
     } else {
       setUserCartProducts(0);
     }
-  }, [showModal, isOpen, loggedUser]);
+  }, [showModal, isOpen, loggedUser]); // show number of products in cart in nav menu based on logged status
 
   useEffect(() => {
     if (userNameInput.current) userNameInput.current.value = "";
@@ -132,7 +132,7 @@ const NavMenu = ({ setModalIsOpen }) => {
     setVisibilePass(false);
     setVisibileCodeCheck(false);
     setIsForgotPass(false);
-  }, [showModal, isOpen]);
+  }, [showModal, isOpen]); // set various states on modals status change
 
   useEffect(() => {
     setRandomCode(Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);

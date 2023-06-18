@@ -461,15 +461,7 @@ const PipeByPipe = () => {
         <div className="menu_button">
           <button onClick={handleDownload}>Download file (1/2 of shape)</button>
           <button
-            disabled={
-              diam1 === "" ||
-              length === "" ||
-              thickness === "" ||
-              /\D/.test(diam1) ||
-              /\D/.test(length) ||
-              /\D/.test(thickness) ||
-              material === "---"
-            }
+            disabled={[diam1, length, thickness].some((dim) => dim <= 0 || /[^\d.]/i.test(dim)) || material === "---"}
             style={{ display: addToCartAnimation ? "none" : "block" }}
             onClick={handleAddProducts}
           >

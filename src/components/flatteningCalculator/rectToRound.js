@@ -539,19 +539,7 @@ const RectToRound = () => {
         <div className="menu_button">
           <button onClick={handleDownload}>Download file (1/4 of shape)</button>
           <button
-            disabled={
-              diam === "" ||
-              height === "" ||
-              length === "" ||
-              width === "" ||
-              thickness === "" ||
-              /\D/.test(diam) ||
-              /\D/.test(height) ||
-              /\D/.test(length) ||
-              /\D/.test(width) ||
-              /\D/.test(thickness) ||
-              material === "---"
-            }
+            disabled={[diam, height, length, width, thickness].some((dim) => dim <= 0 || /[^\d.]/i.test(dim)) || material === "---"}
             style={{ display: addToCartAnimation ? "none" : "block" }}
             onClick={handleAddProducts}
           >
