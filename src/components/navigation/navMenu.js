@@ -30,6 +30,7 @@ import deleteUserAccount from "../../services/deleteAccount";
 import forgotPassword from "../../services/forgotPassword";
 import readUserData from "../../services/readUserData";
 import { MyContext } from "../../App";
+import "hover.css/css/hover-min.css";
 
 const NavMenu = ({ setModalIsOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -753,7 +754,7 @@ const NavMenu = ({ setModalIsOpen }) => {
             </button>
           </div>
           <Link
-            className="bm-item"
+            className="bm-item hvr-bounce-to-right"
             to="/my-account"
             onClick={() => {
               setIsOpen(false);
@@ -763,7 +764,7 @@ const NavMenu = ({ setModalIsOpen }) => {
             <FontAwesomeIcon icon={faUserAlt} /> <span style={{ marginLeft: 10 }}>My Account</span>
           </Link>
           <Link
-            className="bm-item"
+            className="bm-item hvr-bounce-to-right"
             to="/"
             onClick={() => {
               setIsOpen(false);
@@ -773,7 +774,7 @@ const NavMenu = ({ setModalIsOpen }) => {
             <FontAwesomeIcon icon={faHome} /> <span style={{ marginLeft: 10 }}>Home</span>
           </Link>
           <Link
-            className="bm-item"
+            className="bm-item hvr-bounce-to-right"
             to="/calculator"
             onClick={() => {
               setIsOpen(false);
@@ -784,7 +785,7 @@ const NavMenu = ({ setModalIsOpen }) => {
             <span style={{ marginLeft: 10 }}>Shape Calculator</span>
           </Link>
           <Link
-            className="bm-item"
+            className="bm-item hvr-bounce-to-right"
             to="/cart"
             onClick={() => {
               setIsOpen(false);
@@ -796,7 +797,7 @@ const NavMenu = ({ setModalIsOpen }) => {
             <span className="no_of_products_in_cart">{loggedUser ? userCartProducts : readCart().length > 0 ? readCart().length : 0}</span>
           </Link>
           <Link
-            className="bm-item"
+            className="bm-item hvr-bounce-to-right"
             to="/contact"
             onClick={() => {
               setIsOpen(false);

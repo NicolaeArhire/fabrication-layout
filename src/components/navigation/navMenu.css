@@ -531,6 +531,7 @@
   padding-top: 20px;
   font-size: 1.15em;
   width: 250px;
+  border-right: 2px solid white;
 }
 
 .bm-morph-shape {
@@ -591,11 +592,6 @@
   margin-top: 15px;
 }
 
-.bm-item:hover {
-  background: #04576e;
-  color: white;
-}
-
 .icon_menu_google,
 .icon_menu_twitter,
 .icon_menu_youtube,
@@ -635,11 +631,22 @@
   transform: scale(1.35);
 }
 
+.hvr-bounce-to-right:before {
+  background: #04576e !important;
+  color: white;
+}
+
+.hvr-bounce-to-right {
+  background: #02222b !important;
+  color: white;
+}
+
 @media screen and (max-width: 500px) {
   .menu_tab {
     padding-top: 15px;
     width: 100vw;
     background-image: linear-gradient(to bottom, #01101e, #46516e);
+    z-index: 2;
   }
 
   #username,

@@ -103,7 +103,7 @@
   }
 
   .content_right {
-    width: 350px;
+    width: calc(100vw - 10%);
     margin: 0 0 30px 0;
     height: auto;
     border: none;

@@ -247,36 +247,7 @@ const ParticlesBackground = () => {
             },
           },
           color: {
-            value: "#ff0000",
-            animation: {
-              h: {
-                count: 0,
-                enable: true,
-                offset: 0,
-                speed: 50,
-                delay: 0,
-                decay: 0,
-                sync: false,
-              },
-              s: {
-                count: 0,
-                enable: false,
-                offset: 0,
-                speed: 1,
-                delay: 0,
-                decay: 0,
-                sync: true,
-              },
-              l: {
-                count: 0,
-                enable: false,
-                offset: 0,
-                speed: 1,
-                delay: 0,
-                decay: 0,
-                sync: true,
-              },
-            },
+            value: "#335059",
           },
           groups: {},
           move: {
@@ -330,7 +301,7 @@ const ParticlesBackground = () => {
             },
             random: false,
             size: false,
-            speed: 2,
+            speed: 1,
             spin: {
               acceleration: 0,
               enable: false,
