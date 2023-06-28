@@ -89,7 +89,7 @@ const generateInvoice = async (index, invoiceCreationDate) => {
           },
           {
             col1: "SubTotal:",
-            col2: `${orderTotalCost - orderShipping} $`,
+            col2: `${(orderTotalCost - orderShipping).toFixed(2)} $`,
             style: {
               fontSize: 10,
             },

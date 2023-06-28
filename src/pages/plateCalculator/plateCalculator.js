@@ -16,6 +16,7 @@ const PlateCalculator = () => {
   const [pageNo, setPageNo] = useState();
   const [currentComponent, setCurrentComponent] = useState(0);
   const [showModal, setShowModal] = useState(true);
+  const [turbulenceScale, setTurbulenceScale] = useState(200);
 
   const { modalIsOpen } = useContext(MyContext);
 
@@ -26,6 +27,16 @@ const PlateCalculator = () => {
       localStorage.setItem("loggedUserIDafterRefresh", true);
     }
   }); // logic added to keep showing the page if user is logged after refresh
+
+  useEffect(() => {
+    const decrement = turbulenceScale / 8;
+
+    const timer = setInterval(() => {
+      setTurbulenceScale((prevScale) => prevScale - decrement);
+    }, 10);
+
+    return () => clearInterval(timer);
+  }, [turbulenceScale]); // Distort page appearance
 
   useEffect(() => {
     if (loggedUserID) {
@@ -79,7 +90,6 @@ const PlateCalculator = () => {
           </div>
         </ReactModal>
       </div>
-      {}
       <div className="card_container" style={{ display: modalIsOpen || showModal ? "none" : "flex" }}>
         <div className="calculator_container">
           <div className="flatten_container">{components[currentComponent]}</div>
@@ -95,6 +105,12 @@ const PlateCalculator = () => {
             </button>
           </div>
         </div>
+        <svg style={{ position: "absolute" }}>
+          <filter id="turbulence" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" result="turbulence" />
+            <feDisplacementMap in="SourceGraphic" in2="turbulence" scale={turbulenceScale} />
+          </filter>
+        </svg>
       </div>
     </>
   );

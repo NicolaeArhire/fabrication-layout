@@ -52,7 +52,7 @@ function App() {
     if (new Date().getTime() - parseInt(localStorage.getItem("lastClickAt")) >= maxDaysOfInactivity) {
       handleLogout();
     }
-  }, []);
+  }, []); // sign out user inactive for 7 days
 
   return (
     <div className="app">

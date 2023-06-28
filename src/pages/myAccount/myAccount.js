@@ -224,13 +224,15 @@ const MyAccount = () => {
   };
 
   const handleInvoice = (index) => {
-    const invoiceDate = `${new Date()
-      .toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" })
-      .split("/")
-      .reverse()
-      .join("/")} ${new Date().toLocaleString("en-US", { timeZone: "Europe/Bucharest", hour12: false }).slice(11, 16)}`;
+    const invoiceDate = new Date().toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" }).split("/").reverse();
 
-    generateInvoice(index, invoiceDate);
+    const temp = invoiceDate[1];
+    invoiceDate[1] = invoiceDate[2];
+    invoiceDate[2] = temp;
+
+    const invoiceTime = new Date().toLocaleString("en-US", { timeZone: "Europe/Bucharest", hour12: false }).slice(11, 16);
+
+    generateInvoice(index, `${invoiceDate.join("/")} ${invoiceTime}`);
   };
 
   return (

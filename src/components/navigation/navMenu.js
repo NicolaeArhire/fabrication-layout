@@ -740,6 +740,7 @@ const NavMenu = ({ setModalIsOpen }) => {
           ""
         )}
       </div>
+
       <Menu className={"my-custom-menu"} animation={"stack"} isOpen={isOpen} onStateChange={handleMenuStateChange}>
         <div id="menu_pages" style={{ paddingLeft: 5, borderBottom: "none" }}>
           <div className="menu_img" style={{ display: "flex" }}>

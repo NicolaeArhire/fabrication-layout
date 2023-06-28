@@ -1,13 +1,25 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./home.css";
 import LeftSideBar from "../../components/homeLeftSideBar/leftSideBar";
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import ProductDetails from "../../components/homeLeftSideBar/products";
 import { MyContext } from "../../App";
 
 const Home = () => {
   const [selectedItem, setSelectedItem] = useState();
+  const [turbulenceScale, setTurbulenceScale] = useState(200);
+
   const { modalIsOpen } = useContext(MyContext);
+
+  useEffect(() => {
+    const decrement = turbulenceScale / 8;
+
+    const timer = setInterval(() => {
+      setTurbulenceScale((prevScale) => prevScale - decrement);
+    }, 10);
+
+    return () => clearInterval(timer);
+  }, [turbulenceScale]); // Distort page appearance
 
   const handleOnSelect = (item) => {
     setSelectedItem(item);
@@ -54,6 +66,12 @@ const Home = () => {
           </div>
         )}
       </div>
+      <svg style={{ position: "absolute" }}>
+        <filter id="turbulence" x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" result="turbulence" />
+          <feDisplacementMap in="SourceGraphic" in2="turbulence" scale={turbulenceScale} />
+        </filter>
+      </svg>
     </div>
   );
 };

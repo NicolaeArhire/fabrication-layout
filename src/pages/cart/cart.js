@@ -3,7 +3,7 @@ import { auth } from "../../firebase";
 import { Table } from "react-bootstrap";
 import lookup from "country-code-lookup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt, faTruck, faLock, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt, faLock, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState, useContext } from "react";
 import { getCities, getPoints, getDistance } from "../../services/shipping";
 import { clearCart, deleteFromCart, readCart } from "../../services/storageCart";
@@ -144,7 +144,7 @@ const Cart = () => {
   useEffect(() => {
     if (clientCountry === "" || clientCity === "") {
       setShipping("-");
-      setArrival("See shipping");
+      setArrival("-");
     } else if (cityPoints.length > 0) {
       getDistance(cityPoints).then((result) => {
         result.routes
@@ -163,7 +163,7 @@ const Cart = () => {
                 .reverse()
                 .join("/")
             )
-          : setArrival("See shipping");
+          : setArrival("-");
       });
     }
   }, [clientCountry, clientCity, cityPoints]); // calculate shipping cost and ETA based on selected country/ city
@@ -245,58 +245,71 @@ const Cart = () => {
         </div>
       </ReactModal>
       <ReactModal isOpen={showAddressModal} onRequestClose={handleCloseAddressModal} className="address_modal" ariaHideApp={false}>
-        <div className="address_modal_content">
-          <span>
-            <i onClick={handleCloseAddressModal}>
-              <FontAwesomeIcon icon={faTimes} />
-            </i>
-          </span>
-          <div id="address_title">
-            <span>Set your billing address.</span>
-          </div>
-          <div className="address_content">
-            <div className="billing_address_info">
-              <select
-                value={clientCountry}
-                className="billing_address_country"
-                onChange={(e) => {
-                  setClientCountry(e.target.value);
-                }}
-              >
-                <option value="Your Country..." style={{ background: "#47574b", color: "white" }}>
-                  Your Country...
-                </option>
-                {lookup.countries
-                  .sort((a, b) => a.country.localeCompare(b.country))
-                  .map((item, index) => (
-                    <option key={index + 1}>{item.country}</option>
-                  ))}
-              </select>
-              <select
-                value={clientCity}
-                className="billing_address_city"
-                onChange={(e) => {
-                  setClientCity(e.target.value);
-                }}
-              >
-                <option value="Your City..." style={{ background: "#47574b", color: "white" }}>
-                  Your City...
-                </option>
-                {citiesList && citiesList.map((city, index) => <option key={index + 1}>{city}</option>)}
-              </select>
-              <input
-                value={clientHome}
-                id="billing_address_home"
-                placeholder="Your address..."
-                onChange={(e) => {
-                  setClientHome(e.target.value);
-                }}
-              />
+        {!loggedUser ? (
+          <div className="address_modal_content">
+            <span>
+              <i onClick={handleCloseAddressModal}>
+                <FontAwesomeIcon icon={faTimes} />
+              </i>
+            </span>
+            <div id="address_title">
+              <span>Set your billing address.</span>
             </div>
-            <input id="save_billing_address" defaultValue={"Save"} readOnly onClick={handleSaveAddress} />
-            <span id="address_save_check">{addressSaveCheck}</span>
+            <div className="address_content">
+              <div className="billing_address_info">
+                <select
+                  value={clientCountry}
+                  className="billing_address_country"
+                  onChange={(e) => {
+                    setClientCountry(e.target.value);
+                  }}
+                >
+                  <option value="Your Country..." style={{ background: "#47574b", color: "white" }}>
+                    Your Country...
+                  </option>
+                  {lookup.countries
+                    .sort((a, b) => a.country.localeCompare(b.country))
+                    .map((item, index) => (
+                      <option key={index + 1}>{item.country}</option>
+                    ))}
+                </select>
+                <select
+                  value={clientCity}
+                  className="billing_address_city"
+                  onChange={(e) => {
+                    setClientCity(e.target.value);
+                  }}
+                >
+                  <option value="Your City..." style={{ background: "#47574b", color: "white" }}>
+                    Your City...
+                  </option>
+                  {citiesList && citiesList.map((city, index) => <option key={index + 1}>{city}</option>)}
+                </select>
+                <input
+                  value={clientHome}
+                  id="billing_address_home"
+                  placeholder="Your address..."
+                  onChange={(e) => {
+                    setClientHome(e.target.value);
+                  }}
+                />
+              </div>
+              <input id="save_billing_address" defaultValue={"Save"} readOnly onClick={handleSaveAddress} />
+              <span id="address_save_check">{addressSaveCheck}</span>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="address_modal_content">
+            <span>
+              <i onClick={handleCloseAddressModal}>
+                <FontAwesomeIcon icon={faTimes} />
+              </i>
+            </span>
+            <div className="address_logged_user">
+              <span id="address_logged_user_text">Address is set from your account's page.</span>
+            </div>
+          </div>
+        )}
       </ReactModal>
       <div className="cart_loading" style={{ display: isLoading ? "flex" : "none" }}>
         <Bars color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
@@ -414,10 +427,10 @@ const Cart = () => {
               <Table bordered variant="dark" className="cart_table3">
                 <thead>
                   <tr>
-                    <th onClick={handleShipping} style={{ cursor: "pointer", pointerEvents: loggedUser ? "none" : "auto" }}>
-                      Shipping <FontAwesomeIcon icon={faTruck} style={{ marginLeft: 10 }} />
+                    <th onClick={handleShipping} style={{ cursor: "pointer" }}>
+                      Calculate Shipping
                     </th>
-                    <td ref={shippingCostRef}>{cartItems.length > 0 ? shipping : "-"}</td>
+                    <th ref={shippingCostRef}>{shipping}</th>
                   </tr>
                 </thead>
               </Table>
@@ -425,7 +438,7 @@ const Cart = () => {
                 <thead>
                   <tr>
                     <th>E.T.A.</th>
-                    <th>{cartItems.length > 0 ? arrival : "See shipping"}</th>
+                    <th>{arrival}</th>
                   </tr>
                 </thead>
               </Table>
@@ -435,7 +448,7 @@ const Cart = () => {
                     <th>Total Order</th>
                     <th key="3">
                       {shipping === "Sorry. We don't go there." || shipping === "-" || cartItems.length <= 0
-                        ? "See shipping"
+                        ? "-"
                         : `${(cartItems.reduce((prev, item) => prev + parseFloat(item.price), 0) + parseFloat(shipping)).toFixed(2)} $`}
                     </th>
                   </tr>
