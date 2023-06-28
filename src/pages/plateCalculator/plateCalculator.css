@@ -5,7 +5,19 @@
   height: 100%;
   padding: 0px;
   margin: 0px;
-  filter: url(#turbulence);
+  overflow: hidden;
+  animation-name: skewPage;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes skewPage {
+  0% {
+    transform: rotate(0deg) scale(0);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
 }
 
 .modal_container {
@@ -119,6 +131,21 @@
 }
 
 @media screen and (max-width: 500px) {
+  .card_container {
+    animation-name: skewPage;
+    animation-duration: 0s;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes skewPage {
+    0% {
+      transform: rotate(0deg) scale(1);
+    }
+    100% {
+      transform: rotate(0deg) scale(1);
+    }
+  }
+
   body {
     height: 100%;
   }
