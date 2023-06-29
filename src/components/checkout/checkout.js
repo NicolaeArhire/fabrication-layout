@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { auth } from "../../firebase";
 import userProductsOrdered from "../../services/userProductsOrdered";
+import { clearCart } from "../../services/storageCart";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -43,7 +44,11 @@ export default function CheckoutForm() {
       );
       setPaymentCompleted(true);
 
-      if (loggedUser) userProductsOrdered();
+      if (loggedUser) {
+        userProductsOrdered(); // clear cart for logged users after payment accepted
+      } else {
+        clearCart(); // clear cart for non-logged users after payment accepted
+      }
     } else {
       setMessage("Unexpected error");
     }
